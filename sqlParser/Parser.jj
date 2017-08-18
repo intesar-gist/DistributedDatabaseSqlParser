@@ -1,4 +1,4 @@
-/* demo grammar.jj*/
+/* DDB grammar.jj*/
 options
 {
     STATIC = false ;
