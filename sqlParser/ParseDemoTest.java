@@ -1,4 +1,4 @@
-package sqlParserDemo;
+package sqlParser;
 
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class ParseDemoTest { 
 	  public static void main(String[] args) { 
 	    try{
-			SqlParser parser = new SqlParser(new FileReader("sqlParserDemo/test_queries.sql"));
+			SqlParser parser = new SqlParser(new FileReader("sqlParser/test_queries.sql"));
 
 			ArrayList<TableStruct> tableList = parser.initParser();
 

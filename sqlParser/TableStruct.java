@@ -1,9 +1,9 @@
-package sqlParserDemo;
+package sqlParser;
 
 import java.util.HashMap;
 
 /**
- * Created by Venturedive on 8/16/2017.
+ * Created by Intesar on 8/16/2017.
  */
 public class TableStruct {
 
