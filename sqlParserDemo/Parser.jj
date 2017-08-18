@@ -1,0 +1,184 @@
+/* demo grammar.jj*/
+options
+{
+    STATIC = false ;
+}
+PARSER_BEGIN (SqlParser)
+   package sqlParser;
+   import java.util.ArrayList;
+   import java.util.HashMap;
+   class SqlParser {
+         ArrayList<TableStruct> initParser() throws ParseException, TokenMgrError
+   { return(init()) ; }
+   }
+PARSER_END (SqlParser)
+
+
+/* white-space, comments */
+SKIP: {
+      " " | "\t" | "\n" | "\r" | "\f"
+}
+SKIP: {
+    <COMMENT_LINE: "--" (~["\n","\r"])* ("\n"|"\r"|"\r\n") >
+}
+SKIP:{
+    <COMMENT_BLOCK: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+}
+
+/* separator and operator literals (prefix with O_) */
+TOKEN: {
+     <O_ASTERISK: "*"> | <O_CLOSEPAREN: ")"> | <O_OPENPAREN: "(">
+    | <O_COMMA: ",">
+    | <O_PERCENT: "%"> | <O_EQUAL: "="> | <O_GREATER: ">">
+    | <O_GREATEREQUAL: ">="> | <O_LESS: "<"> | <O_LESSEQUAL: "<=">
+    | <O_MINUS: "-"> | <O_NOTEQUAL2: "<>"> | <O_NOTEQUAL: "!=">
+}
+
+/* numeric literals */
+TOKEN : {
+      <INTEGER: ( <DIGIT> )+ >
+    | <#DIGIT: ["0" - "9"] >
+}
+
+/* reserved words and keywords literals */
+TOKEN: {
+    <R_AND: "AND">
+    | <R_ASC: "ASC">
+    | <R_BY: "BY">
+    | <R_CONNECT: "CONNECT">
+    | <R_CREATE: "CREATE">
+    | <R_DESC: "DESC">
+    | <R_DISTINCT: "DISTINCT">
+    | <R_DROP: "DROP">
+    | <R_FROM: "FROM">
+    | <R_GROUP: "GROUP">
+    | <R_HAVING: "HAVING">
+    | <R_IN: "IN">
+    | <R_INSERT: "INSERT">
+    | <R_INTO: "INTO">
+    | <R_IS: "IS">
+    | <R_LIKE: "LIKE">
+    | <R_NOT: "NOT">
+    | <R_NULL: "NULL">
+    | <R_OR: "OR">
+    | <R_ORDER: "ORDER">
+    | <R_SELECT: "SELECT">
+    | <R_UNIQUE: "UNIQUE">
+    | <R_UPDATE: "UPDATE">
+    | <R_VALUES: "VALUES">
+    | <R_WHERE: "WHERE">
+    | <R_CONSTRAINT: "CONSTRAINT">
+    | <R_CTCMD :("CREATE TABLE")>
+    | <R_PRIMARY: "PRIMARY KEY">
+    | <R_INTEGER: "INTEGER">
+    | <R_VARCHAR: "VARCHAR">
+    | <R_HORIZONTAL: "HORIZONTAL">
+}
+
+/* identifier literals */
+TOKEN: {
+      <S_IDENTIFIER: (<LETTER>)+ (<DIGIT> | <LETTER> | <SPECIAL_CHARS>)* >
+    | <#LETTER: ["a"-"z", "A"-"Z"] >
+    | <#SPECIAL_CHARS: "_" >
+}
+
+//Grammer Production Rules
+
+ArrayList<TableStruct> init():
+{
+    Token T;
+  ArrayList<TableStruct> tableList = new ArrayList<TableStruct>();
+  TableStruct tableStruct;
+}
+{
+  (
+       <R_CTCMD>
+       T =<S_IDENTIFIER>
+       {    
+          tableStruct = new TableStruct ();
+          tableStruct.TableName = T.image ;
+       }
+      <O_OPENPAREN>
+      tableStruct.Variables = ColumnsAndConstraints()
+      <O_CLOSEPAREN>
+      [processHorizontal()]
+     {tableList.add (tableStruct) ;}
+  )*
+  <EOF>
+  {return tableList;}
+}
+
+void processHorizontal():
+{
+}
+{
+  <R_HORIZONTAL> (<O_OPENPAREN><S_IDENTIFIER><O_OPENPAREN>PartioningLimits()<O_CLOSEPAREN><O_CLOSEPAREN>)
+}
+
+void PartioningLimits():
+{
+}
+{
+  (<INTEGER>)+ [<O_COMMA> <INTEGER>]
+}
+
+HashMap ColumnsAndConstraints():
+{
+   HashMap<String,String> var = new HashMap<String, String>();
+}
+{
+  (var = Columns())+ 
+  {return var;}
+}
+
+HashMap Columns():
+{
+   Token TName;
+   Token TType;
+   HashMap<String,String> var = new HashMap<String, String>();
+}
+{
+    TName = <S_IDENTIFIER> //name of the column
+    TType = ColType()
+    <O_COMMA>
+    (Constraints())*
+    {var.put(TName.image,TType.image);}
+
+  {return var;}
+}
+
+Token ColType():
+{
+   Token TDType;
+}
+{
+    (TDType = <R_INTEGER> | TDType = <R_VARCHAR>)
+    [<O_OPENPAREN><INTEGER><O_CLOSEPAREN>]
+    {return TDType;}
+}
+
+HashMap Constraints():
+{
+   Token TName;
+   Token TType;
+   HashMap<String,String> var = new HashMap<String, String>();
+}
+{
+    TName = <R_CONSTRAINT>
+    TType = ConstraintType()
+    <O_COMMA>
+    {var.put(TName.image,TType.image);}
+
+  {return var;}
+}
+
+Token ConstraintType():
+{
+   Token TDType;
+}
+{
+  <S_IDENTIFIER>
+    (TDType = <R_PRIMARY> | TDType = <R_UNIQUE>)
+    (<O_OPENPAREN><S_IDENTIFIER><O_CLOSEPAREN>)
+    {return TDType;}
+}
