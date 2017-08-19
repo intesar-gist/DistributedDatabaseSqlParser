@@ -1,5 +1,7 @@
 package sqlParser;
 
+import sqlParser.utilities.TableStruct;
+
 import java.io.FileReader;
 import java.util.ArrayList;
 
@@ -13,9 +15,10 @@ public class ParseDemoTest {
 
 			for(TableStruct t1 : tableList)
 			{  System.out.println("--------------------------");
-				System.out.println("Table Name :"+t1.TableName);
-				System.out.println("Field names :"+t1.Variables.keySet());
-				System.out.println("Data Types :"+t1.Variables.values());
+				System.out.println("Query Type :"+t1.getQueryType());
+				System.out.println("Table Name :"+t1.getTableName());
+				System.out.println("Field names :"+t1.getAttributes().keySet());
+				System.out.println("Data Types :"+t1.getAttributes().values());
 				System.out.println("--------------------------");
 			}
 

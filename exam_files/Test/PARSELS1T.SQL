@@ -1,0 +1,30 @@
+set echo on;
+
+alter session set nls_language = english;
+alter session set nls_date_format = 'DD-MON-YYYY';
+alter session set nls_date_language = english;
+
+
+/* SELECT ONE TUPLE */
+SELECT * FROM FLUGLINIE WHERE FLC = 'BA';
+
+/* SELECT FROM ONE PARTITION */
+SELECT FLC, NAME, LAND FROM FLUGLINIE WHERE NAME = 'United Airlines';
+
+/* SELECT TWO ALL PARTITONS */
+SELECT FLC, NAME, LAND FROM FLUGLINIE WHERE ALLIANZ = 'Star';
+SELECT FLC, NAME, LAND FROM FLUGLINIE WHERE (FLC = 'AF') OR (FLC = 'UA');
+
+/* SELECT FROM ALL PARTITIONS */
+SELECT FLC, NAME, LAND FROM FLUGLINIE WHERE (ALLIANZ = 'Star') OR (ALLIANZ = 'SkyTeam');
+
+/* SELECT ALL */
+SELECT FLC, NAME FROM FLUGLINIE;
+
+/* SELECT NOTHING */
+SELECT * FROM FLUGLINIE WHERE LAND = 'CZ';
+SELECT * FROM FLUGLINIE WHERE (LAND = 'D') AND (ALLIANZ = 'Star');
+
+
+rollback;
+  

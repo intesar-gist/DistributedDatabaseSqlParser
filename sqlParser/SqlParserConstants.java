@@ -23,95 +23,101 @@ public interface SqlParserConstants {
   /** RegularExpression Id. */
   int O_COMMA = 11;
   /** RegularExpression Id. */
-  int O_PERCENT = 12;
+  int O_TERMINATOR = 12;
   /** RegularExpression Id. */
-  int O_EQUAL = 13;
+  int O_PERCENT = 13;
   /** RegularExpression Id. */
-  int O_GREATER = 14;
+  int O_EQUAL = 14;
   /** RegularExpression Id. */
-  int O_GREATEREQUAL = 15;
+  int O_GREATER = 15;
   /** RegularExpression Id. */
-  int O_LESS = 16;
+  int O_GREATEREQUAL = 16;
   /** RegularExpression Id. */
-  int O_LESSEQUAL = 17;
+  int O_LESS = 17;
   /** RegularExpression Id. */
-  int O_MINUS = 18;
+  int O_LESSEQUAL = 18;
   /** RegularExpression Id. */
-  int O_NOTEQUAL2 = 19;
+  int O_MINUS = 19;
   /** RegularExpression Id. */
-  int O_NOTEQUAL = 20;
+  int O_NOTEQUAL2 = 20;
   /** RegularExpression Id. */
-  int INTEGER = 21;
+  int O_NOTEQUAL = 21;
   /** RegularExpression Id. */
-  int DIGIT = 22;
+  int INTEGER = 22;
   /** RegularExpression Id. */
-  int R_AND = 23;
+  int DIGIT = 23;
   /** RegularExpression Id. */
-  int R_ASC = 24;
+  int K_CREATE = 24;
   /** RegularExpression Id. */
-  int R_BY = 25;
+  int K_DROP = 25;
   /** RegularExpression Id. */
-  int R_CONNECT = 26;
+  int K_TABLE = 26;
   /** RegularExpression Id. */
-  int R_CREATE = 27;
+  int R_AND = 27;
   /** RegularExpression Id. */
-  int R_DESC = 28;
+  int R_ASC = 28;
   /** RegularExpression Id. */
-  int R_DISTINCT = 29;
+  int R_BY = 29;
   /** RegularExpression Id. */
-  int R_DROP = 30;
+  int R_CONNECT = 30;
   /** RegularExpression Id. */
-  int R_FROM = 31;
+  int R_DESC = 31;
   /** RegularExpression Id. */
-  int R_GROUP = 32;
+  int R_DISTINCT = 32;
   /** RegularExpression Id. */
-  int R_HAVING = 33;
+  int R_FROM = 33;
   /** RegularExpression Id. */
-  int R_IN = 34;
+  int R_GROUP = 34;
   /** RegularExpression Id. */
-  int R_INSERT = 35;
+  int R_HAVING = 35;
   /** RegularExpression Id. */
-  int R_INTO = 36;
+  int R_IN = 36;
   /** RegularExpression Id. */
-  int R_IS = 37;
+  int R_INSERT = 37;
   /** RegularExpression Id. */
-  int R_LIKE = 38;
+  int R_INTO = 38;
   /** RegularExpression Id. */
-  int R_NOT = 39;
+  int R_IS = 39;
   /** RegularExpression Id. */
-  int R_NULL = 40;
+  int R_LIKE = 40;
   /** RegularExpression Id. */
-  int R_OR = 41;
+  int R_NOT = 41;
   /** RegularExpression Id. */
-  int R_ORDER = 42;
+  int R_NULL = 42;
   /** RegularExpression Id. */
-  int R_SELECT = 43;
+  int R_OR = 43;
   /** RegularExpression Id. */
-  int R_UNIQUE = 44;
+  int R_ORDER = 44;
   /** RegularExpression Id. */
-  int R_UPDATE = 45;
+  int R_SELECT = 45;
   /** RegularExpression Id. */
-  int R_VALUES = 46;
+  int R_UNIQUE = 46;
   /** RegularExpression Id. */
-  int R_WHERE = 47;
+  int R_UPDATE = 47;
   /** RegularExpression Id. */
-  int R_CONSTRAINT = 48;
+  int R_VALUES = 48;
   /** RegularExpression Id. */
-  int R_CTCMD = 49;
+  int R_WHERE = 49;
   /** RegularExpression Id. */
-  int R_PRIMARY = 50;
+  int R_CONSTRAINT = 50;
   /** RegularExpression Id. */
-  int R_INTEGER = 51;
+  int R_CREATE = 51;
   /** RegularExpression Id. */
-  int R_VARCHAR = 52;
+  int R_DROP = 52;
   /** RegularExpression Id. */
-  int R_HORIZONTAL = 53;
+  int R_PRIMARY = 53;
   /** RegularExpression Id. */
-  int S_IDENTIFIER = 54;
+  int R_INTEGER = 54;
   /** RegularExpression Id. */
-  int LETTER = 55;
+  int R_VARCHAR = 55;
   /** RegularExpression Id. */
-  int SPECIAL_CHARS = 56;
+  int R_HORIZONTAL = 56;
+  /** RegularExpression Id. */
+  int S_IDENTIFIER = 57;
+  /** RegularExpression Id. */
+  int LETTER = 58;
+  /** RegularExpression Id. */
+  int SPECIAL_CHARS = 59;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -130,6 +136,7 @@ public interface SqlParserConstants {
     "\")\"",
     "\"(\"",
     "\",\"",
+    "\";\"",
     "\"%\"",
     "\"=\"",
     "\">\"",
@@ -141,14 +148,15 @@ public interface SqlParserConstants {
     "\"!=\"",
     "<INTEGER>",
     "<DIGIT>",
+    "\"CREATE\"",
+    "\"DROP\"",
+    "\"TABLE\"",
     "\"AND\"",
     "\"ASC\"",
     "\"BY\"",
     "\"CONNECT\"",
-    "\"CREATE\"",
     "\"DESC\"",
     "\"DISTINCT\"",
-    "\"DROP\"",
     "\"FROM\"",
     "\"GROUP\"",
     "\"HAVING\"",
@@ -168,6 +176,7 @@ public interface SqlParserConstants {
     "\"WHERE\"",
     "\"CONSTRAINT\"",
     "\"CREATE TABLE\"",
+    "\"DROP TABLE\"",
     "\"PRIMARY KEY\"",
     "\"INTEGER\"",
     "\"VARCHAR\"",

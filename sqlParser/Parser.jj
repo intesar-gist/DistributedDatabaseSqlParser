@@ -28,7 +28,7 @@ SKIP:{
 /* separator and operator literals (prefix with O_) */
 TOKEN: {
      <O_ASTERISK: "*"> | <O_CLOSEPAREN: ")"> | <O_OPENPAREN: "(">
-    | <O_COMMA: ",">
+    | <O_COMMA: ",">   | <O_TERMINATOR: ";">
     | <O_PERCENT: "%"> | <O_EQUAL: "="> | <O_GREATER: ">">
     | <O_GREATEREQUAL: ">="> | <O_LESS: "<"> | <O_LESSEQUAL: "<=">
     | <O_MINUS: "-"> | <O_NOTEQUAL2: "<>"> | <O_NOTEQUAL: "!=">
@@ -41,15 +41,16 @@ TOKEN : {
 }
 
 /* reserved words and keywords literals */
-TOKEN: {
-    <R_AND: "AND">
+TOKEN [IGNORE_CASE]: {
+      <K_CREATE: "CREATE">
+    | <K_DROP: "DROP">
+    | <K_TABLE: "TABLE">
+    | <R_AND: "AND">
     | <R_ASC: "ASC">
     | <R_BY: "BY">
     | <R_CONNECT: "CONNECT">
-    | <R_CREATE: "CREATE">
     | <R_DESC: "DESC">
     | <R_DISTINCT: "DISTINCT">
-    | <R_DROP: "DROP">
     | <R_FROM: "FROM">
     | <R_GROUP: "GROUP">
     | <R_HAVING: "HAVING">
@@ -68,7 +69,8 @@ TOKEN: {
     | <R_VALUES: "VALUES">
     | <R_WHERE: "WHERE">
     | <R_CONSTRAINT: "CONSTRAINT">
-    | <R_CTCMD :("CREATE TABLE")>
+    | <R_CREATE :("CREATE TABLE")>
+    | <R_DROP :("DROP TABLE")>
     | <R_PRIMARY: "PRIMARY KEY">
     | <R_INTEGER: "INTEGER">
     | <R_VARCHAR: "VARCHAR">
@@ -86,26 +88,68 @@ TOKEN: {
 
 ArrayList<TableStruct> init():
 {
-    Token T;
-  ArrayList<TableStruct> tableList = new ArrayList<TableStruct>();
-  TableStruct tableStruct;
+    ArrayList<TableStruct> tableList = new ArrayList<TableStruct>();
+    TableStruct tableStruct;
 }
 {
-  (
-       <R_CTCMD>
+	(
+		(tableStruct = create() | tableStruct = drop())
+		{
+  	  		tableList.add(tableStruct);
+		}
+	)* 
+    
+    <EOF>
+
+    {return tableList;}
+}
+
+/* DROP TABLE */
+TableStruct drop():
+{
+    Token T;
+    Token queryType;
+    TableStruct tableStruct;
+}
+{
+	   queryType = <R_DROP>
+	   T =<S_IDENTIFIER>
+	   {    
+	      tableStruct = new TableStruct ();
+	      tableStruct.setTableName(T.image);
+	      tableStruct.setQueryType(queryType.kind);
+	   }
+       <O_TERMINATOR>
+    
+       {return tableStruct;}
+}
+
+/* CREATE TABLE */
+TableStruct create():
+{
+    Token T;
+    Token queryType;
+    TableStruct tableStruct;
+    HashMap<String,String> attributes;
+}
+{
+       queryType = <R_CREATE>
        T =<S_IDENTIFIER>
        {    
           tableStruct = new TableStruct ();
-          tableStruct.TableName = T.image ;
+          tableStruct.setTableName(T.image);
+          tableStruct.setQueryType(queryType.kind);
        }
       <O_OPENPAREN>
-      tableStruct.Variables = ColumnsAndConstraints()
+      attributes = ColumnsAndConstraints()
       <O_CLOSEPAREN>
       [processHorizontal()]
-     {tableList.add (tableStruct) ;}
-  )*
-  <EOF>
-  {return tableList;}
+      <O_TERMINATOR>
+
+     {
+     	tableStruct.setAttributes(attributes);
+     	return tableStruct;
+     }
 }
 
 void processHorizontal():
