@@ -5,20 +5,11 @@ import java.util.HashMap;
 /**
  * Created by Intesar on 8/16/2017.
  */
-public class TableStruct {
+public class DDLQuery extends QueryType {
 
-    private String tableName;
     private int queryType;
     private HashMap<String,String> attributes = new HashMap<String, String> ();
     private HashMap<String,String> constraints = new HashMap<String, String> ();
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
 
     public HashMap<String, String> getAttributes() {
         return attributes;

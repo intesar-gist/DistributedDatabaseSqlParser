@@ -7,8 +7,9 @@ PARSER_BEGIN (SqlParser)
    package sqlParser;
    import java.util.ArrayList;
    import java.util.HashMap;
+   import sqlParser.utilities.*;
    class SqlParser {
-         ArrayList<TableStruct> initParser() throws ParseException, TokenMgrError
+         ArrayList<QueryType> initParser() throws ParseException, TokenMgrError
    { return(init()) ; }
    }
 PARSER_END (SqlParser)
@@ -86,59 +87,69 @@ TOKEN: {
 
 //Grammer Production Rules
 
-ArrayList<TableStruct> init():
+ArrayList<QueryType> init():
 {
-    ArrayList<TableStruct> tableList = new ArrayList<TableStruct>();
-    TableStruct tableStruct;
+    ArrayList<QueryType> queries = new ArrayList<QueryType>();
+    QueryType queryType;
 }
 {
 	(
-		(tableStruct = create() | tableStruct = drop())
+		(queryType = ProcessDDLQuery())
 		{
-  	  		tableList.add(tableStruct);
+  	  		queries.add(queryType);
 		}
 	)* 
     
     <EOF>
 
-    {return tableList;}
+    {return queries;}
+}
+
+/* DDL queries */
+DDLQuery ProcessDDLQuery():
+{
+    DDLQuery ddlQuery;
+}
+{
+	(ddlQuery = create() | ddlQuery = drop())
+    {return ddlQuery;}
 }
 
 /* DROP TABLE */
-TableStruct drop():
+DDLQuery drop():
 {
     Token T;
     Token queryType;
-    TableStruct tableStruct;
+    DDLQuery ddlQuery;
 }
 {
 	   queryType = <R_DROP>
 	   T =<S_IDENTIFIER>
 	   {    
-	      tableStruct = new TableStruct ();
-	      tableStruct.setTableName(T.image);
-	      tableStruct.setQueryType(queryType.kind);
+	      ddlQuery = new DDLQuery();
+	      ddlQuery.setTableName(T.image);
+	      ddlQuery.setQueryType(queryType.kind);
 	   }
        <O_TERMINATOR>
     
-       {return tableStruct;}
+       {return ddlQuery;}
 }
 
 /* CREATE TABLE */
-TableStruct create():
+DDLQuery create():
 {
     Token T;
     Token queryType;
-    TableStruct tableStruct;
+    DDLQuery ddlQuery;
     HashMap<String,String> attributes;
 }
 {
        queryType = <R_CREATE>
        T =<S_IDENTIFIER>
        {    
-          tableStruct = new TableStruct ();
-          tableStruct.setTableName(T.image);
-          tableStruct.setQueryType(queryType.kind);
+          ddlQuery = new DDLQuery ();
+          ddlQuery.setTableName(T.image);
+          ddlQuery.setQueryType(queryType.kind);
        }
       <O_OPENPAREN>
       attributes = ColumnsAndConstraints()
@@ -147,8 +158,8 @@ TableStruct create():
       <O_TERMINATOR>
 
      {
-     	tableStruct.setAttributes(attributes);
-     	return tableStruct;
+     	ddlQuery.setAttributes(attributes);
+     	return ddlQuery;
      }
 }
 

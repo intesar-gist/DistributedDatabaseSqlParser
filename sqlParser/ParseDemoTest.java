@@ -1,6 +1,7 @@
 package sqlParser;
 
-import sqlParser.utilities.TableStruct;
+import sqlParser.utilities.DDLQuery;
+import sqlParser.utilities.QueryType;
 
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -11,15 +12,18 @@ public class ParseDemoTest {
 	    try{
 			SqlParser parser = new SqlParser(new FileReader("sqlParser/test_queries.sql"));
 
-			ArrayList<TableStruct> tableList = parser.initParser();
+			ArrayList<QueryType> tableList = parser.initParser();
 
-			for(TableStruct t1 : tableList)
-			{  System.out.println("--------------------------");
-				System.out.println("Query Type :"+t1.getQueryType());
-				System.out.println("Table Name :"+t1.getTableName());
-				System.out.println("Field names :"+t1.getAttributes().keySet());
-				System.out.println("Data Types :"+t1.getAttributes().values());
-				System.out.println("--------------------------");
+			for(QueryType query : tableList) {
+				if(query instanceof DDLQuery) {
+					DDLQuery ddlQuery = (DDLQuery)query;
+					System.out.println("--------------------------");
+					System.out.println("Query Type :"+ddlQuery.getQueryType());
+					System.out.println("Table Name :"+ddlQuery.getTableName());
+					System.out.println("Field names :"+ddlQuery.getAttributes().keySet());
+					System.out.println("Data Types :"+ddlQuery.getAttributes().values());
+					System.out.println("--------------------------");
+				}
 			}
 
 
