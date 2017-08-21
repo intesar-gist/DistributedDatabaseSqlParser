@@ -1,3 +1,6 @@
+
+DELETE FROM PERSON WHERE PERSON_ID = 18 AND PERSON_NAME = 'INTESAR' AND AGE >= 90;
+
 insert into test_Table VALUES ('', 5.55,5.234234 ,'sdf',5.59898, 'sdf', .565, 65.6, NULL);
 
 DROP TABLE testl_22;

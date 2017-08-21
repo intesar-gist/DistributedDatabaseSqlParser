@@ -28,7 +28,8 @@ SKIP:{
 
 /* separator and operator literals (prefix with O_) */
 TOKEN: {
-     <O_ASTERISK: "*"> | <O_CLOSEPAREN: ")"> | <O_OPENPAREN: "(">
+	  <O_ALL_OPERATOR: (<O_EQUAL> | <O_GREATER> | <O_GREATEREQUAL> | <O_LESS> | <O_LESSEQUAL> | <O_NOTEQUAL2> | <O_NOTEQUAL>)>
+    | <O_ASTERISK: "*"> | <O_CLOSEPAREN: ")"> | <O_OPENPAREN: "(">
     | <O_COMMA: ",">   | <O_TERMINATOR: ";">
     | <O_PERCENT: "%"> | <O_EQUAL: "="> | <O_GREATER: ">">
     | <O_GREATEREQUAL: ">="> | <O_LESS: "<"> | <O_LESSEQUAL: "<=">
@@ -44,18 +45,22 @@ TOKEN : {
 
 /* reserved words and keywords literals */
 TOKEN [IGNORE_CASE]: {
+
+	//K_ prefixed tokens are reserved words that's shouldn't be used in column names
       <K_CREATE: "CREATE">
     | <K_DROP: "DROP">
     | <K_TABLE: "TABLE">
     | <K_INSERT: "INSERT">
     | <K_INTO: "INTO">
+    | <K_DELETE: "DELETE">
+    | <K_FROM: "FROM">
+
     | <R_AND: "AND">
     | <R_ASC: "ASC">
     | <R_BY: "BY">
     | <R_CONNECT: "CONNECT">
     | <R_DESC: "DESC">
     | <R_DISTINCT: "DISTINCT">
-    | <R_FROM: "FROM">
     | <R_GROUP: "GROUP">
     | <R_HAVING: "HAVING">
     | <R_IN: "IN">
@@ -74,6 +79,7 @@ TOKEN [IGNORE_CASE]: {
     | <R_CREATE :("CREATE TABLE")>
     | <R_DROP :("DROP TABLE")>
     | <R_INSERT :("INSERT INTO")>
+    | <R_DELETE :("DELETE FROM")>
     | <R_PRIMARY: "PRIMARY KEY">
     | <R_INTEGER: "INTEGER">
     | <R_VARCHAR: "VARCHAR">
@@ -117,7 +123,7 @@ DMLQuery ProcessDMLQuery():
     DMLQuery dmlQuery;
 }
 {
-	(dmlQuery = insert())
+	(dmlQuery = insert() | dmlQuery = deleteTuple())
     {return dmlQuery;}
 }
 
@@ -149,7 +155,36 @@ void InsertValueExpressions():
 {
 }
 {
-  ((<QUOTED_STRING> | <FLOAT> | <INTEGER> | <R_NULL>) (<O_COMMA>)?)+
+  (<QUOTED_STRING> | <FLOAT> | <INTEGER> | <R_NULL>) [(<O_COMMA>) InsertValueExpressions()]
+}
+
+/* DELETE TUPLE */
+DMLQuery deleteTuple():
+{
+    Token T;
+    Token queryType;
+    DMLQuery dmlQuery;
+}
+{
+	   queryType = <R_DELETE>
+	   T =<S_IDENTIFIER>
+	   <R_WHERE> 
+	   ColumnComparison()
+	   {    
+	      dmlQuery = new DMLQuery();
+	      dmlQuery.setTableName(T.image);
+	      dmlQuery.setQueryType(queryType.kind);
+	   }
+       <O_TERMINATOR>
+    
+       {return dmlQuery;}
+}
+
+void ColumnComparison():
+{
+}
+{
+  (<S_IDENTIFIER> <O_ALL_OPERATOR> (<QUOTED_STRING> | <FLOAT> | <INTEGER>)) [(<R_AND> ColumnComparison())]
 }
 
 
