@@ -64,21 +64,7 @@ queries.add(queryType);
     T = jj_consume_token(S_IDENTIFIER);
     jj_consume_token(R_VALUES);
     jj_consume_token(O_OPENPAREN);
-    label_2:
-    while (true) {
-      InsertValueExpressions();
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case FLOAT:
-      case INTEGER:
-      case QUOTED_STRING:{
-        ;
-        break;
-        }
-      default:
-        jj_la1[2] = jj_gen;
-        break label_2;
-      }
-    }
+    InsertValueExpressions();
     jj_consume_token(O_CLOSEPAREN);
 dmlQuery = new DMLQuery();
               dmlQuery.setTableName(T.image);
@@ -89,23 +75,13 @@ dmlQuery = new DMLQuery();
   }
 
   final public void InsertValueExpressions() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case QUOTED_STRING:{
-      jj_consume_token(QUOTED_STRING);
+    label_2:
+    while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case O_COMMA:{
-        jj_consume_token(O_COMMA);
+      case QUOTED_STRING:{
+        jj_consume_token(QUOTED_STRING);
         break;
         }
-      default:
-        jj_la1[3] = jj_gen;
-        ;
-      }
-      break;
-      }
-    case FLOAT:
-    case INTEGER:{
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case FLOAT:{
         jj_consume_token(FLOAT);
         break;
@@ -114,8 +90,12 @@ dmlQuery = new DMLQuery();
         jj_consume_token(INTEGER);
         break;
         }
+      case R_NULL:{
+        jj_consume_token(R_NULL);
+        break;
+        }
       default:
-        jj_la1[4] = jj_gen;
+        jj_la1[2] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -125,15 +105,21 @@ dmlQuery = new DMLQuery();
         break;
         }
       default:
-        jj_la1[5] = jj_gen;
+        jj_la1[3] = jj_gen;
         ;
       }
-      break;
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case FLOAT:
+      case INTEGER:
+      case R_NULL:
+      case QUOTED_STRING:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[4] = jj_gen;
+        break label_2;
       }
-    default:
-      jj_la1[6] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
     }
   }
 
@@ -152,7 +138,7 @@ DDLQuery ProcessDDLQuery() throws ParseException {DDLQuery ddlQuery;
       break;
       }
     default:
-      jj_la1[7] = jj_gen;
+      jj_la1[5] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -193,7 +179,7 @@ ddlQuery = new DDLQuery ();
       break;
       }
     default:
-      jj_la1[8] = jj_gen;
+      jj_la1[6] = jj_gen;
       ;
     }
     jj_consume_token(O_TERMINATOR);
@@ -222,7 +208,7 @@ ddlQuery.setAttributes(attributes);
         break;
         }
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[7] = jj_gen;
         break label_3;
       }
     }
@@ -233,7 +219,7 @@ ddlQuery.setAttributes(attributes);
       break;
       }
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[8] = jj_gen;
       ;
     }
   }
@@ -248,7 +234,7 @@ ddlQuery.setAttributes(attributes);
         break;
         }
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[9] = jj_gen;
         break label_4;
       }
     }
@@ -271,7 +257,7 @@ ddlQuery.setAttributes(attributes);
         break;
         }
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[10] = jj_gen;
         break label_5;
       }
       Constraints();
@@ -292,7 +278,7 @@ var.put(TName.image,TType.image);
       break;
       }
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[11] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -304,7 +290,7 @@ var.put(TName.image,TType.image);
       break;
       }
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[12] = jj_gen;
       ;
     }
 {if ("" != null) return TDType;}
@@ -334,7 +320,7 @@ var.put(TName.image,TType.image);
       break;
       }
     default:
-      jj_la1[15] = jj_gen;
+      jj_la1[13] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -354,7 +340,7 @@ var.put(TName.image,TType.image);
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[16];
+  final private int[] jj_la1 = new int[14];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -362,10 +348,10 @@ var.put(TName.image,TType.image);
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x0,0x0,0xc00000,0x800,0xc00000,0x800,0xc00000,0x0,0x0,0x800000,0x800,0x0,0x0,0x0,0x400,0x0,};
+      jj_la1_0 = new int[] {0x0,0x0,0xc00000,0x800,0xc00000,0x0,0x0,0x800000,0x800,0x0,0x0,0x0,0x400,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x700000,0x700000,0x40000000,0x0,0x0,0x0,0x40000000,0x300000,0x4000000,0x0,0x0,0x8000000,0x80000,0x3000000,0x0,0x808000,};
+      jj_la1_1 = new int[] {0x700000,0x700000,0x40000800,0x0,0x40000800,0x300000,0x4000000,0x0,0x0,0x8000000,0x80000,0x3000000,0x0,0x808000,};
    }
 
   /** Constructor with InputStream. */
@@ -379,7 +365,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -393,7 +379,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -403,7 +389,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -413,7 +399,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -422,7 +408,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -431,7 +417,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -482,12 +468,12 @@ var.put(TName.image,TType.image);
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[63];
+    boolean[] la1tokens = new boolean[64];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 14; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -499,7 +485,7 @@ var.put(TName.image,TType.image);
         }
       }
     }
-    for (int i = 0; i < 63; i++) {
+    for (int i = 0; i < 64; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

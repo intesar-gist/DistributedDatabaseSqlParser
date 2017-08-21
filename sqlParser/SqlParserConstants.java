@@ -124,6 +124,8 @@ public interface SqlParserConstants {
   int SPECIAL_CHARS = 61;
   /** RegularExpression Id. */
   int QUOTED_STRING = 62;
+  /** RegularExpression Id. */
+  int EMPTY_STRING = 63;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -193,6 +195,7 @@ public interface SqlParserConstants {
     "<LETTER>",
     "\"_\"",
     "<QUOTED_STRING>",
+    "<EMPTY_STRING>",
   };
 
 }

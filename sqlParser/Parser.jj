@@ -85,7 +85,8 @@ TOKEN: {
       <S_IDENTIFIER: (<LETTER>)+ (<DIGIT> | <LETTER> | <SPECIAL_CHARS>)* >
     | <#LETTER: ["a"-"z", "A"-"Z"] >
     | <#SPECIAL_CHARS: "_" >
-    | <QUOTED_STRING: "'" (~["'"])+ "'" >
+    | <QUOTED_STRING: <EMPTY_STRING> | "'" (~["'"])+ "'" >
+    | <#EMPTY_STRING: ("'" "'") >
 }
 
 //Grammer Production Rules
@@ -132,7 +133,7 @@ DMLQuery insert():
 	   T =<S_IDENTIFIER>
 	   <R_VALUES> 
 		   <O_OPENPAREN> 
-		   		(InsertValueExpressions())+
+		   		InsertValueExpressions()
 		   <O_CLOSEPAREN>
 	   {    
 	      dmlQuery = new DMLQuery();
@@ -148,7 +149,7 @@ void InsertValueExpressions():
 {
 }
 {
-  (<QUOTED_STRING> (<O_COMMA>)? | (<FLOAT> | <INTEGER>) (<O_COMMA>)?)
+  ((<QUOTED_STRING> | <FLOAT> | <INTEGER> | <R_NULL>) (<O_COMMA>)?)+
 }
 
 
