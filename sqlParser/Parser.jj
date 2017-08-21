@@ -132,7 +132,7 @@ DMLQuery insert():
 	   T =<S_IDENTIFIER>
 	   <R_VALUES> 
 		   <O_OPENPAREN> 
-		   		(SelectExpressions())+
+		   		(InsertValueExpressions())+
 		   <O_CLOSEPAREN>
 	   {    
 	      dmlQuery = new DMLQuery();
@@ -144,7 +144,7 @@ DMLQuery insert():
        {return dmlQuery;}
 }
 
-void SelectExpressions():
+void InsertValueExpressions():
 {
 }
 {

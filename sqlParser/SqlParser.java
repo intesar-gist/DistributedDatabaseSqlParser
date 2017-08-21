@@ -66,7 +66,7 @@ queries.add(queryType);
     jj_consume_token(O_OPENPAREN);
     label_2:
     while (true) {
-      SelectExpressions();
+      InsertValueExpressions();
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case FLOAT:
       case INTEGER:
@@ -88,7 +88,7 @@ dmlQuery = new DMLQuery();
     throw new Error("Missing return statement in function");
   }
 
-  final public void SelectExpressions() throws ParseException {
+  final public void InsertValueExpressions() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case QUOTED_STRING:{
       jj_consume_token(QUOTED_STRING);
