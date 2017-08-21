@@ -7,7 +7,7 @@ CREATE TABLE dd_STUDENT55
     Class VARCHAR(10),
     Rnum INTEGER(55),
     CONSTRAINT esfsd1 UNIQUE (StudentName),
-) HORIZONTAL (SFSD(2,5646));
+) HORIZONTAL (Rnum(2,5646));
 
 create table FLUGHAFEN (
 FHC		varchar(3),
