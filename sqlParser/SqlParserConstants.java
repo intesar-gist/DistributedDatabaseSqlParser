@@ -15,113 +15,113 @@ public interface SqlParserConstants {
   /** RegularExpression Id. */
   int COMMENT_BLOCK = 7;
   /** RegularExpression Id. */
-  int O_ALL_OPERATOR = 8;
+  int O_ASTERISK = 8;
   /** RegularExpression Id. */
-  int O_ASTERISK = 9;
+  int O_CLOSEPAREN = 9;
   /** RegularExpression Id. */
-  int O_CLOSEPAREN = 10;
+  int O_OPENPAREN = 10;
   /** RegularExpression Id. */
-  int O_OPENPAREN = 11;
+  int O_COMMA = 11;
   /** RegularExpression Id. */
-  int O_COMMA = 12;
+  int O_TERMINATOR = 12;
   /** RegularExpression Id. */
-  int O_TERMINATOR = 13;
+  int O_PERCENT = 13;
   /** RegularExpression Id. */
-  int O_PERCENT = 14;
+  int O_EQUAL = 14;
   /** RegularExpression Id. */
-  int O_EQUAL = 15;
+  int O_GREATER = 15;
   /** RegularExpression Id. */
-  int O_GREATER = 16;
+  int O_GREATEREQUAL = 16;
   /** RegularExpression Id. */
-  int O_GREATEREQUAL = 17;
+  int O_LESS = 17;
   /** RegularExpression Id. */
-  int O_LESS = 18;
+  int O_LESSEQUAL = 18;
   /** RegularExpression Id. */
-  int O_LESSEQUAL = 19;
+  int O_MINUS = 19;
   /** RegularExpression Id. */
-  int O_MINUS = 20;
+  int O_NOTEQUAL2 = 20;
   /** RegularExpression Id. */
-  int O_NOTEQUAL2 = 21;
+  int O_NOTEQUAL = 21;
   /** RegularExpression Id. */
-  int O_NOTEQUAL = 22;
+  int FLOAT = 22;
   /** RegularExpression Id. */
-  int FLOAT = 23;
+  int INTEGER = 23;
   /** RegularExpression Id. */
-  int INTEGER = 24;
+  int DIGIT = 24;
   /** RegularExpression Id. */
-  int DIGIT = 25;
+  int K_CREATE = 25;
   /** RegularExpression Id. */
-  int K_CREATE = 26;
+  int K_DROP = 26;
   /** RegularExpression Id. */
-  int K_DROP = 27;
+  int K_TABLE = 27;
   /** RegularExpression Id. */
-  int K_TABLE = 28;
+  int K_INSERT = 28;
   /** RegularExpression Id. */
-  int K_INSERT = 29;
+  int K_INTO = 29;
   /** RegularExpression Id. */
-  int K_INTO = 30;
+  int K_DELETE = 30;
   /** RegularExpression Id. */
-  int K_DELETE = 31;
+  int K_FROM = 31;
   /** RegularExpression Id. */
-  int K_FROM = 32;
+  int R_AND = 32;
   /** RegularExpression Id. */
-  int R_AND = 33;
+  int R_ASC = 33;
   /** RegularExpression Id. */
-  int R_ASC = 34;
+  int R_BY = 34;
   /** RegularExpression Id. */
-  int R_BY = 35;
+  int R_CONNECT = 35;
   /** RegularExpression Id. */
-  int R_CONNECT = 36;
+  int R_DESC = 36;
   /** RegularExpression Id. */
-  int R_DESC = 37;
+  int R_DISTINCT = 37;
   /** RegularExpression Id. */
-  int R_DISTINCT = 38;
+  int R_GROUP = 38;
   /** RegularExpression Id. */
-  int R_GROUP = 39;
+  int R_HAVING = 39;
   /** RegularExpression Id. */
-  int R_HAVING = 40;
+  int R_IN = 40;
   /** RegularExpression Id. */
-  int R_IN = 41;
+  int R_IS = 41;
   /** RegularExpression Id. */
-  int R_IS = 42;
+  int R_LIKE = 42;
   /** RegularExpression Id. */
-  int R_LIKE = 43;
+  int R_NOT = 43;
   /** RegularExpression Id. */
-  int R_NOT = 44;
+  int R_NULL = 44;
   /** RegularExpression Id. */
-  int R_NULL = 45;
+  int R_OR = 45;
   /** RegularExpression Id. */
-  int R_OR = 46;
+  int R_ORDER = 46;
   /** RegularExpression Id. */
-  int R_ORDER = 47;
+  int R_SELECT = 47;
   /** RegularExpression Id. */
-  int R_SELECT = 48;
+  int R_UNIQUE = 48;
   /** RegularExpression Id. */
-  int R_UNIQUE = 49;
+  int R_UPDATE = 49;
   /** RegularExpression Id. */
-  int R_UPDATE = 50;
+  int R_VALUES = 50;
   /** RegularExpression Id. */
-  int R_VALUES = 51;
+  int R_WHERE = 51;
   /** RegularExpression Id. */
-  int R_WHERE = 52;
+  int R_CONSTRAINT = 52;
   /** RegularExpression Id. */
-  int R_CONSTRAINT = 53;
+  int R_CREATE = 53;
   /** RegularExpression Id. */
-  int R_CREATE = 54;
+  int R_DROP = 54;
   /** RegularExpression Id. */
-  int R_DROP = 55;
+  int R_INSERT = 55;
   /** RegularExpression Id. */
-  int R_INSERT = 56;
+  int R_DELETE = 56;
   /** RegularExpression Id. */
-  int R_DELETE = 57;
+  int R_PRIMARY = 57;
   /** RegularExpression Id. */
-  int R_PRIMARY = 58;
+  int R_INTEGER = 58;
   /** RegularExpression Id. */
-  int R_INTEGER = 59;
+  int R_VARCHAR = 59;
   /** RegularExpression Id. */
-  int R_VARCHAR = 60;
+  int R_HORIZONTAL = 60;
   /** RegularExpression Id. */
-  int R_HORIZONTAL = 61;
+  int R_SET = 61;
   /** RegularExpression Id. */
   int S_IDENTIFIER = 62;
   /** RegularExpression Id. */
@@ -146,7 +146,6 @@ public interface SqlParserConstants {
     "\"\\f\"",
     "<COMMENT_LINE>",
     "<COMMENT_BLOCK>",
-    "<O_ALL_OPERATOR>",
     "\"*\"",
     "\")\"",
     "\"(\"",
@@ -200,6 +199,7 @@ public interface SqlParserConstants {
     "\"INTEGER\"",
     "\"VARCHAR\"",
     "\"HORIZONTAL\"",
+    "\"SET\"",
     "<S_IDENTIFIER>",
     "<LETTER>",
     "\"_\"",

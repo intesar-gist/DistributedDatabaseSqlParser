@@ -28,8 +28,7 @@ SKIP:{
 
 /* separator and operator literals (prefix with O_) */
 TOKEN: {
-	  <O_ALL_OPERATOR: (<O_EQUAL> | <O_GREATER> | <O_GREATEREQUAL> | <O_LESS> | <O_LESSEQUAL> | <O_NOTEQUAL2> | <O_NOTEQUAL>)>
-    | <O_ASTERISK: "*"> | <O_CLOSEPAREN: ")"> | <O_OPENPAREN: "(">
+      <O_ASTERISK: "*"> | <O_CLOSEPAREN: ")"> | <O_OPENPAREN: "(">
     | <O_COMMA: ",">   | <O_TERMINATOR: ";">
     | <O_PERCENT: "%"> | <O_EQUAL: "="> | <O_GREATER: ">">
     | <O_GREATEREQUAL: ">="> | <O_LESS: "<"> | <O_LESSEQUAL: "<=">
@@ -84,6 +83,7 @@ TOKEN [IGNORE_CASE]: {
     | <R_INTEGER: "INTEGER">
     | <R_VARCHAR: "VARCHAR">
     | <R_HORIZONTAL: "HORIZONTAL">
+    | <R_SET: "SET">
 }
 
 /* identifier literals */
@@ -123,8 +123,37 @@ DMLQuery ProcessDMLQuery():
     DMLQuery dmlQuery;
 }
 {
-	(dmlQuery = insert() | dmlQuery = deleteTuple())
+	(dmlQuery = insert() | dmlQuery = deleteTuple() | dmlQuery = updateTuple())
     {return dmlQuery;}
+}
+
+/* UPDATE TUPLE */
+DMLQuery updateTuple():
+{
+    Token T;
+    Token queryType;
+    DMLQuery dmlQuery;
+}
+{
+	   queryType = <R_UPDATE>
+	   T =<S_IDENTIFIER>
+	   <R_SET> ColumnSetter()
+	   [<R_WHERE> ColumnComparison()]
+	   {    
+	      dmlQuery = new DMLQuery();
+	      dmlQuery.setTableName(T.image);
+	      dmlQuery.setQueryType(queryType.kind);
+	   }
+       <O_TERMINATOR>
+    
+       {return dmlQuery;}
+}
+
+void ColumnSetter():
+{
+}
+{
+	<S_IDENTIFIER> <O_EQUAL> (<QUOTED_STRING> | <FLOAT> | <INTEGER> | <R_NULL>) [(<O_COMMA>) ColumnSetter()]
 }
 
 /* INSERT TABLE */
@@ -168,8 +197,7 @@ DMLQuery deleteTuple():
 {
 	   queryType = <R_DELETE>
 	   T =<S_IDENTIFIER>
-	   <R_WHERE> 
-	   ColumnComparison()
+	   [<R_WHERE> ColumnComparison()]
 	   {    
 	      dmlQuery = new DMLQuery();
 	      dmlQuery.setTableName(T.image);
@@ -184,9 +212,15 @@ void ColumnComparison():
 {
 }
 {
-  (<S_IDENTIFIER> <O_ALL_OPERATOR> (<QUOTED_STRING> | <FLOAT> | <INTEGER>)) [(<R_AND> ColumnComparison())]
+  (<S_IDENTIFIER> ComparisonOperators() (<QUOTED_STRING> | <FLOAT> | <INTEGER>)) [((<R_AND> | <R_OR>) ColumnComparison())]
 }
 
+void ComparisonOperators():
+{
+}
+{
+  (<O_EQUAL> | <O_GREATER> | <O_GREATEREQUAL> | <O_LESS> | <O_LESSEQUAL> | <O_NOTEQUAL2> | <O_NOTEQUAL>) 
+}
 
 /********************************/
 /********* DDL queries **********/

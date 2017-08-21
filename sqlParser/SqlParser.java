@@ -15,6 +15,7 @@ ArrayList<QueryType> init() throws ParseException {ArrayList<QueryType> queries 
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case R_UPDATE:
       case R_CREATE:
       case R_DROP:
       case R_INSERT:
@@ -32,6 +33,7 @@ ArrayList<QueryType> init() throws ParseException {ArrayList<QueryType> queries 
         queryType = ProcessDDLQuery();
         break;
         }
+      case R_UPDATE:
       case R_INSERT:
       case R_DELETE:{
         queryType = ProcessDMLQuery();
@@ -62,6 +64,10 @@ queries.add(queryType);
       dmlQuery = deleteTuple();
       break;
       }
+    case R_UPDATE:{
+      dmlQuery = updateTuple();
+      break;
+      }
     default:
       jj_la1[2] = jj_gen;
       jj_consume_token(-1);
@@ -69,6 +75,69 @@ queries.add(queryType);
     }
 {if ("" != null) return dmlQuery;}
     throw new Error("Missing return statement in function");
+  }
+
+/* UPDATE TUPLE */
+  final public DMLQuery updateTuple() throws ParseException {Token T;
+    Token queryType;
+    DMLQuery dmlQuery;
+    queryType = jj_consume_token(R_UPDATE);
+    T = jj_consume_token(S_IDENTIFIER);
+    jj_consume_token(R_SET);
+    ColumnSetter();
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case R_WHERE:{
+      jj_consume_token(R_WHERE);
+      ColumnComparison();
+      break;
+      }
+    default:
+      jj_la1[3] = jj_gen;
+      ;
+    }
+dmlQuery = new DMLQuery();
+              dmlQuery.setTableName(T.image);
+              dmlQuery.setQueryType(queryType.kind);
+    jj_consume_token(O_TERMINATOR);
+{if ("" != null) return dmlQuery;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public void ColumnSetter() throws ParseException {
+    jj_consume_token(S_IDENTIFIER);
+    jj_consume_token(O_EQUAL);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case QUOTED_STRING:{
+      jj_consume_token(QUOTED_STRING);
+      break;
+      }
+    case FLOAT:{
+      jj_consume_token(FLOAT);
+      break;
+      }
+    case INTEGER:{
+      jj_consume_token(INTEGER);
+      break;
+      }
+    case R_NULL:{
+      jj_consume_token(R_NULL);
+      break;
+      }
+    default:
+      jj_la1[4] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case O_COMMA:{
+      jj_consume_token(O_COMMA);
+      ColumnSetter();
+      break;
+      }
+    default:
+      jj_la1[5] = jj_gen;
+      ;
+    }
   }
 
 /* INSERT TABLE */
@@ -108,7 +177,7 @@ dmlQuery = new DMLQuery();
       break;
       }
     default:
-      jj_la1[3] = jj_gen;
+      jj_la1[6] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -119,7 +188,7 @@ dmlQuery = new DMLQuery();
       break;
       }
     default:
-      jj_la1[4] = jj_gen;
+      jj_la1[7] = jj_gen;
       ;
     }
   }
@@ -130,8 +199,16 @@ dmlQuery = new DMLQuery();
     DMLQuery dmlQuery;
     queryType = jj_consume_token(R_DELETE);
     T = jj_consume_token(S_IDENTIFIER);
-    jj_consume_token(R_WHERE);
-    ColumnComparison();
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case R_WHERE:{
+      jj_consume_token(R_WHERE);
+      ColumnComparison();
+      break;
+      }
+    default:
+      jj_la1[8] = jj_gen;
+      ;
+    }
 dmlQuery = new DMLQuery();
               dmlQuery.setTableName(T.image);
               dmlQuery.setQueryType(queryType.kind);
@@ -142,7 +219,7 @@ dmlQuery = new DMLQuery();
 
   final public void ColumnComparison() throws ParseException {
     jj_consume_token(S_IDENTIFIER);
-    jj_consume_token(O_ALL_OPERATOR);
+    ComparisonOperators();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case QUOTED_STRING:{
       jj_consume_token(QUOTED_STRING);
@@ -157,19 +234,70 @@ dmlQuery = new DMLQuery();
       break;
       }
     default:
-      jj_la1[5] = jj_gen;
+      jj_la1[9] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case R_AND:{
-      jj_consume_token(R_AND);
+    case R_AND:
+    case R_OR:{
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case R_AND:{
+        jj_consume_token(R_AND);
+        break;
+        }
+      case R_OR:{
+        jj_consume_token(R_OR);
+        break;
+        }
+      default:
+        jj_la1[10] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
       ColumnComparison();
       break;
       }
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[11] = jj_gen;
       ;
+    }
+  }
+
+  final public void ComparisonOperators() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case O_EQUAL:{
+      jj_consume_token(O_EQUAL);
+      break;
+      }
+    case O_GREATER:{
+      jj_consume_token(O_GREATER);
+      break;
+      }
+    case O_GREATEREQUAL:{
+      jj_consume_token(O_GREATEREQUAL);
+      break;
+      }
+    case O_LESS:{
+      jj_consume_token(O_LESS);
+      break;
+      }
+    case O_LESSEQUAL:{
+      jj_consume_token(O_LESSEQUAL);
+      break;
+      }
+    case O_NOTEQUAL2:{
+      jj_consume_token(O_NOTEQUAL2);
+      break;
+      }
+    case O_NOTEQUAL:{
+      jj_consume_token(O_NOTEQUAL);
+      break;
+      }
+    default:
+      jj_la1[12] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
     }
   }
 
@@ -188,7 +316,7 @@ DDLQuery ProcessDDLQuery() throws ParseException {DDLQuery ddlQuery;
       break;
       }
     default:
-      jj_la1[7] = jj_gen;
+      jj_la1[13] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -229,7 +357,7 @@ ddlQuery = new DDLQuery ();
       break;
       }
     default:
-      jj_la1[8] = jj_gen;
+      jj_la1[14] = jj_gen;
       ;
     }
     jj_consume_token(O_TERMINATOR);
@@ -258,7 +386,7 @@ ddlQuery.setAttributes(attributes);
         break;
         }
       default:
-        jj_la1[9] = jj_gen;
+        jj_la1[15] = jj_gen;
         break label_2;
       }
     }
@@ -269,7 +397,7 @@ ddlQuery.setAttributes(attributes);
       break;
       }
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[16] = jj_gen;
       ;
     }
   }
@@ -284,7 +412,7 @@ ddlQuery.setAttributes(attributes);
         break;
         }
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[17] = jj_gen;
         break label_3;
       }
     }
@@ -307,7 +435,7 @@ ddlQuery.setAttributes(attributes);
         break;
         }
       default:
-        jj_la1[12] = jj_gen;
+        jj_la1[18] = jj_gen;
         break label_4;
       }
       Constraints();
@@ -328,7 +456,7 @@ var.put(TName.image,TType.image);
       break;
       }
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[19] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -340,7 +468,7 @@ var.put(TName.image,TType.image);
       break;
       }
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[20] = jj_gen;
       ;
     }
 {if ("" != null) return TDType;}
@@ -370,7 +498,7 @@ var.put(TName.image,TType.image);
       break;
       }
     default:
-      jj_la1[15] = jj_gen;
+      jj_la1[21] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -390,7 +518,7 @@ var.put(TName.image,TType.image);
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[16];
+  final private int[] jj_la1 = new int[22];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static private int[] jj_la1_2;
@@ -400,13 +528,13 @@ var.put(TName.image,TType.image);
       jj_la1_init_2();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x0,0x0,0x0,0x1800000,0x1000,0x1800000,0x0,0x0,0x0,0x1000000,0x1000,0x0,0x0,0x0,0x800,0x0,};
+      jj_la1_0 = new int[] {0x0,0x0,0x0,0x0,0xc00000,0x800,0xc00000,0x800,0x0,0xc00000,0x0,0x0,0x37c000,0x0,0x0,0x800000,0x800,0x0,0x0,0x0,0x400,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x3c00000,0x3c00000,0x3000000,0x2000,0x0,0x0,0x2,0xc00000,0x20000000,0x0,0x0,0x40000000,0x200000,0x18000000,0x0,0x4020000,};
+      jj_la1_1 = new int[] {0x1e20000,0x1e20000,0x1820000,0x80000,0x1000,0x0,0x1000,0x0,0x80000,0x0,0x2001,0x2001,0x0,0x600000,0x10000000,0x0,0x0,0x40000000,0x100000,0xc000000,0x0,0x2010000,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0x0,0x0,0x0,0x2,0x0,0x2,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x2,0x0,0x2,0x0,0x0,0x2,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
    }
 
   /** Constructor with InputStream. */
@@ -420,7 +548,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -434,7 +562,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -444,7 +572,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -454,7 +582,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -463,7 +591,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -472,7 +600,7 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -528,7 +656,7 @@ var.put(TName.image,TType.image);
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 22; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
