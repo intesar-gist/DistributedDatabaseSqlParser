@@ -1,3 +1,4 @@
+insert into tas VALUES ('sdsf', 5.55,5.234234 ,'sdf',5.59898, 'sdf',.565, 65.6);
 
 DROP TABLE testl_22;
 

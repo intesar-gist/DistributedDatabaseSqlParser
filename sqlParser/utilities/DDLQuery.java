@@ -7,7 +7,6 @@ import java.util.HashMap;
  */
 public class DDLQuery extends QueryType {
 
-    private int queryType;
     private HashMap<String,String> attributes = new HashMap<String, String> ();
     private HashMap<String,String> constraints = new HashMap<String, String> ();
 
@@ -25,13 +24,5 @@ public class DDLQuery extends QueryType {
 
     public void setConstraints(HashMap<String, String> constraints) {
         this.constraints = constraints;
-    }
-
-    public int getQueryType() {
-        return queryType;
-    }
-
-    public void setQueryType(int queryType) {
-        this.queryType = queryType;
     }
 }

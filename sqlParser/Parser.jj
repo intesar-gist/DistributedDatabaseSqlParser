@@ -37,7 +37,8 @@ TOKEN: {
 
 /* numeric literals */
 TOKEN : {
-      <INTEGER: ( <DIGIT> )+ >
+     <FLOAT: <INTEGER> ( "." <INTEGER> ) | "." <INTEGER> >
+    | <INTEGER: ( <DIGIT> )+ >
     | <#DIGIT: ["0" - "9"] >
 }
 
@@ -46,6 +47,8 @@ TOKEN [IGNORE_CASE]: {
       <K_CREATE: "CREATE">
     | <K_DROP: "DROP">
     | <K_TABLE: "TABLE">
+    | <K_INSERT: "INSERT">
+    | <K_INTO: "INTO">
     | <R_AND: "AND">
     | <R_ASC: "ASC">
     | <R_BY: "BY">
@@ -56,8 +59,6 @@ TOKEN [IGNORE_CASE]: {
     | <R_GROUP: "GROUP">
     | <R_HAVING: "HAVING">
     | <R_IN: "IN">
-    | <R_INSERT: "INSERT">
-    | <R_INTO: "INTO">
     | <R_IS: "IS">
     | <R_LIKE: "LIKE">
     | <R_NOT: "NOT">
@@ -72,6 +73,7 @@ TOKEN [IGNORE_CASE]: {
     | <R_CONSTRAINT: "CONSTRAINT">
     | <R_CREATE :("CREATE TABLE")>
     | <R_DROP :("DROP TABLE")>
+    | <R_INSERT :("INSERT INTO")>
     | <R_PRIMARY: "PRIMARY KEY">
     | <R_INTEGER: "INTEGER">
     | <R_VARCHAR: "VARCHAR">
@@ -83,6 +85,7 @@ TOKEN: {
       <S_IDENTIFIER: (<LETTER>)+ (<DIGIT> | <LETTER> | <SPECIAL_CHARS>)* >
     | <#LETTER: ["a"-"z", "A"-"Z"] >
     | <#SPECIAL_CHARS: "_" >
+    | <QUOTED_STRING: "'" (~["'"])+ "'" >
 }
 
 //Grammer Production Rules
@@ -94,7 +97,7 @@ ArrayList<QueryType> init():
 }
 {
 	(
-		(queryType = ProcessDDLQuery())
+		(queryType = ProcessDDLQuery() | queryType = ProcessDMLQuery())
 		{
   	  		queries.add(queryType);
 		}
@@ -105,7 +108,54 @@ ArrayList<QueryType> init():
     {return queries;}
 }
 
-/* DDL queries */
+/********************************/
+/********* DML queries **********/
+/********************************/
+DMLQuery ProcessDMLQuery():
+{
+    DMLQuery dmlQuery;
+}
+{
+	(dmlQuery = insert())
+    {return dmlQuery;}
+}
+
+/* INSERT TABLE */
+DMLQuery insert():
+{
+    Token T;
+    Token queryType;
+    DMLQuery dmlQuery;
+}
+{
+	   queryType = <R_INSERT>
+	   T =<S_IDENTIFIER>
+	   <R_VALUES> 
+		   <O_OPENPAREN> 
+		   		(SelectExpressions())+
+		   <O_CLOSEPAREN>
+	   {    
+	      dmlQuery = new DMLQuery();
+	      dmlQuery.setTableName(T.image);
+	      dmlQuery.setQueryType(queryType.kind);
+	   }
+       <O_TERMINATOR>
+    
+       {return dmlQuery;}
+}
+
+void SelectExpressions():
+{
+}
+{
+  (<QUOTED_STRING> (<O_COMMA>)? | (<FLOAT> | <INTEGER>) (<O_COMMA>)?)
+}
+
+
+/********************************/
+/********* DDL queries **********/
+/********************************/
+
 DDLQuery ProcessDDLQuery():
 {
     DDLQuery ddlQuery;
