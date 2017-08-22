@@ -29,14 +29,22 @@ DELETE FROM PERSON;
 INSERT INTO test_Table VALUES ('', 5.55,5.234234 ,'sdf',5.59898, 'sdf', .565, 65.6, null);
 
 -- DDL Queries
-DROP TABLE testl_22;
+DROP TABLE TEST_123;
 
-CREATE TABLE dd_STUDENT55
+CREATE TABLE STUDENT_TEST1
+(
+    StudentName VARCHAR (20),
+    Class VARCHAR(10),
+    Rnum INTEGER(55),
+);
+
+CREATE TABLE STUDENT_TEST2
 (
     StudentName VARCHAR (20),
     Class VARCHAR(10),
     Rnum INTEGER(55),
     CONSTRAINT esfsd1 UNIQUE (StudentName),
+    CONSTRAINT esfsd1 PRIMARY KEY (Rnum),
 ) HORIZONTAL (Rnum(2,5646));
 
 create table FLUGHAFEN (
