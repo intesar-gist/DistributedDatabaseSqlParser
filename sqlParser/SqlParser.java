@@ -15,6 +15,7 @@ ArrayList<QueryType> init() throws ParseException {ArrayList<QueryType> queries 
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case R_SELECT:
       case R_UPDATE:
       case R_CREATE:
       case R_DROP:
@@ -39,6 +40,10 @@ ArrayList<QueryType> init() throws ParseException {ArrayList<QueryType> queries 
         queryType = ProcessDMLQuery();
         break;
         }
+      case R_SELECT:{
+        queryType = ProcessQLQuery();
+        break;
+        }
       default:
         jj_la1[1] = jj_gen;
         jj_consume_token(-1);
@@ -49,6 +54,89 @@ queries.add(queryType);
     jj_consume_token(0);
 {if ("" != null) return queries;}
     throw new Error("Missing return statement in function");
+  }
+
+/********************************/
+/********* QL queries **********/
+/********************************/
+  final public QLQuery ProcessQLQuery() throws ParseException {QLQuery qlQuery;
+    Token queryType;
+    queryType = jj_consume_token(R_SELECT);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case Q_COUNT:{
+      qlQuery = countAllTable();
+      break;
+      }
+    case Q_ATTRIBUTE:{
+      qlQuery = aggregateFuncWithGroupby();
+      break;
+      }
+    default:
+      jj_la1[2] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+qlQuery.setQueryType(queryType.kind);
+        {if ("" != null) return qlQuery;}
+    throw new Error("Missing return statement in function");
+  }
+
+/* COUNT TABLE */
+  final public QLQuery countAllTable() throws ParseException {Token T;
+    QLQuery qlQuery;
+    jj_consume_token(Q_COUNT);
+    jj_consume_token(K_FROM);
+    T = jj_consume_token(S_IDENTIFIER);
+qlQuery = new QLQuery();
+              qlQuery.setTableName(T.image);
+    jj_consume_token(O_TERMINATOR);
+{if ("" != null) return qlQuery;}
+    throw new Error("Missing return statement in function");
+  }
+
+/* AGGREGATE FUNCTION WITH GROUP BY */
+  final public QLQuery aggregateFuncWithGroupby() throws ParseException {Token T;
+    QLQuery qlQuery;
+    getListOfAttributes();
+    jj_consume_token(O_COMMA);
+    getAggregateFunction();
+    jj_consume_token(K_FROM);
+    T = jj_consume_token(S_IDENTIFIER);
+    jj_consume_token(R_GROUP);
+    jj_consume_token(R_BY);
+    jj_consume_token(Q_ATTRIBUTE);
+qlQuery = new QLQuery();
+              qlQuery.setTableName(T.image);
+    jj_consume_token(O_TERMINATOR);
+{if ("" != null) return qlQuery;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public void getListOfAttributes() throws ParseException {
+    jj_consume_token(Q_ATTRIBUTE);
+    if (jj_2_1(2)) {
+      jj_consume_token(O_COMMA);
+      getListOfAttributes();
+    } else {
+      ;
+    }
+  }
+
+  final public void getAggregateFunction() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case Q_COUNT:{
+      jj_consume_token(Q_COUNT);
+      break;
+      }
+    case Q_SUM:{
+      jj_consume_token(Q_SUM);
+      break;
+      }
+    default:
+      jj_la1[3] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
   }
 
 /********************************/
@@ -69,7 +157,7 @@ queries.add(queryType);
       break;
       }
     default:
-      jj_la1[2] = jj_gen;
+      jj_la1[4] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -92,7 +180,7 @@ queries.add(queryType);
       break;
       }
     default:
-      jj_la1[3] = jj_gen;
+      jj_la1[5] = jj_gen;
       ;
     }
 dmlQuery = new DMLQuery();
@@ -124,7 +212,7 @@ dmlQuery = new DMLQuery();
       break;
       }
     default:
-      jj_la1[4] = jj_gen;
+      jj_la1[6] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -135,7 +223,7 @@ dmlQuery = new DMLQuery();
       break;
       }
     default:
-      jj_la1[5] = jj_gen;
+      jj_la1[7] = jj_gen;
       ;
     }
   }
@@ -177,7 +265,7 @@ dmlQuery = new DMLQuery();
       break;
       }
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[8] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -188,7 +276,7 @@ dmlQuery = new DMLQuery();
       break;
       }
     default:
-      jj_la1[7] = jj_gen;
+      jj_la1[9] = jj_gen;
       ;
     }
   }
@@ -206,7 +294,7 @@ dmlQuery = new DMLQuery();
       break;
       }
     default:
-      jj_la1[8] = jj_gen;
+      jj_la1[10] = jj_gen;
       ;
     }
 dmlQuery = new DMLQuery();
@@ -234,7 +322,7 @@ dmlQuery = new DMLQuery();
       break;
       }
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[11] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -251,7 +339,7 @@ dmlQuery = new DMLQuery();
         break;
         }
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[12] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -259,7 +347,7 @@ dmlQuery = new DMLQuery();
       break;
       }
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[13] = jj_gen;
       ;
     }
   }
@@ -295,7 +383,7 @@ dmlQuery = new DMLQuery();
       break;
       }
     default:
-      jj_la1[12] = jj_gen;
+      jj_la1[14] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -316,7 +404,7 @@ DDLQuery ProcessDDLQuery() throws ParseException {DDLQuery ddlQuery;
       break;
       }
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[15] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -357,7 +445,7 @@ ddlQuery = new DDLQuery ();
       break;
       }
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[16] = jj_gen;
       ;
     }
     jj_consume_token(O_TERMINATOR);
@@ -386,7 +474,7 @@ ddlQuery.setAttributes(attributes);
         break;
         }
       default:
-        jj_la1[15] = jj_gen;
+        jj_la1[17] = jj_gen;
         break label_2;
       }
     }
@@ -397,7 +485,7 @@ ddlQuery.setAttributes(attributes);
       break;
       }
     default:
-      jj_la1[16] = jj_gen;
+      jj_la1[18] = jj_gen;
       ;
     }
   }
@@ -412,7 +500,7 @@ ddlQuery.setAttributes(attributes);
         break;
         }
       default:
-        jj_la1[17] = jj_gen;
+        jj_la1[19] = jj_gen;
         break label_3;
       }
     }
@@ -435,7 +523,7 @@ ddlQuery.setAttributes(attributes);
         break;
         }
       default:
-        jj_la1[18] = jj_gen;
+        jj_la1[20] = jj_gen;
         break label_4;
       }
       Constraints();
@@ -456,7 +544,7 @@ var.put(TName.image,TType.image);
       break;
       }
     default:
-      jj_la1[19] = jj_gen;
+      jj_la1[21] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -468,7 +556,7 @@ var.put(TName.image,TType.image);
       break;
       }
     default:
-      jj_la1[20] = jj_gen;
+      jj_la1[22] = jj_gen;
       ;
     }
 {if ("" != null) return TDType;}
@@ -498,7 +586,7 @@ var.put(TName.image,TType.image);
       break;
       }
     default:
-      jj_la1[21] = jj_gen;
+      jj_la1[23] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -509,6 +597,27 @@ var.put(TName.image,TType.image);
     throw new Error("Missing return statement in function");
   }
 
+  private boolean jj_2_1(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_1(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(0, xla); }
+  }
+
+  private boolean jj_3R_5()
+ {
+    if (jj_scan_token(Q_ATTRIBUTE)) return true;
+    return false;
+  }
+
+  private boolean jj_3_1()
+ {
+    if (jj_scan_token(O_COMMA)) return true;
+    if (jj_3R_5()) return true;
+    return false;
+  }
+
   /** Generated Token Manager. */
   public SqlParserTokenManager token_source;
   SimpleCharStream jj_input_stream;
@@ -517,8 +626,10 @@ var.put(TName.image,TType.image);
   /** Next token. */
   public Token jj_nt;
   private int jj_ntk;
+  private Token jj_scanpos, jj_lastpos;
+  private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[22];
+  final private int[] jj_la1 = new int[24];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static private int[] jj_la1_2;
@@ -528,14 +639,17 @@ var.put(TName.image,TType.image);
       jj_la1_init_2();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x0,0x0,0x0,0x0,0xc00000,0x800,0xc00000,0x800,0x0,0xc00000,0x0,0x0,0x37c000,0x0,0x0,0x800000,0x800,0x0,0x0,0x0,0x400,0x0,};
+      jj_la1_0 = new int[] {0x0,0x0,0x0,0x0,0x0,0x0,0x1800000,0x800,0x1800000,0x800,0x0,0x1800000,0x0,0x0,0x6f8000,0x0,0x0,0x1000000,0x800,0x0,0x0,0x0,0x400,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x1e20000,0x1e20000,0x1820000,0x80000,0x1000,0x0,0x1000,0x0,0x80000,0x0,0x2001,0x2001,0x0,0x600000,0x10000000,0x0,0x0,0x40000000,0x100000,0xc000000,0x0,0x2010000,};
+      jj_la1_1 = new int[] {0x3c50000,0x3c50000,0x0,0x0,0x3040000,0x100000,0x2000,0x0,0x2000,0x0,0x100000,0x0,0x4002,0x4002,0x0,0xc00000,0x20000000,0x0,0x0,0x0,0x200000,0x18000000,0x0,0x4020000,};
    }
    private static void jj_la1_init_2() {
-      jj_la1_2 = new int[] {0x0,0x0,0x0,0x0,0x2,0x0,0x2,0x0,0x0,0x2,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,};
+      jj_la1_2 = new int[] {0x0,0x0,0x6,0xc,0x0,0x0,0x80,0x0,0x80,0x0,0x0,0x80,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x10,0x0,0x0,0x0,0x0,};
    }
+  final private JJCalls[] jj_2_rtns = new JJCalls[1];
+  private boolean jj_rescan = false;
+  private int jj_gc = 0;
 
   /** Constructor with InputStream. */
   public SqlParser(java.io.InputStream stream) {
@@ -548,7 +662,8 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -562,7 +677,8 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor. */
@@ -572,7 +688,8 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -582,7 +699,8 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor with generated Token Manager. */
@@ -591,7 +709,8 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -600,7 +719,8 @@ var.put(TName.image,TType.image);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 24; i++) jj_la1[i] = -1;
+    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -610,11 +730,45 @@ var.put(TName.image,TType.image);
     jj_ntk = -1;
     if (token.kind == kind) {
       jj_gen++;
+      if (++jj_gc > 100) {
+        jj_gc = 0;
+        for (int i = 0; i < jj_2_rtns.length; i++) {
+          JJCalls c = jj_2_rtns[i];
+          while (c != null) {
+            if (c.gen < jj_gen) c.first = null;
+            c = c.next;
+          }
+        }
+      }
       return token;
     }
     token = oldToken;
     jj_kind = kind;
     throw generateParseException();
+  }
+
+  @SuppressWarnings("serial")
+  static private final class LookaheadSuccess extends java.lang.Error { }
+  final private LookaheadSuccess jj_ls = new LookaheadSuccess();
+  private boolean jj_scan_token(int kind) {
+    if (jj_scanpos == jj_lastpos) {
+      jj_la--;
+      if (jj_scanpos.next == null) {
+        jj_lastpos = jj_scanpos = jj_scanpos.next = token_source.getNextToken();
+      } else {
+        jj_lastpos = jj_scanpos = jj_scanpos.next;
+      }
+    } else {
+      jj_scanpos = jj_scanpos.next;
+    }
+    if (jj_rescan) {
+      int i = 0; Token tok = token;
+      while (tok != null && tok != jj_scanpos) { i++; tok = tok.next; }
+      if (tok != null) jj_add_error_token(kind, i);
+    }
+    if (jj_scanpos.kind != kind) return true;
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) throw jj_ls;
+    return false;
   }
 
 
@@ -647,16 +801,43 @@ var.put(TName.image,TType.image);
   private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
   private int[] jj_expentry;
   private int jj_kind = -1;
+  private int[] jj_lasttokens = new int[100];
+  private int jj_endpos;
+
+  private void jj_add_error_token(int kind, int pos) {
+    if (pos >= 100) return;
+    if (pos == jj_endpos + 1) {
+      jj_lasttokens[jj_endpos++] = kind;
+    } else if (jj_endpos != 0) {
+      jj_expentry = new int[jj_endpos];
+      for (int i = 0; i < jj_endpos; i++) {
+        jj_expentry[i] = jj_lasttokens[i];
+      }
+      jj_entries_loop: for (java.util.Iterator<?> it = jj_expentries.iterator(); it.hasNext();) {
+        int[] oldentry = (int[])(it.next());
+        if (oldentry.length == jj_expentry.length) {
+          for (int i = 0; i < jj_expentry.length; i++) {
+            if (oldentry[i] != jj_expentry[i]) {
+              continue jj_entries_loop;
+            }
+          }
+          jj_expentries.add(jj_expentry);
+          break jj_entries_loop;
+        }
+      }
+      if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;
+    }
+  }
 
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[67];
+    boolean[] la1tokens = new boolean[73];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 22; i++) {
+    for (int i = 0; i < 24; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -671,13 +852,16 @@ var.put(TName.image,TType.image);
         }
       }
     }
-    for (int i = 0; i < 67; i++) {
+    for (int i = 0; i < 73; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
         jj_expentries.add(jj_expentry);
       }
     }
+    jj_endpos = 0;
+    jj_rescan_token();
+    jj_add_error_token(0, 0);
     int[][] exptokseq = new int[jj_expentries.size()][];
     for (int i = 0; i < jj_expentries.size(); i++) {
       exptokseq[i] = jj_expentries.get(i);
@@ -691,6 +875,41 @@ var.put(TName.image,TType.image);
 
   /** Disable tracing. */
   final public void disable_tracing() {
+  }
+
+  private void jj_rescan_token() {
+    jj_rescan = true;
+    for (int i = 0; i < 1; i++) {
+    try {
+      JJCalls p = jj_2_rtns[i];
+      do {
+        if (p.gen > jj_gen) {
+          jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
+          switch (i) {
+            case 0: jj_3_1(); break;
+          }
+        }
+        p = p.next;
+      } while (p != null);
+      } catch(LookaheadSuccess ls) { }
+    }
+    jj_rescan = false;
+  }
+
+  private void jj_save(int index, int xla) {
+    JJCalls p = jj_2_rtns[index];
+    while (p.gen > jj_gen) {
+      if (p.next == null) { p = p.next = new JJCalls(); break; }
+      p = p.next;
+    }
+    p.gen = jj_gen + xla - jj_la; p.first = token; p.arg = xla;
+  }
+
+  static final class JJCalls {
+    int gen;
+    Token first;
+    int arg;
+    JJCalls next;
   }
 
    }

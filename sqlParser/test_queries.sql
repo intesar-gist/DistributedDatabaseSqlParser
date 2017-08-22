@@ -1,3 +1,11 @@
+-- QL Queries
+SELECT COUNT(*) FROM test_table;
+SELECT test.abc, COUNT(*) FROM test_table GROUP BY test_table.col_name;
+SELECT test.abc, asd.as, sdd.sdf, COUNT(*) FROM test_table GROUP BY test_table.col_name;
+SELECT test.abc, asd.as, sdd.sdf, count(*) FROM test_table GROUP BY test_table.col_name;
+SELECT test_table.abc, SUM(test_table.sd) FROM test_table GROUP BY test_table.col_name;
+SELECT test_table.abc, test_table.as, test_table.sdf, SUM(test_table.sd) FROM test_table GROUP BY test_table.col_name;
+SELECT test_table.abc, test_table.as, test_table.sdf, sum(test_table.sd) FROM test_table GROUP BY test_table.col_name;
 
 -- DML Queries
 UPDATE PERS SET BONUS = 50, BONUS_1 = 100 WHERE PNR = 23 and PNR = 'sfsd' OR PNR > 23.5;

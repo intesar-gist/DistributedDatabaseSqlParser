@@ -29,7 +29,7 @@ SKIP:{
 /* separator and operator literals (prefix with O_) */
 TOKEN: {
       <O_ASTERISK: "*"> | <O_CLOSEPAREN: ")"> | <O_OPENPAREN: "(">
-    | <O_COMMA: ",">   | <O_TERMINATOR: ";">
+    | <O_COMMA: ",">   | <O_TERMINATOR: ";">  | <O_DOT: ".">
     | <O_PERCENT: "%"> | <O_EQUAL: "="> | <O_GREATER: ">">
     | <O_GREATEREQUAL: ">="> | <O_LESS: "<"> | <O_LESSEQUAL: "<=">
     | <O_MINUS: "-"> | <O_NOTEQUAL2: "<>"> | <O_NOTEQUAL: "!=">
@@ -84,6 +84,15 @@ TOKEN [IGNORE_CASE]: {
     | <R_VARCHAR: "VARCHAR">
     | <R_HORIZONTAL: "HORIZONTAL">
     | <R_SET: "SET">
+    | <R_SUM: "SUM">
+    | <R_COUNT: "COUNT">
+}
+
+/* QUERY SPECIFIC TOKENS */
+TOKEN [IGNORE_CASE]: {
+      <Q_ATTRIBUTE: (<S_IDENTIFIER><O_DOT><S_IDENTIFIER>)>
+    | <Q_COUNT: (<R_COUNT><O_OPENPAREN><O_ASTERISK><O_CLOSEPAREN>)>
+    | <Q_SUM: (<R_SUM><O_OPENPAREN><Q_ATTRIBUTE><O_CLOSEPAREN>)>
 }
 
 /* identifier literals */
@@ -104,7 +113,7 @@ ArrayList<QueryType> init():
 }
 {
 	(
-		(queryType = ProcessDDLQuery() | queryType = ProcessDMLQuery())
+		(queryType = ProcessDDLQuery() | queryType = ProcessDMLQuery() | queryType = ProcessQLQuery())
 		{
   	  		queries.add(queryType);
 		}
@@ -114,6 +123,78 @@ ArrayList<QueryType> init():
 
     {return queries;}
 }
+
+/********************************/
+/********* QL queries **********/
+/********************************/
+QLQuery ProcessQLQuery():
+{
+    QLQuery qlQuery;
+    Token queryType;
+}
+{
+	queryType = <R_SELECT>
+	(qlQuery = countAllTable() | qlQuery = aggregateFuncWithGroupby())
+    {
+	    qlQuery.setQueryType(queryType.kind);
+    	return qlQuery;
+    }
+}
+
+/* COUNT TABLE */
+QLQuery countAllTable():
+{
+    Token T;
+    QLQuery qlQuery;
+}
+{
+		//SELECT table.attribute, {COUNT(*) | SUM(table.attribute)} FROM table GROUP BY table.attribute
+	   <Q_COUNT>
+	   <K_FROM> 
+	   T = <S_IDENTIFIER>
+	   {    
+	      qlQuery = new QLQuery();
+	      qlQuery.setTableName(T.image);
+	   }
+       <O_TERMINATOR>
+    
+       {return qlQuery;}
+}
+
+/* AGGREGATE FUNCTION WITH GROUP BY */
+QLQuery aggregateFuncWithGroupby():
+{
+    Token T;
+    QLQuery qlQuery;
+}
+{
+	   getListOfAttributes() <O_COMMA> getAggregateFunction() 
+	   <K_FROM> 
+	   T = <S_IDENTIFIER>
+	   <R_GROUP> <R_BY> <Q_ATTRIBUTE>
+	   {    
+	      qlQuery = new QLQuery();
+	      qlQuery.setTableName(T.image);
+	   }
+       <O_TERMINATOR>
+    
+       {return qlQuery;}
+}
+
+void getListOfAttributes():
+{
+}
+{
+	(<Q_ATTRIBUTE>)  [LOOKAHEAD(2) <O_COMMA> getListOfAttributes()]
+}
+
+void getAggregateFunction():
+{
+}
+{
+	<Q_COUNT> | <Q_SUM>
+}
+
 
 /********************************/
 /********* DML queries **********/
