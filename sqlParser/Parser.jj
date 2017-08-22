@@ -134,11 +134,39 @@ QLQuery ProcessQLQuery():
 }
 {
 	queryType = <R_SELECT>
-	(qlQuery = countAllTable() | qlQuery = aggregateFuncWithGroupby())
+	(qlQuery = countAllTable() |LOOKAHEAD(3) qlQuery = aggregateFuncWithGroupby() | qlQuery = selectWithJoins())
     {
 	    qlQuery.setQueryType(queryType.kind);
     	return qlQuery;
     }
+}
+
+/* select with and withuot joins */
+QLQuery selectWithJoins():
+{
+    Token T;
+    QLQuery qlQuery = new QLQuery();
+}
+{
+	   (getListOfAttributes() | <O_ASTERISK>)
+	   <K_FROM> 
+	   (LOOKAHEAD(2)<S_IDENTIFIER><O_COMMA><S_IDENTIFIER> | LOOKAHEAD(2)<S_IDENTIFIER>)
+	   [whereWithJoin()]
+       <O_TERMINATOR>
+    
+       {return qlQuery;}
+}
+
+void whereWithJoin(): {} {
+	<R_WHERE> (LOOKAHEAD(4) singleJoinCondition() | LOOKAHEAD(3) nonJoinCondition() )
+}
+
+void singleJoinCondition(): {} {
+	<O_OPENPAREN><Q_ATTRIBUTE> ComparisonOperators() <Q_ATTRIBUTE><O_CLOSEPAREN> [<R_AND> nonJoinCondition()]
+}
+
+void nonJoinCondition(): {} {
+  <O_OPENPAREN>(<Q_ATTRIBUTE> ComparisonOperators() (<QUOTED_STRING> | <FLOAT> | <INTEGER>))<O_CLOSEPAREN> [((<R_AND> | <R_OR>) nonJoinCondition())]
 }
 
 /* COUNT TABLE */
@@ -148,7 +176,6 @@ QLQuery countAllTable():
     QLQuery qlQuery;
 }
 {
-		//SELECT table.attribute, {COUNT(*) | SUM(table.attribute)} FROM table GROUP BY table.attribute
 	   <Q_COUNT>
 	   <K_FROM> 
 	   T = <S_IDENTIFIER>
@@ -168,7 +195,7 @@ QLQuery aggregateFuncWithGroupby():
     QLQuery qlQuery;
 }
 {
-	   getListOfAttributes() <O_COMMA> getAggregateFunction() 
+	   <Q_ATTRIBUTE> <O_COMMA> getAggregateFunction() 
 	   <K_FROM> 
 	   T = <S_IDENTIFIER>
 	   <R_GROUP> <R_BY> <Q_ATTRIBUTE>
