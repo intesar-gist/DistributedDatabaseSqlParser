@@ -1,5 +1,6 @@
 -- QL Queries
 SELECT COUNT(*) FROM test_table;
+SELECT R.A, COUNT(*) FROM R GROUP BY R.A;
 SELECT test.abc, COUNT(*) FROM test_table GROUP BY test_table.col_name;
 SELECT test.abc, count(*) FROM test_table GROUP BY test_table.col_name;
 SELECT test_table.abc, SUM(test_table.sd) FROM test_table GROUP BY test_table.col_name;
@@ -8,13 +9,17 @@ SELECT PERS.ANR, COUNT(*) FROM PERS GROUP BY PERS.ANR;
 SELECT PERS.ANR, SUM(test_table.SALARY) FROM PERS GROUP BY PERS.ANR;
 
 SELECT * FROM test_table;
-SELECT * FROM test_table1,test_table2;
 SELECT test.abc, asd.as, sdd.sdf FROM test_table;
+SELECT * FROM test_table WHERE (test_table.PNR = test_table.PPR);
+SELECT * FROM R	WHERE (R.A = 10) AND (R.D = 'Kunz');
+SELECT * FROM S	WHERE  (S.D = 'Kunz') OR (S.E = 100);
+SELECT * FROM test_table1,test_table2;
+SELECT * FROM R, S WHERE (R.A >= S.C);
 SELECT * FROM test_table WHERE (test_table.PNR = test_table.PNR) AND (test_table.ORT != 'Mainz');
 SELECT * FROM test_table WHERE (test_table.ORT != 'Mainz') AND (asd.asd >= 10) or (asd.asd <= 10);
 SELECT test.abc, asd.as, sdd.sdf FROM test_table,daas where (asd.asd = sdf.sdf);
 SELECT test.abc, asd.as, sdd.sdf FROM test_table,daas where (asd.asd = sdf.sdf) AND (asd.asd >= 10) or (asd.asd <= 10);
-SELECT PERS.PNR, PERS.PNAME, ABT.ANAME FROM PERS, ABT WHERE (PERS.PNR = ABT.PNR) AND (ABT.ORT != 'Mainz');
+SELECT PERS.PNR, PERS.PNAME, ABT.ANAME FROM PERS, ABT WHERE (PERS.PNR = ABT.PNR) AND (ABT.ORT != 'Mainz') AND (ABT.DFG = 34);
 SELECT * FROM PERS, ABT WHERE (PERS.PNR = ABT.PNR) AND (PERS.NAME = 'Meier');
 
 -- DML Queries
