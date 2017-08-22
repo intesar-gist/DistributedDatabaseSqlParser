@@ -1,4 +1,7 @@
-/* DDB grammar.jj*/
+/* Auther: Intesar Haider */
+/* DDB parser.jj*/
+/* Generating all the parser code */
+
 options
 {
     STATIC = false ;
@@ -88,7 +91,7 @@ TOKEN [IGNORE_CASE]: {
     | <R_COUNT: "COUNT">
 }
 
-/* QUERY SPECIFIC TOKENS */
+/* query specific tokens */
 TOKEN [IGNORE_CASE]: {
       <Q_ATTRIBUTE: (<S_IDENTIFIER><O_DOT><S_IDENTIFIER>)>
     | <Q_COUNT: (<R_COUNT><O_OPENPAREN><O_ASTERISK><O_CLOSEPAREN>)>
@@ -410,7 +413,12 @@ HashMap ColumnsAndConstraints():
    HashMap<String,String> var = new HashMap<String, String>();
 }
 {
-  (var = Columns())+ 
+  (
+  		var = Columns()
+  )+ 
+  (
+    	Constraints()
+  )*
   {return var;}
 }
 
@@ -424,7 +432,6 @@ HashMap Columns():
     TName = <S_IDENTIFIER> //name of the column
     TType = ColType()
     <O_COMMA>
-    (Constraints())*
     {var.put(TName.image,TType.image);}
 
   {return var;}
