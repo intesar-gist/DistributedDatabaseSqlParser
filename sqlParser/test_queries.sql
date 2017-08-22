@@ -6,6 +6,9 @@ SELECT test.abc, asd.as, sdd.sdf, count(*) FROM test_table GROUP BY test_table.c
 SELECT test_table.abc, SUM(test_table.sd) FROM test_table GROUP BY test_table.col_name;
 SELECT test_table.abc, test_table.as, test_table.sdf, SUM(test_table.sd) FROM test_table GROUP BY test_table.col_name;
 SELECT test_table.abc, test_table.as, test_table.sdf, sum(test_table.sd) FROM test_table GROUP BY test_table.col_name;
+SELECT PERS.ANR, COUNT(*) FROM PERS GROUP BY PERS.ANR;
+SELECT PERS.ANR, SUM(test_table.SALARY) FROM PERS GROUP BY PERS.ANR;
+
 
 -- DML Queries
 UPDATE PERS SET BONUS = 50, BONUS_1 = 100 WHERE PNR = 23 and PNR = 'sfsd' OR PNR > 23.5;
