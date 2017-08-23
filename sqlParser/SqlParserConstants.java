@@ -117,33 +117,41 @@ public interface SqlParserConstants {
   /** RegularExpression Id. */
   int R_PRIMARY = 58;
   /** RegularExpression Id. */
-  int R_INTEGER = 59;
+  int R_FOREIGN = 59;
   /** RegularExpression Id. */
-  int R_VARCHAR = 60;
+  int R_INTEGER = 60;
   /** RegularExpression Id. */
-  int R_HORIZONTAL = 61;
+  int R_VARCHAR = 61;
   /** RegularExpression Id. */
-  int R_SET = 62;
+  int R_HORIZONTAL = 62;
   /** RegularExpression Id. */
-  int R_SUM = 63;
+  int R_SET = 63;
   /** RegularExpression Id. */
-  int R_COUNT = 64;
+  int R_SUM = 64;
   /** RegularExpression Id. */
-  int Q_ATTRIBUTE = 65;
+  int R_COUNT = 65;
   /** RegularExpression Id. */
-  int Q_COUNT = 66;
+  int R_CHECK = 66;
   /** RegularExpression Id. */
-  int Q_SUM = 67;
+  int R_BETWEEN = 67;
   /** RegularExpression Id. */
-  int S_IDENTIFIER = 68;
+  int R_REFERENCES = 68;
   /** RegularExpression Id. */
-  int LETTER = 69;
+  int Q_ATTRIBUTE = 69;
   /** RegularExpression Id. */
-  int SPECIAL_CHARS = 70;
+  int Q_COUNT = 70;
   /** RegularExpression Id. */
-  int QUOTED_STRING = 71;
+  int Q_SUM = 71;
   /** RegularExpression Id. */
-  int EMPTY_STRING = 72;
+  int S_IDENTIFIER = 72;
+  /** RegularExpression Id. */
+  int LETTER = 73;
+  /** RegularExpression Id. */
+  int SPECIAL_CHARS = 74;
+  /** RegularExpression Id. */
+  int QUOTED_STRING = 75;
+  /** RegularExpression Id. */
+  int EMPTY_STRING = 76;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -209,12 +217,16 @@ public interface SqlParserConstants {
     "\"INSERT INTO\"",
     "\"DELETE FROM\"",
     "\"PRIMARY KEY\"",
+    "\"FOREIGN KEY\"",
     "\"INTEGER\"",
     "\"VARCHAR\"",
     "\"HORIZONTAL\"",
     "\"SET\"",
     "\"SUM\"",
     "\"COUNT\"",
+    "\"CHECK\"",
+    "\"BETWEEN\"",
+    "\"REFERENCES\"",
     "<Q_ATTRIBUTE>",
     "<Q_COUNT>",
     "<Q_SUM>",

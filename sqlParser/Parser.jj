@@ -82,13 +82,17 @@ TOKEN [IGNORE_CASE]: {
     | <R_DROP :("DROP TABLE")>
     | <R_INSERT :("INSERT INTO")>
     | <R_DELETE :("DELETE FROM")>
-    | <R_PRIMARY: "PRIMARY KEY">
+    | <R_PRIMARY: ("PRIMARY KEY")>
+    | <R_FOREIGN: ("FOREIGN KEY")>
     | <R_INTEGER: "INTEGER">
     | <R_VARCHAR: "VARCHAR">
     | <R_HORIZONTAL: "HORIZONTAL">
     | <R_SET: "SET">
     | <R_SUM: "SUM">
     | <R_COUNT: "COUNT">
+    | <R_CHECK: "CHECK">
+    | <R_BETWEEN: "BETWEEN">
+    | <R_REFERENCES: "REFERENCES">
 }
 
 /* query specific tokens */
@@ -447,28 +451,40 @@ Token ColType():
     {return TDType;}
 }
 
-HashMap Constraints():
-{
-   Token TName;
-   Token TType;
-   HashMap<String,String> var = new HashMap<String, String>();
-}
-{
-    TName = <R_CONSTRAINT>
-    TType = ConstraintType()
+void Constraints(): {} {
+    <R_CONSTRAINT>
+    ConstraintType()
     [LOOKAHEAD(2) <O_COMMA> Constraints()]
-    {var.put(TName.image,TType.image);}
 
-  {return var;}
 }
 
-Token ConstraintType():
-{
-   Token TDType;
+void ConstraintType(): {} {
+  <S_IDENTIFIER> (CustomCheckConstraitns() | PrimaryOrUnique() | ForeignKey())
 }
-{
-  <S_IDENTIFIER>
-    (TDType = <R_PRIMARY> | TDType = <R_UNIQUE>)
+
+void ForeignKey(): {} {
+    <R_FOREIGN> (<O_OPENPAREN><S_IDENTIFIER><O_CLOSEPAREN>) 
+    <R_REFERENCES> <S_IDENTIFIER>(<O_OPENPAREN><S_IDENTIFIER><O_CLOSEPAREN>)
+    
+}
+
+void PrimaryOrUnique(): {} {
+    (<R_PRIMARY> | <R_UNIQUE>)
     (<O_OPENPAREN><S_IDENTIFIER><O_CLOSEPAREN>)
-    {return TDType;}
+}
+
+void CustomCheckConstraitns(): {} {
+	<R_CHECK> 
+	<O_OPENPAREN>
+		( 
+			   LOOKAHEAD(2) (<S_IDENTIFIER> (<R_IS> <R_NOT> <R_NULL>))
+			| LOOKAHEAD(2) (<S_IDENTIFIER> ComparisonOperators() (<S_IDENTIFIER> | <QUOTED_STRING> | <FLOAT> | <INTEGER>)) 
+			| LOOKAHEAD(2) (<S_IDENTIFIER> <R_BETWEEN> <INTEGER> <R_AND> <INTEGER>)
+			| LOOKAHEAD(2) (<S_IDENTIFIER> <R_IN> <O_OPENPAREN> SingleQuoteStrings() <O_CLOSEPAREN>)
+		)
+	<O_CLOSEPAREN>
+}
+
+void SingleQuoteStrings(): {} {
+	<QUOTED_STRING> [<O_COMMA> SingleQuoteStrings()]
 }
