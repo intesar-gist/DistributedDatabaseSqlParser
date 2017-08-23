@@ -105,53 +105,57 @@ public interface SqlParserConstants {
   /** RegularExpression Id. */
   int R_WHERE = 52;
   /** RegularExpression Id. */
-  int R_CONSTRAINT = 53;
+  int R_CONSTRAINTS = 53;
   /** RegularExpression Id. */
-  int R_CREATE = 54;
+  int R_CONSTRAINT = 54;
   /** RegularExpression Id. */
-  int R_DROP = 55;
+  int R_CREATE = 55;
   /** RegularExpression Id. */
-  int R_INSERT = 56;
+  int R_DROP = 56;
   /** RegularExpression Id. */
-  int R_DELETE = 57;
+  int R_INSERT = 57;
   /** RegularExpression Id. */
-  int R_PRIMARY = 58;
+  int R_DELETE = 58;
   /** RegularExpression Id. */
-  int R_FOREIGN = 59;
+  int R_PRIMARY = 59;
   /** RegularExpression Id. */
-  int R_INTEGER = 60;
+  int R_FOREIGN = 60;
   /** RegularExpression Id. */
-  int R_VARCHAR = 61;
+  int R_INTEGER = 61;
   /** RegularExpression Id. */
-  int R_HORIZONTAL = 62;
+  int R_VARCHAR = 62;
   /** RegularExpression Id. */
-  int R_SET = 63;
+  int R_HORIZONTAL = 63;
   /** RegularExpression Id. */
-  int R_SUM = 64;
+  int R_SET = 64;
   /** RegularExpression Id. */
-  int R_COUNT = 65;
+  int R_SUM = 65;
   /** RegularExpression Id. */
-  int R_CHECK = 66;
+  int R_COUNT = 66;
   /** RegularExpression Id. */
-  int R_BETWEEN = 67;
+  int R_CHECK = 67;
   /** RegularExpression Id. */
-  int R_REFERENCES = 68;
+  int R_BETWEEN = 68;
   /** RegularExpression Id. */
-  int Q_ATTRIBUTE = 69;
+  int R_REFERENCES = 69;
   /** RegularExpression Id. */
-  int Q_COUNT = 70;
+  int R_CASCADE = 70;
   /** RegularExpression Id. */
-  int Q_SUM = 71;
+  int Q_ATTRIBUTE = 71;
   /** RegularExpression Id. */
-  int S_IDENTIFIER = 72;
+  int Q_COUNT = 72;
   /** RegularExpression Id. */
-  int LETTER = 73;
+  int Q_SUM = 73;
   /** RegularExpression Id. */
-  int SPECIAL_CHARS = 74;
+  int S_IDENTIFIER = 74;
   /** RegularExpression Id. */
-  int QUOTED_STRING = 75;
+  int LETTER = 75;
   /** RegularExpression Id. */
-  int EMPTY_STRING = 76;
+  int SPECIAL_CHARS = 76;
+  /** RegularExpression Id. */
+  int QUOTED_STRING = 77;
+  /** RegularExpression Id. */
+  int EMPTY_STRING = 78;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -211,6 +215,7 @@ public interface SqlParserConstants {
     "\"UPDATE\"",
     "\"VALUES\"",
     "\"WHERE\"",
+    "\"CONSTRAINTS\"",
     "\"CONSTRAINT\"",
     "\"CREATE TABLE\"",
     "\"DROP TABLE\"",
@@ -227,6 +232,7 @@ public interface SqlParserConstants {
     "\"CHECK\"",
     "\"BETWEEN\"",
     "\"REFERENCES\"",
+    "\"CASCADE\"",
     "<Q_ATTRIBUTE>",
     "<Q_COUNT>",
     "<Q_SUM>",

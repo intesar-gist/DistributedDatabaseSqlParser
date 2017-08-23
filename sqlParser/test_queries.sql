@@ -23,13 +23,39 @@ SELECT PERS.PNR, PERS.PNAME, ABT.ANAME FROM PERS, ABT WHERE (PERS.PNR = ABT.PNR)
 SELECT * FROM PERS, ABT WHERE (PERS.PNR = ABT.PNR) AND (PERS.NAME = 'Meier');
 
 -- DML Queries
-UPDATE PERS SET BONUS = 50, BONUS_1 = 100 WHERE PNR = 23 and PNR = 'sfsd' OR PNR > 23.5;
 DELETE FROM PERSON WHERE PERSON_ID = 18 OR PERSON_NAME = 'INTESAR' AND AGE >= 90;
 DELETE FROM PERSON;
 INSERT INTO test_Table VALUES ('', 5.55,5.234234 ,'sdf',5.59898, 'sdf', .565, 65.6, null);
 
+INSERT INTO FLUGLINIE VALUES ('AB', 'D  ', null, 'Air Berlin', null);                                   
+INSERT INTO FLUGLINIE VALUES ('AC', 'CDN', null, 'Air Canada', 'Star');                               
+INSERT INTO FLUGLINIE VALUES ('AF', 'F  ', null, 'Air France', 'SkyTeam');                            
+INSERT INTO FLUGLINIE VALUES ('BA', 'GB ', null, 'British Airways', 'OneWorld');                      
+INSERT INTO FLUGLINIE VALUES ('DB', 'D  ', null, 'Database Airlines', null);                            
+INSERT INTO FLUGLINIE VALUES ('DI', 'D  ', null, 'Deutsche BA', null);                                  
+INSERT INTO FLUGLINIE VALUES ('DL', 'USA', null, 'Delta Airlines', 'SkyTeam');                        
+INSERT INTO FLUGLINIE VALUES ('JL', 'J  ', null, 'Japan Airlines', 'OneWorld');                       
+INSERT INTO FLUGLINIE VALUES ('LH', 'D  ', null, 'Lufthansa', 'Star');                                
+INSERT INTO FLUGLINIE VALUES ('NH', 'J  ', null, 'All Nippon Airways', 'Star');                       
+INSERT INTO FLUGLINIE VALUES ('UA', 'USA', null, 'United Airlines', 'Star');                         
+
+update FLUGLINIE set ALLIANZ = 'SkyTeam' where FLC = 'DL';
+update FLUGLINIE set ALLIANZ = 'SkyTeam' where FLC = 'AF';
+update FLUGLINIE set ALLIANZ = 'OneWorld' where FLC = 'JL';
+update FLUGLINIE set ALLIANZ = 'OneWorld' where FLC = 'BA';
+UPDATE PERS SET BONUS = 50, BONUS_1 = 100 WHERE PNR = 23 and PNR = 'sfsd' OR PNR > 23.5;
+update FLUGLINIE set HUB = NULL;
+
 -- DDL Queries
-DROP TABLE TEST_123;
+drop table BUCHUNG;
+
+drop table PASSAGIER cascade constraints;
+
+drop table FLUG cascade constraints;
+
+drop table FLUGLINIE cascade constraints;
+
+drop table FLUGHAFEN cascade constraints;
 
 CREATE TABLE STUDENT_TEST1
 (

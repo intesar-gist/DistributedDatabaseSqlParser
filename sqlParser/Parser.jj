@@ -77,6 +77,7 @@ TOKEN [IGNORE_CASE]: {
     | <R_UPDATE: "UPDATE">
     | <R_VALUES: "VALUES">
     | <R_WHERE: "WHERE">
+    | <R_CONSTRAINTS: "CONSTRAINTS">
     | <R_CONSTRAINT: "CONSTRAINT">
     | <R_CREATE :("CREATE TABLE")>
     | <R_DROP :("DROP TABLE")>
@@ -93,6 +94,7 @@ TOKEN [IGNORE_CASE]: {
     | <R_CHECK: "CHECK">
     | <R_BETWEEN: "BETWEEN">
     | <R_REFERENCES: "REFERENCES">
+    | <R_CASCADE: "CASCADE">
 }
 
 /* query specific tokens */
@@ -365,6 +367,7 @@ DDLQuery drop():
 	      ddlQuery.setTableName(T.image);
 	      ddlQuery.setQueryType(queryType.kind);
 	   }
+	   [(<R_CASCADE> <R_CONSTRAINTS>)]
        <O_TERMINATOR>
     
        {return ddlQuery;}
