@@ -5,12 +5,12 @@
    import java.util.HashMap;
    import sqlParser.utilities.*;
    class SqlParser implements SqlParserConstants {
-         ArrayList<QueryType> initParser() throws ParseException, TokenMgrError
+         Boolean initParser() throws ParseException, TokenMgrError
    { return(init()) ; }
 
 //Grammer Production Rules
   final public 
-ArrayList<QueryType> init() throws ParseException {ArrayList<QueryType> queries = new ArrayList<QueryType>();
+Boolean init() throws ParseException {ArrayList<QueryType> queries = new ArrayList<QueryType>();
     QueryType queryType;
     label_1:
     while (true) {
@@ -52,7 +52,7 @@ ArrayList<QueryType> init() throws ParseException {ArrayList<QueryType> queries 
 queries.add(queryType);
     }
     jj_consume_token(0);
-{if ("" != null) return queries;}
+{if ("" != null) return true;}
     throw new Error("Missing return statement in function");
   }
 
@@ -634,17 +634,6 @@ ddlQuery.setAttributes(attributes);
         break label_3;
       }
     }
-{if ("" != null) return var;}
-    throw new Error("Missing return statement in function");
-  }
-
-  final public HashMap Columns() throws ParseException {Token TName;
-   Token TType;
-   HashMap<String,String> var = new HashMap<String, String>();
-    TName = jj_consume_token(S_IDENTIFIER);
-    //name of the column
-        TType = ColType();
-    jj_consume_token(O_COMMA);
     label_4:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -658,6 +647,17 @@ ddlQuery.setAttributes(attributes);
       }
       Constraints();
     }
+{if ("" != null) return var;}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public HashMap Columns() throws ParseException {Token TName;
+   Token TType;
+   HashMap<String,String> var = new HashMap<String, String>();
+    TName = jj_consume_token(S_IDENTIFIER);
+    //name of the column
+        TType = ColType();
+    jj_consume_token(O_COMMA);
 var.put(TName.image,TType.image);
 {if ("" != null) return var;}
     throw new Error("Missing return statement in function");
@@ -775,12 +775,6 @@ var.put(TName.image,TType.image);
     finally { jj_save(5, xla); }
   }
 
-  private boolean jj_3_4()
- {
-    if (jj_3R_6()) return true;
-    return false;
-  }
-
   private boolean jj_3R_8()
  {
     if (jj_scan_token(Q_ATTRIBUTE)) return true;
@@ -878,6 +872,12 @@ var.put(TName.image,TType.image);
     jj_scanpos = xsp;
     if (jj_scan_token(67)) return true;
     }
+    return false;
+  }
+
+  private boolean jj_3_4()
+ {
+    if (jj_3R_6()) return true;
     return false;
   }
 

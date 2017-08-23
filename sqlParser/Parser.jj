@@ -12,7 +12,7 @@ PARSER_BEGIN (SqlParser)
    import java.util.HashMap;
    import sqlParser.utilities.*;
    class SqlParser {
-         ArrayList<QueryType> initParser() throws ParseException, TokenMgrError
+         Boolean initParser() throws ParseException, TokenMgrError
    { return(init()) ; }
    }
 PARSER_END (SqlParser)
@@ -109,7 +109,7 @@ TOKEN: {
 
 //Grammer Production Rules
 
-ArrayList<QueryType> init():
+Boolean init():
 {
     ArrayList<QueryType> queries = new ArrayList<QueryType>();
     QueryType queryType;
@@ -124,7 +124,7 @@ ArrayList<QueryType> init():
     
     <EOF>
 
-    {return queries;}
+    {return true;}
 }
 
 /********************************/

@@ -12,22 +12,15 @@ public class ParseDemoTest {
 	    try{
 			SqlParser parser = new SqlParser(new FileReader("sqlParser/test_queries.sql"));
 
-			ArrayList<QueryType> tableList = parser.initParser();
+			Boolean parseSuccess = parser.initParser();
 
-			for(QueryType query : tableList) {
-				if(query instanceof DDLQuery) {
-					DDLQuery ddlQuery = (DDLQuery)query;
-					System.out.println("--------------------------");
-					System.out.println("Query Type :"+ddlQuery.getQueryType());
-					System.out.println("Table Name :"+ddlQuery.getTableName());
-					System.out.println("Field names :"+ddlQuery.getAttributes().keySet());
-					System.out.println("Data Types :"+ddlQuery.getAttributes().values());
-					System.out.println("--------------------------");
-				}
+			if(parseSuccess) {
+				System.out.println("Status: All queries have successfully satisfied the grammar!\n");
 			}
 
 
 		} catch (Exception ex) {
+			System.out.println("Status: Query failed to satisfy the grammar!\n");
 			ex.printStackTrace() ;
 		}
 	}
