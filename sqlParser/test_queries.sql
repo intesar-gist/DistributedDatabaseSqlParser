@@ -35,7 +35,7 @@ CREATE TABLE STUDENT_TEST1
 (
     StudentName VARCHAR (20),
     Class VARCHAR(10),
-    Rnum INTEGER(55),
+    Rnum INTEGER(55)
 );
 
 CREATE TABLE STUDENT_TEST2
@@ -44,7 +44,7 @@ CREATE TABLE STUDENT_TEST2
     Class VARCHAR(10),
     Rnum INTEGER(55),
     CONSTRAINT esfsd1 UNIQUE (StudentName),
-    CONSTRAINT esfsd1 PRIMARY KEY (Rnum),
+    CONSTRAINT esfsd1 PRIMARY KEY (Rnum)
 ) HORIZONTAL (Rnum(2,5646));
 
 create table FLUGHAFEN (
@@ -52,7 +52,7 @@ FHC		varchar(3),
 LAND		varchar(3),
 STADT		varchar(50) ,
 NAME		varchar(50) ,
-constraint FLUGHAFEN_PS primary key (FHC),
+constraint FLUGHAFEN_PS primary key (FHC)
 );
 
 create table FLUG (
@@ -64,7 +64,7 @@ NACH		varchar(3),
 AB		integer(77),
 AN		integer,
 constraint FLUG_PS
-		primary key (FNR),
+		primary key (FNR)
 )
 HORIZONTAL (AB(0800,1200));
 

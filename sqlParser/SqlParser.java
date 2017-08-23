@@ -637,7 +637,7 @@ ddlQuery.setAttributes(attributes);
     label_4:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case R_CONSTRAINT:{
+      case O_COMMA:{
         ;
         break;
         }
@@ -645,6 +645,7 @@ ddlQuery.setAttributes(attributes);
         jj_la1[27] = jj_gen;
         break label_4;
       }
+      jj_consume_token(O_COMMA);
       Constraints();
     }
 {if ("" != null) return var;}
@@ -657,7 +658,12 @@ ddlQuery.setAttributes(attributes);
     TName = jj_consume_token(S_IDENTIFIER);
     //name of the column
         TType = ColType();
-    jj_consume_token(O_COMMA);
+    if (jj_2_7(2)) {
+      jj_consume_token(O_COMMA);
+      Columns();
+    } else {
+      ;
+    }
 var.put(TName.image,TType.image);
 {if ("" != null) return var;}
     throw new Error("Missing return statement in function");
@@ -698,7 +704,12 @@ var.put(TName.image,TType.image);
    HashMap<String,String> var = new HashMap<String, String>();
     TName = jj_consume_token(R_CONSTRAINT);
     TType = ConstraintType();
-    jj_consume_token(O_COMMA);
+    if (jj_2_8(2)) {
+      jj_consume_token(O_COMMA);
+      Constraints();
+    } else {
+      ;
+    }
 var.put(TName.image,TType.image);
 {if ("" != null) return var;}
     throw new Error("Missing return statement in function");
@@ -775,8 +786,33 @@ var.put(TName.image,TType.image);
     finally { jj_save(5, xla); }
   }
 
+  private boolean jj_2_7(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_7(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(6, xla); }
+  }
+
+  private boolean jj_2_8(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_8(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(7, xla); }
+  }
+
   private boolean jj_3R_8()
  {
+    if (jj_scan_token(Q_ATTRIBUTE)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_6()
+ {
+    if (jj_scan_token(O_OPENPAREN)) return true;
+    if (jj_scan_token(Q_ATTRIBUTE)) return true;
+    if (jj_3R_12()) return true;
     if (jj_scan_token(Q_ATTRIBUTE)) return true;
     return false;
   }
@@ -787,15 +823,6 @@ var.put(TName.image,TType.image);
     return false;
   }
 
-  private boolean jj_3R_6()
- {
-    if (jj_scan_token(O_OPENPAREN)) return true;
-    if (jj_scan_token(Q_ATTRIBUTE)) return true;
-    if (jj_3R_10()) return true;
-    if (jj_scan_token(Q_ATTRIBUTE)) return true;
-    return false;
-  }
-
   private boolean jj_3_6()
  {
     if (jj_scan_token(O_COMMA)) return true;
@@ -803,7 +830,7 @@ var.put(TName.image,TType.image);
     return false;
   }
 
-  private boolean jj_3R_10()
+  private boolean jj_3R_12()
  {
     Token xsp;
     xsp = jj_scanpos;
@@ -833,7 +860,7 @@ var.put(TName.image,TType.image);
  {
     if (jj_scan_token(O_OPENPAREN)) return true;
     if (jj_scan_token(Q_ATTRIBUTE)) return true;
-    if (jj_3R_10()) return true;
+    if (jj_3R_12()) return true;
     return false;
   }
 
@@ -860,11 +887,18 @@ var.put(TName.image,TType.image);
  {
     if (jj_scan_token(Q_ATTRIBUTE)) return true;
     if (jj_scan_token(O_COMMA)) return true;
-    if (jj_3R_9()) return true;
+    if (jj_3R_11()) return true;
     return false;
   }
 
-  private boolean jj_3R_9()
+  private boolean jj_3_8()
+ {
+    if (jj_scan_token(O_COMMA)) return true;
+    if (jj_3R_10()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_11()
  {
     Token xsp;
     xsp = jj_scanpos;
@@ -872,6 +906,25 @@ var.put(TName.image,TType.image);
     jj_scanpos = xsp;
     if (jj_scan_token(67)) return true;
     }
+    return false;
+  }
+
+  private boolean jj_3_7()
+ {
+    if (jj_scan_token(O_COMMA)) return true;
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_10()
+ {
+    if (jj_scan_token(R_CONSTRAINT)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_9()
+ {
+    if (jj_scan_token(S_IDENTIFIER)) return true;
     return false;
   }
 
@@ -902,15 +955,15 @@ var.put(TName.image,TType.image);
       jj_la1_init_2();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x0,0x0,0x0,0x100,0x100,0x0,0x0,0x1800000,0x0,0x0,0x0,0x0,0x0,0x1800000,0x800,0x1800000,0x800,0x0,0x1800000,0x0,0x0,0x6f8000,0x0,0x0,0x1000000,0x800,0x0,0x0,0x0,0x400,0x0,};
+      jj_la1_0 = new int[] {0x0,0x0,0x0,0x100,0x100,0x0,0x0,0x1800000,0x0,0x0,0x0,0x0,0x0,0x1800000,0x800,0x1800000,0x800,0x0,0x1800000,0x0,0x0,0x6f8000,0x0,0x0,0x1000000,0x800,0x0,0x800,0x0,0x400,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x3c50000,0x3c50000,0x0,0x0,0x0,0x100000,0x2,0x0,0x4002,0x4002,0x0,0x3040000,0x100000,0x2000,0x0,0x2000,0x0,0x100000,0x0,0x4002,0x4002,0x0,0xc00000,0x20000000,0x0,0x0,0x0,0x200000,0x18000000,0x0,0x4020000,};
+      jj_la1_1 = new int[] {0x3c50000,0x3c50000,0x0,0x0,0x0,0x100000,0x2,0x0,0x4002,0x4002,0x0,0x3040000,0x100000,0x2000,0x0,0x2000,0x0,0x100000,0x0,0x4002,0x4002,0x0,0xc00000,0x20000000,0x0,0x0,0x0,0x0,0x18000000,0x0,0x4020000,};
    }
    private static void jj_la1_init_2() {
       jj_la1_2 = new int[] {0x0,0x0,0x4,0x2,0x2,0x0,0x0,0x80,0x0,0x0,0xc,0x0,0x0,0x80,0x0,0x80,0x0,0x0,0x80,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x10,0x0,0x0,0x0,0x0,};
    }
-  final private JJCalls[] jj_2_rtns = new JJCalls[6];
+  final private JJCalls[] jj_2_rtns = new JJCalls[8];
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
@@ -1142,7 +1195,7 @@ var.put(TName.image,TType.image);
 
   private void jj_rescan_token() {
     jj_rescan = true;
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 8; i++) {
     try {
       JJCalls p = jj_2_rtns[i];
       do {
@@ -1155,6 +1208,8 @@ var.put(TName.image,TType.image);
             case 3: jj_3_4(); break;
             case 4: jj_3_5(); break;
             case 5: jj_3_6(); break;
+            case 6: jj_3_7(); break;
+            case 7: jj_3_8(); break;
           }
         }
         p = p.next;

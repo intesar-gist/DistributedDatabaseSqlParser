@@ -417,7 +417,7 @@ HashMap ColumnsAndConstraints():
   		var = Columns()
   )+ 
   (
-    	Constraints()
+    	<O_COMMA> Constraints()
   )*
   {return var;}
 }
@@ -431,7 +431,7 @@ HashMap Columns():
 {
     TName = <S_IDENTIFIER> //name of the column
     TType = ColType()
-    <O_COMMA>
+    [LOOKAHEAD(2) <O_COMMA> Columns()]
     {var.put(TName.image,TType.image);}
 
   {return var;}
@@ -456,7 +456,7 @@ HashMap Constraints():
 {
     TName = <R_CONSTRAINT>
     TType = ConstraintType()
-    <O_COMMA>
+    [LOOKAHEAD(2) <O_COMMA> Constraints()]
     {var.put(TName.image,TType.image);}
 
   {return var;}
