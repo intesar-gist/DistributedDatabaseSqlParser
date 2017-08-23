@@ -207,6 +207,7 @@ QLQuery aggregateFuncWithGroupby():
 	   <Q_ATTRIBUTE> <O_COMMA> getAggregateFunction() 
 	   <K_FROM> 
 	   T = <S_IDENTIFIER>
+     [whereWithJoin()]
 	   <R_GROUP> <R_BY> <Q_ATTRIBUTE>
 	   {    
 	      qlQuery = new QLQuery();

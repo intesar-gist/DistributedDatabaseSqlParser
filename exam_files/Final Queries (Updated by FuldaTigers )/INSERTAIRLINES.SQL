@@ -1,8 +1,8 @@
-set echo on;
+-- set echo on;
 
-alter session set nls_language = english;
-alter session set nls_date_format = 'DD-MON-YYYY';
-alter session set nls_date_language = english;
+-- alter session set nls_language = english;
+-- alter session set nls_date_format = 'DD-MON-YYYY';
+-- alter session set nls_date_language = english;
 
 
 INSERT INTO FLUGLINIE VALUES ('AB', 'D  ', null, 'Air Berlin', null);                                   
@@ -24,5 +24,5 @@ update FLUGLINIE set ALLIANZ = 'OneWorld' where FLC = 'BA';
 
 update FLUGLINIE set HUB = NULL;
 
-commit;
+-- commit;
   

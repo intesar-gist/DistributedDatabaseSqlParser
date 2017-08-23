@@ -1,8 +1,8 @@
-set echo on;
+-- set echo on;
 
-alter session set nls_language = english;
-alter session set nls_date_format = 'DD-MON-YYYY';
-alter session set nls_date_language = english;
+-- alter session set nls_language = english;
+-- alter session set nls_date_format = 'DD-MON-YYYY';
+-- alter session set nls_date_language = english;
 
 
 INSERT INTO FLUG VALUES (91, 'AC', 10, 'YYZ', 'FRA', 1815, 740);                                    
@@ -114,5 +114,5 @@ INSERT INTO FLUG VALUES (83, 'LH', 55, 'CDG', 'FRA', 2000, 2120);
 INSERT INTO FLUG VALUES (65, 'LH', 60, 'FRA', 'BHX', 1005, 1130);                                   
 
 
-commit;
+-- commit;
   

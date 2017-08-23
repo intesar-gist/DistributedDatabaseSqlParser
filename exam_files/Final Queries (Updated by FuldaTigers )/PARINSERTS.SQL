@@ -1,8 +1,8 @@
-set echo on;
+-- set echo on;
 
-alter session set nls_language = english;
-alter session set nls_date_format = 'DD-MON-YYYY';
-alter session set nls_date_language = english;
+-- alter session set nls_language = english;
+-- alter session set nls_date_format = 'DD-MON-YYYY';
+-- alter session set nls_date_language = english;
 
 -- ======================================================================= 
 --                  BOOKINGS
@@ -86,5 +86,5 @@ INSERT INTO FLUG VALUES (314, 'ZZ', 54, 'FRA', 'FRA', 0900, 1000);
 INSERT INTO FLUG VALUES (315, 'ZZ', 54, 'FRA', 'FRA', 1700, 1800);
                                    
 
-rollback;
+-- rollback;
   

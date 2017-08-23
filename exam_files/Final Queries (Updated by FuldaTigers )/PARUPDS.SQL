@@ -1,8 +1,8 @@
-set echo on;
+-- set echo on;
 
-alter session set nls_language = english;
-alter session set nls_date_format = 'DD-MON-YYYY';
-alter session set nls_date_language = english;
+-- alter session set nls_language = english;
+-- alter session set nls_date_format = 'DD-MON-YYYY';
+-- alter session set nls_date_language = english;
 
 -- ======================================================================= 
 --                  BOOKINGS
@@ -32,5 +32,5 @@ SELECT COUNT(*) FROM FLUG;
 UPDATE FLUG SET AB = 1120 WHERE FNR = 3;
 SELECT COUNT(*) FROM FLUG;
 
-rollback;
+-- rollback;
   

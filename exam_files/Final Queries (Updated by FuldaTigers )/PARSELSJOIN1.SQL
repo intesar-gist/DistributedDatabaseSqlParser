@@ -1,14 +1,14 @@
-set echo on;
-
-alter session set nls_language = english;
-alter session set nls_date_format = 'DD-MON-YYYY';
-alter session set nls_date_language = english;
+-- set echo on;
+--
+-- alter session set nls_language = english;
+-- alter session set nls_date_format = 'DD-MON-YYYY';
+-- alter session set nls_date_language = english;
 
 
 /* SELECT WHOLE TABLES */
 SELECT PASSAGIER.PNR, PASSAGIER.NAME, BUCHUNG.VON, BUCHUNG.NACH
 FROM PASSAGIER, BUCHUNG
-WHERE PASSAGIER.PNR = BUCHUNG.BNR;
+WHERE (PASSAGIER.PNR = BUCHUNG.BNR);
 
 
 /* SELECT ONE CONJUNCTIVE RESTRICTION */
@@ -46,5 +46,5 @@ WHERE (BUCHUNG.PNR = PASSAGIER.PNR)
 AND (PASSAGIER.PNR < 8) AND (BUCHUNG.PREIS < 700);
 
 
-rollback;
+-- rollback;
   

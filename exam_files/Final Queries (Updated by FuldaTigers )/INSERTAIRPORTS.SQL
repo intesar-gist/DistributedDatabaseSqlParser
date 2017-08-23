@@ -1,8 +1,8 @@
-set echo on;
+-- set echo on;
 
-alter session set nls_language = english;
-alter session set nls_date_format = 'DD-MON-YYYY';
-alter session set nls_date_language = english;
+-- alter session set nls_language = english;
+-- alter session set nls_date_format = 'DD-MON-YYYY';
+-- alter session set nls_date_language = english;
 
 
 INSERT INTO FLUGHAFEN VALUES ('AKL', 'NZ ', 'Auckland', 'Auckland International');                  
@@ -65,7 +65,7 @@ INSERT INTO FLUGHAFEN VALUES ('NAP', 'I  ', 'Neapel', 'Capodichino');
 INSERT INTO FLUGHAFEN VALUES ('NCE', 'D  ', 'Nice', '');                                            
 INSERT INTO FLUGHAFEN VALUES ('NRT', 'J  ', 'Tokio', 'Narita');                                     
 INSERT INTO FLUGHAFEN VALUES ('NUE', 'D  ', 'Nuernberg', '');                                       
-INSERT INTO FLUGHAFEN VALUES ('ORD', 'USA', 'Chicago', 'O''Hare');                                   
+INSERT INTO FLUGHAFEN VALUES ('ORD', 'USA', 'Chicago', 'O Hare');                                   
 INSERT INTO FLUGHAFEN VALUES ('ORY', 'F  ', 'Paris', 'Orly');                                       
 INSERT INTO FLUGHAFEN VALUES ('OSL', 'N  ', 'Oslo', 'Oslo Gardermoen');                             
 INSERT INTO FLUGHAFEN VALUES ('PAD', 'D  ', 'Paderborn', '');                                       
@@ -99,5 +99,5 @@ INSERT INTO FLUGHAFEN VALUES ('ZRH', 'CH ', 'Zuerich', 'Kloten');
 
 
 
-commit;
+-- commit;
   

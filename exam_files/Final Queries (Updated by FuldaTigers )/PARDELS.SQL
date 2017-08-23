@@ -1,8 +1,8 @@
-set echo on;
+-- set echo on;
 
-alter session set nls_language = english;
-alter session set nls_date_format = 'DD-MON-YYYY';
-alter session set nls_date_language = english;
+-- alter session set nls_language = english;
+-- alter session set nls_date_format = 'DD-MON-YYYY';
+-- alter session set nls_date_language = english;
 
 -- ======================================================================= 
 --                  BOOKINGS
@@ -31,5 +31,5 @@ SELECT COUNT(*) FROM BUCHUNG;
 DELETE FROM BUCHUNG;             
 SELECT COUNT(*) FROM BUCHUNG;
 
-rollback;
+-- rollback;
   

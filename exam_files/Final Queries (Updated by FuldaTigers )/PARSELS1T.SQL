@@ -1,8 +1,8 @@
-set echo on;
+-- set echo on;
 
-alter session set nls_language = english;
-alter session set nls_date_format = 'DD-MON-YYYY';
-alter session set nls_date_language = english;
+-- alter session set nls_language = english;
+-- alter session set nls_date_format = 'DD-MON-YYYY';
+-- alter session set nls_date_language = english;
 
 
 /* SELECT ONE TUPLE */
@@ -24,7 +24,7 @@ SELECT * FROM FLUGLINIE WHERE FLUGLINIE.LAND = 'CZ ';
 SELECT * FROM FLUGLINIE WHERE (FLUGLINIE.LAND = 'D  ') AND (FLUGLINIE.ALLIANZ = 'Star');
 
 /* SELECT NOTHING OR */
-SELECT * FROM FLUGLINIE WHERE (FLUGLINIE.LAND = 'X  ') OR ((FLUGLINIE.LAND = 'Y  '));
+SELECT * FROM FLUGLINIE WHERE (FLUGLINIE.LAND = 'X  ') OR (FLUGLINIE.LAND = 'Y  ');
 
-rollback;
+-- rollback;
   
