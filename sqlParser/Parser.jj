@@ -41,7 +41,7 @@ TOKEN: {
 /* numeric literals */
 TOKEN : {
      <FLOAT: <INTEGER> ( "." <INTEGER> ) | "." <INTEGER> >
-    | <INTEGER: ( <DIGIT> )+ >
+    | <INTEGER: ("-")? ( <DIGIT> )+ >
     | <#DIGIT: ["0" - "9"] >
 }
 
