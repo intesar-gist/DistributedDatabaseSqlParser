@@ -1,0 +1,39 @@
+<17:22:35> Read queries file
+<17:22:35> All queries have successfully satisfied the grammar
+<17:22:35> Start FDBS
+<17:22:35> Connect to database oralv8a with user VDBSA10
+<17:22:46> Received FJDBC: SELECT COUNT(*) FROM BUCHUNG
+<17:22:46> Received FJDBC: drop table simple
+<17:22:46> Received FJDBC: create table simple (a integer, b VARCHAR(10))
+<17:22:46> Received FJDBC: insert into simple values (1, 'uno')
+<17:22:46> Received FJDBC: insert into simple values (2, 'dos')
+<17:22:46> Received FJDBC: insert into simple values (3, 'tres')
+<17:22:46> Received FJDBC: SELECT COUNT(*) FROM simple
+<17:22:46> Received FJDBC: DELETE from simple where a=1
+<17:22:47> Received FJDBC: DELETE from simple where a=100
+<17:22:47> Received FJDBC: SELECT COUNT(*) FROM simple
+<17:22:47> Received FJDBC: SELECT * FROM simple where (simple.a=3)
+<17:22:47> Received FJDBC: DELETE from simple
+<17:22:47> Received FJDBC: insert into simple values (4, 'cuatro')
+<17:22:47> Received FJDBC: insert into simple values (5, 'cinco')
+<17:22:47> Received FJDBC: drop table simple_d
+<17:23:3> Received FJDBC: create table simple_d (col_a integer, col_b VARCHAR(10)) HORIZONTAL (col_a (3))
+<17:23:14> Received FJDBC: insert into simple_d values (1, 'uno')
+<17:23:25> Received FJDBC: insert into simple_d values (2, 'dos')
+<17:23:36> Received FJDBC: insert into simple_d values (3, 'tres')
+<17:23:46> Received FJDBC: insert into simple_d values (4, 'cuatro')
+<17:23:57> Received FJDBC: insert into simple_d values (5, 'cinco')
+<17:24:8> Received FJDBC: drop table simple_d2
+<17:24:24> Received FJDBC: create table simple_d2 (col_a integer, col_b VARCHAR(10)) HORIZONTAL (col_a(3,7))
+<17:24:41> Received FJDBC: insert into simple_d2 values (1, 'uno')
+<17:24:57> Received FJDBC: insert into simple_d2 values (2, 'dos')
+<17:25:13> Received FJDBC: insert into simple_d2 values (3, 'tres')
+<17:25:29> Received FJDBC: insert into simple_d2 values (4, 'cuatro')
+<17:25:45> Received FJDBC: insert into simple_d2 values (5, 'cinco')
+<17:26:2> Received FJDBC: insert into simple_d2 values (6, 'seis')
+<17:26:18> Received FJDBC: insert into simple_d2 values (7, 'siete')
+<17:26:34> Received FJDBC: insert into simple_d2 values (8, 'ocho')
+<17:26:50> Received FJDBC: insert into simple_d2 values (9, 'nueve')
+<17:27:6> Received FJDBC: SELECT * FROM simple_d
+<17:27:17> Received FJDBC: SELECT * FROM simple_d2
+<17:27:33> Received FJDBC: SELECT * FROM simple_d2 WHERE (simple_d2.col_a > 3)

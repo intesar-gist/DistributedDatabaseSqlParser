@@ -1,36 +1,51 @@
--- set echo on;
-
--- alter session set nls_language = english;
--- alter session set nls_date_format = 'DD-MON-YYYY';
--- alter session set nls_date_language = english;
-
--- ======================================================================= 
---                  BOOKINGS
--- ======================================================================= 
+-- Achtung! Add semicolon at the end of comments too;
 
 SELECT COUNT(*) FROM BUCHUNG;
 
-/* UPDATE ONE TUPLE */
-UPDATE BUCHUNG SET TAG = '01-JAN-2014' WHERE BNR = 80;             
-SELECT COUNT(*) FROM BUCHUNG;
+drop table simple;
+create table simple (a integer, b VARCHAR(10));
 
-/* UPDATE IN ONE PARTITION */
-UPDATE BUCHUNG SET TAG = '01-FEB-2015' WHERE VON = 'FRA';             
-SELECT COUNT(*) FROM BUCHUNG;
+insert into simple values (1, 'uno');
+insert into simple values (2, 'dos');
+insert into simple values (3, 'tres');
 
-/* UPDATE ALL */
-UPDATE BUCHUNG SET MEILEN = 1000;             
-SELECT COUNT(*) FROM BUCHUNG;
+SELECT COUNT(*) FROM simple;
 
-SELECT COUNT(*) FROM FLUG;
+DELETE from simple where a=1;
+DELETE from simple where a=100;
 
-/* UPDATE CHANGE OF PARTITION 1500 --> 0700 */
-UPDATE FLUG SET AB = 0700 WHERE FNR = 52;                                   
-SELECT COUNT(*) FROM FLUG;
+SELECT COUNT(*) FROM simple;
+SELECT * FROM simple where (simple.a=3);
 
-/* UPDATE CHANGE OF PARTITION 1310 --> 1120 */
-UPDATE FLUG SET AB = 1120 WHERE FNR = 3;
-SELECT COUNT(*) FROM FLUG;
+DELETE from simple;
 
--- rollback;
-  
+insert into simple values (4, 'cuatro');
+insert into simple values (5, 'cinco');
+
+
+-- DISTRIBUTED TESTS;
+
+drop table simple_d;
+create table simple_d (col_a integer, col_b VARCHAR(10)) HORIZONTAL (col_a (3));
+
+insert into simple_d values (1, 'uno');
+insert into simple_d values (2, 'dos');
+insert into simple_d values (3, 'tres');
+insert into simple_d values (4, 'cuatro');
+insert into simple_d values (5, 'cinco');
+
+
+drop table simple_d2;
+create table simple_d2 (col_a integer, col_b VARCHAR(10)) HORIZONTAL (col_a(3,7));
+
+insert into simple_d2 values (1, 'uno');
+insert into simple_d2 values (2, 'dos');
+insert into simple_d2 values (3, 'tres');
+insert into simple_d2 values (4, 'cuatro');
+insert into simple_d2 values (5, 'cinco');
+insert into simple_d2 values (6, 'seis');
+insert into simple_d2 values (7, 'siete');
+insert into simple_d2 values (8, 'ocho');
+insert into simple_d2 values (9, 'nueve');
+
+
