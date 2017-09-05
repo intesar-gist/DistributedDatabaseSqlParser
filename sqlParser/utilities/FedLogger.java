@@ -11,18 +11,19 @@ import java.util.Date;
 import static java.nio.file.StandardOpenOption.APPEND;
 import static java.nio.file.StandardOpenOption.CREATE;
 
-/** Class to log the processed statements in a file
- *  Created by: X_Team_Member
- * */
-public class FedLog {
-    public static void logLine (String line) throws IOException {
+/**
+ * Class to log the processed statements in a file
+ * Created by: X_Team_Member
+ */
+public class FedLogger {
+    public static void l(String line) throws IOException {
         Date date = new Date();
         int hh = date.getHours();
         int mm = date.getMinutes();
         int ss = date.getSeconds();
 
         byte data[] = ("<" + hh + ":" + mm + ":" + ss + "> " + line + "\n").getBytes();
-        Path p = Paths.get("./src/sqlParser/fedprot.txt");
+        Path p = Paths.get("./sqlParser/log.txt");
 
         OutputStream out = new BufferedOutputStream(Files.newOutputStream(p, CREATE, APPEND));
         out.write(data, 0, data.length);

@@ -3,20 +3,18 @@ package sqlParser;
 import sqlParser.fjdbc.FedConnection;
 import sqlParser.fjdbc.FedResultSet;
 import sqlParser.fjdbc.FedStatement;
-import sqlParser.utilities.FedLog;
+import sqlParser.utilities.FedLogger;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
-/** Write a simple program that reads a string of characters (containing the SQL statement to be tested)
- *  from the console, invokes your FJDBC-implementation and prints the results on the console.
- *  Created by: X_Team_Member
- * */
+/**
+ * Write a simple program that reads a string of characters (containing the SQL statement to be tested)
+ * from the console, invokes your FJDBC-implementation and prints the results on the console.
+ * Created by: X_Team_Member
+ */
 public class ReadConsoleTest {
+
     public static void main(String[] args) {
         try {
             InputStream is = null;
@@ -32,28 +30,26 @@ public class ReadConsoleTest {
             Boolean parseSuccess = parser.initParser();
 
             if (parseSuccess) {
-                FedLog.logLine("Query has successfully satisfied the grammar");
-                FedLog.logLine("Start FDBS");
+                FedLogger.l("Query has successfully satisfied the grammar");
+                FedLogger.l("Start FDBS");
 
                 // Connect to database
                 FedConnection connection = new FedConnection();
-                FedLog.logLine("Connect to database with user " + connection.USPASS);
+                FedLogger.l("Connect to database with user " + connection.USPASS);
                 connection.startConnection(3);
                 connection.setAutoCommit(false);
                 FedStatement statement = new FedStatement(connection.createStatement());
 
                 // Execute query from console
                 System.out.println("Received FJDBC: " + command);
-                FedResultSet res;
-                FedLog.logLine("Received FJDBC: " + command);
+                FedResultSet resultSet;
+                FedLogger.l("Received FJDBC: " + command);
                 if (command.toUpperCase().contains("SELECT")) {
-                    // Simple test: SELECT COUNT(*) FROM SIMPLE;
-                    res = statement.executeQuery(command.replace(";",""));
-                    if (res.next())
-                        System.out.println("Result: " + res.getInt(1));
+                    resultSet = statement.executeQuery(command.replace(";", ""));
+                    if (resultSet.next())
+                        System.out.println("Result: " + resultSet.getInt(1));
                     // --
-                }
-                else {
+                } else {
                     statement.executeUpdate(command);
                     System.out.println("Command executed");
                 }
@@ -64,7 +60,7 @@ public class ReadConsoleTest {
             }
         } catch (Exception ex) {
             try {
-                FedLog.logLine("Exception: " + ex.getMessage());
+                FedLogger.l("Exception: " + ex.getMessage());
                 ex.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
