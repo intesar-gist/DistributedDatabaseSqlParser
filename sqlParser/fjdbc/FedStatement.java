@@ -24,7 +24,7 @@ public class FedStatement implements FedStatementInterface {
                 if (SQL.contains("CREATE")) {
                     table = table.substring(0, table.indexOf("(")).trim();
                     if (SQL.contains("HORIZONTAL")) {
-                        // DISTR FKNG CREATE
+                        // DISTR CREATE
                         String col = SQL.substring(SQL.indexOf("HORIZONTAL")+10).trim();
                         col = col.substring(1,col.length()-2).trim();
                         String which_column = col.substring(0,col.indexOf("(")).trim();

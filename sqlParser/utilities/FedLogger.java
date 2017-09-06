@@ -23,7 +23,7 @@ public class FedLogger {
         int ss = date.getSeconds();
 
         byte data[] = ("<" + hh + ":" + mm + ":" + ss + "> " + line + "\n").getBytes();
-        Path p = Paths.get("./sqlParser/log.txt");
+        Path p = Paths.get("./sqlParser/fedprot.txt");
 
         OutputStream out = new BufferedOutputStream(Files.newOutputStream(p, CREATE, APPEND));
         out.write(data, 0, data.length);
