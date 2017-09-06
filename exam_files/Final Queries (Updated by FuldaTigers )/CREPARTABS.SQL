@@ -24,9 +24,7 @@ constraint FLUGLINIE_LAND_NN
 constraint FLUGLINIE_ALLIANZ_CHK
 		check (ALLIANZ in ('Star','Excellence','Leftover','OneWorld','SkyTeam')),
 constraint FLUGLINIE_PS
-		primary key (FLC),
-constraint FLUGLINIE_FS_HUB
-		foreign key (HUB) references FLUGHAFEN(FHC)
+		primary key (FLC)
 );
 
 create table FLUG (
@@ -52,13 +50,7 @@ constraint FLUG_AN_CHK
 constraint FLUG_VONNACH_CHK
 		check (VON != NACH),
 constraint FLUG_PS
-		primary key (FNR),
-constraint FLUG_FS_FLC
-		foreign key (FLC) references FLUGLINIE(FLC),
-constraint FLUG_FS_VON
-		foreign key (VON) references FLUGHAFEN(FHC),
-constraint FLUG_FS_NACH
-		foreign key (NACH) references FLUGHAFEN(FHC)
+		primary key (FNR)
 )
 HORIZONTAL (AB(1000,1500));
 
@@ -97,14 +89,6 @@ constraint BUCHUNG_MEILEN_CHK
 constraint BUCHUNG_PREIS_CHK
                 check (PREIS > 0),
 constraint BUCHUNG_PS
-		primary key (BNR),
-constraint BUCHUNG_FS_PNR
-		foreign key (PNR) references PASSAGIER(PNR),
-constraint BUCHUNG_FS_FLC
-		foreign key (FLC) references FLUGLINIE(FLC),
-constraint BUCHUNG_FS_VON
-		foreign key (VON) references FLUGHAFEN(FHC),
-constraint BUCHUNG_FS_NACH
-		foreign key (NACH) references FLUGHAFEN(FHC)
+		primary key (BNR)
 )
 HORIZONTAL (PNR(35,70));
