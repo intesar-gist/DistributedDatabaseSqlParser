@@ -178,6 +178,12 @@ public class FedStatement implements FedStatementInterface {
                 // DISTR FKNG SELECT
                 Statement stmt;
                 ResultSet res1, res2 = null;
+                boolean ist_sucunt = false;
+                String attrs = SQL.substring(0, SQL.indexOf("FROM"));
+
+                if (attrs.contains("COUNT") || attrs.contains("SUM"))
+                    ist_sucunt = true;
+
                 if (rs.getInt(1) > 0) {
                     // Select from URL2
                     FedConnection.startConnection(2);
@@ -191,18 +197,17 @@ public class FedStatement implements FedStatementInterface {
 
                 FedConnection.startConnection(3);
                 if (res2 != null)
-                    return new FedResultSet(statement.executeQuery(sql), res1, res2);
+                    return new FedResultSet(ist_sucunt, statement.executeQuery(sql), res1, res2);
                 else
-                    return new FedResultSet(statement.executeQuery(sql), res1);
+                    return new FedResultSet(ist_sucunt, statement.executeQuery(sql), res1);
             }
 
             // Table ist alleine
-            return new FedResultSet(statement.executeQuery(sql));
+            return new FedResultSet(false, statement.executeQuery(sql));
         } catch (SQLException e) {
             throw new FedException(e.getCause());
         }
 
-        //return null;
     }
 
     @Override
@@ -212,8 +217,6 @@ public class FedStatement implements FedStatementInterface {
         } catch (SQLException e) {
             throw new FedException(e.getCause());
         }
-
-        //return null;
     }
 
     @Override

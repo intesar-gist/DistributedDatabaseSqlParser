@@ -94,6 +94,22 @@ public class ReadFileTest {
                     System.out.println(resultSet.getInt(1) + "\t" + resultSet.getString(2));
                 }
 
+                distQL = "SELECT COUNT(*) FROM simple_d2 WHERE (simple_d2.col_a > 3)";
+                FedLog.logLine("Received FJDBC: " + distQL);
+                fresa = statement.executeQuery(distQL);
+                System.out.println("\nResults------------------------");
+                while (fresa.next()) {
+                    System.out.println(fresa.getInt(1));
+                }
+
+                distQL = "SELECT SUM(col_a) FROM simple_d2 WHERE (simple_d2.col_a > 3)";
+                FedLog.logLine("Received FJDBC: " + distQL);
+                fresa = statement.executeQuery(distQL);
+                System.out.println("\nResults------------------------");
+                while (fresa.next()) {
+                    System.out.println(fresa.getInt(1));
+                }
+
                 connection.close();
             }
         } catch (Exception ex) {
