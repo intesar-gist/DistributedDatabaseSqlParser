@@ -9,18 +9,22 @@ import java.sql.SQLException;
 public class FedResultSet implements FedResultSetInterface {
     ResultSet resultSet3, resultSet1 = null, resultSet2 = null;
     int current = 3;
+    boolean ist_sucunt = false;
 
-    public FedResultSet (ResultSet resultSet3) {
+    public FedResultSet (boolean ist_sucunt, ResultSet resultSet3) {
         this.resultSet3 = resultSet3;
+        this.ist_sucunt = ist_sucunt;
     }
-    public FedResultSet (ResultSet resultSet3, ResultSet resultSet1) {
+    public FedResultSet (boolean ist_sucunt, ResultSet resultSet3, ResultSet resultSet1) {
         this.resultSet3 = resultSet3;
         this.resultSet1 = resultSet1;
+        this.ist_sucunt = ist_sucunt;
     }
-    public FedResultSet (ResultSet resultSet3, ResultSet resultSet1, ResultSet resultSet2) {
+    public FedResultSet (boolean ist_sucunt, ResultSet resultSet3, ResultSet resultSet1, ResultSet resultSet2) {
         this.resultSet3 = resultSet3;
         this.resultSet1 = resultSet1;
         this.resultSet2 = resultSet2;
+        this.ist_sucunt = ist_sucunt;
     }
 
     @Override
@@ -61,7 +65,14 @@ public class FedResultSet implements FedResultSetInterface {
     @Override
     public int getInt(int columnIndex) throws FedException {
         try {
-            switch (current) {
+            if (ist_sucunt) {
+                int total = resultSet3.getInt(columnIndex);
+                if (resultSet1 != null && resultSet1.next()) total += resultSet1.getInt(columnIndex);
+                if (resultSet2 != null && resultSet2.next()) total += resultSet2.getInt(columnIndex);
+
+                return total;
+            }
+            else switch (current) {
                 case 3: return resultSet3.getInt(columnIndex);
                 case 1: return resultSet1.getInt(columnIndex);
                 case 2: return resultSet2.getInt(columnIndex);
