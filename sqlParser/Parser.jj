@@ -1,7 +1,3 @@
-/* Auther: Intesar Haider */
-/* DDB parser.jj*/
-/* Generating all the parser code */
-
 options
 {
     STATIC = false ;
@@ -11,7 +7,7 @@ PARSER_BEGIN (SqlParser)
    import java.util.ArrayList;
    import java.util.HashMap;
    import sqlParser.utilities.*;
-   class SqlParser {
+   public class SqlParser {
          Boolean initParser() throws ParseException, TokenMgrError
    { return(init()) ; }
    }
@@ -56,6 +52,8 @@ TOKEN [IGNORE_CASE]: {
     | <K_INTO: "INTO">
     | <K_DELETE: "DELETE">
     | <K_FROM: "FROM">
+    | <K_COMMIT:"COMMIT">
+    | <K_ROLLBACK:"ROLLBACK">
 
     | <R_AND: "AND">
     | <R_ASC: "ASC">
@@ -95,6 +93,7 @@ TOKEN [IGNORE_CASE]: {
     | <R_BETWEEN: "BETWEEN">
     | <R_REFERENCES: "REFERENCES">
     | <R_CASCADE: "CASCADE">
+    
 }
 
 /* query specific tokens */
@@ -127,8 +126,9 @@ Boolean init():
   	  		queries.add(queryType);
 		}
 	)* 
+    //commit or rollback transaction.
+    Transaction()
     
-    <EOF>
 
     {return true;}
 }
@@ -294,6 +294,7 @@ DMLQuery insert():
 	      dmlQuery.setQueryType(queryType.kind);
 	   }
        <O_TERMINATOR>
+       
     
        {return dmlQuery;}
 }
@@ -339,6 +340,15 @@ void ComparisonOperators():
 {
   (<O_EQUAL> | <O_GREATER> | <O_GREATEREQUAL> | <O_LESS> | <O_LESSEQUAL> | <O_NOTEQUAL2> | <O_NOTEQUAL>) 
 }
+
+//commit && rollback.
+void Transaction():
+{}
+{
+    <K_COMMIT><O_TERMINATOR><EOF> | <K_ROLLBACK><O_TERMINATOR><EOF> | <EOF>
+}
+
+
 
 /********************************/
 /********* DDL queries **********/
