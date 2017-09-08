@@ -58,7 +58,9 @@ public class FedConnection implements FedConnectionInterface {
     @Override
     public void commit() throws FedException {
         try {
-            connection.commit();
+            if (!getAutoCommit())
+                connection.commit();
+
         } catch (SQLException e) {
             throw new FedException(e.getCause());
         }
