@@ -65,97 +65,101 @@ public interface SqlParserConstants {
   /** RegularExpression Id. */
   int K_FROM = 32;
   /** RegularExpression Id. */
-  int R_AND = 33;
+  int K_COMMIT = 33;
   /** RegularExpression Id. */
-  int R_ASC = 34;
+  int K_ROLLBACK = 34;
   /** RegularExpression Id. */
-  int R_BY = 35;
+  int R_AND = 35;
   /** RegularExpression Id. */
-  int R_CONNECT = 36;
+  int R_ASC = 36;
   /** RegularExpression Id. */
-  int R_DESC = 37;
+  int R_BY = 37;
   /** RegularExpression Id. */
-  int R_DISTINCT = 38;
+  int R_CONNECT = 38;
   /** RegularExpression Id. */
-  int R_GROUP = 39;
+  int R_DESC = 39;
   /** RegularExpression Id. */
-  int R_HAVING = 40;
+  int R_DISTINCT = 40;
   /** RegularExpression Id. */
-  int R_IN = 41;
+  int R_GROUP = 41;
   /** RegularExpression Id. */
-  int R_IS = 42;
+  int R_HAVING = 42;
   /** RegularExpression Id. */
-  int R_LIKE = 43;
+  int R_IN = 43;
   /** RegularExpression Id. */
-  int R_NOT = 44;
+  int R_IS = 44;
   /** RegularExpression Id. */
-  int R_NULL = 45;
+  int R_LIKE = 45;
   /** RegularExpression Id. */
-  int R_OR = 46;
+  int R_NOT = 46;
   /** RegularExpression Id. */
-  int R_ORDER = 47;
+  int R_NULL = 47;
   /** RegularExpression Id. */
-  int R_SELECT = 48;
+  int R_OR = 48;
   /** RegularExpression Id. */
-  int R_UNIQUE = 49;
+  int R_ORDER = 49;
   /** RegularExpression Id. */
-  int R_UPDATE = 50;
+  int R_SELECT = 50;
   /** RegularExpression Id. */
-  int R_VALUES = 51;
+  int R_UNIQUE = 51;
   /** RegularExpression Id. */
-  int R_WHERE = 52;
+  int R_UPDATE = 52;
   /** RegularExpression Id. */
-  int R_CONSTRAINTS = 53;
+  int R_VALUES = 53;
   /** RegularExpression Id. */
-  int R_CONSTRAINT = 54;
+  int R_WHERE = 54;
   /** RegularExpression Id. */
-  int R_CREATE = 55;
+  int R_CONSTRAINTS = 55;
   /** RegularExpression Id. */
-  int R_DROP = 56;
+  int R_CONSTRAINT = 56;
   /** RegularExpression Id. */
-  int R_INSERT = 57;
+  int R_CREATE = 57;
   /** RegularExpression Id. */
-  int R_DELETE = 58;
+  int R_DROP = 58;
   /** RegularExpression Id. */
-  int R_PRIMARY = 59;
+  int R_INSERT = 59;
   /** RegularExpression Id. */
-  int R_FOREIGN = 60;
+  int R_DELETE = 60;
   /** RegularExpression Id. */
-  int R_INTEGER = 61;
+  int R_PRIMARY = 61;
   /** RegularExpression Id. */
-  int R_VARCHAR = 62;
+  int R_FOREIGN = 62;
   /** RegularExpression Id. */
-  int R_HORIZONTAL = 63;
+  int R_INTEGER = 63;
   /** RegularExpression Id. */
-  int R_SET = 64;
+  int R_VARCHAR = 64;
   /** RegularExpression Id. */
-  int R_SUM = 65;
+  int R_HORIZONTAL = 65;
   /** RegularExpression Id. */
-  int R_COUNT = 66;
+  int R_SET = 66;
   /** RegularExpression Id. */
-  int R_CHECK = 67;
+  int R_SUM = 67;
   /** RegularExpression Id. */
-  int R_BETWEEN = 68;
+  int R_COUNT = 68;
   /** RegularExpression Id. */
-  int R_REFERENCES = 69;
+  int R_CHECK = 69;
   /** RegularExpression Id. */
-  int R_CASCADE = 70;
+  int R_BETWEEN = 70;
   /** RegularExpression Id. */
-  int Q_ATTRIBUTE = 71;
+  int R_REFERENCES = 71;
   /** RegularExpression Id. */
-  int Q_COUNT = 72;
+  int R_CASCADE = 72;
   /** RegularExpression Id. */
-  int Q_SUM = 73;
+  int Q_ATTRIBUTE = 73;
   /** RegularExpression Id. */
-  int S_IDENTIFIER = 74;
+  int Q_COUNT = 74;
   /** RegularExpression Id. */
-  int LETTER = 75;
+  int Q_SUM = 75;
   /** RegularExpression Id. */
-  int SPECIAL_CHARS = 76;
+  int S_IDENTIFIER = 76;
   /** RegularExpression Id. */
-  int QUOTED_STRING = 77;
+  int LETTER = 77;
   /** RegularExpression Id. */
-  int EMPTY_STRING = 78;
+  int SPECIAL_CHARS = 78;
+  /** RegularExpression Id. */
+  int QUOTED_STRING = 79;
+  /** RegularExpression Id. */
+  int EMPTY_STRING = 80;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -195,6 +199,8 @@ public interface SqlParserConstants {
     "\"INTO\"",
     "\"DELETE\"",
     "\"FROM\"",
+    "\"COMMIT\"",
+    "\"ROLLBACK\"",
     "\"AND\"",
     "\"ASC\"",
     "\"BY\"",
