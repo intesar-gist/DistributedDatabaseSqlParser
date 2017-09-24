@@ -39,7 +39,7 @@ public class ReadFileTest {
 
                 // Connect to database
                 FedConnection connection = new FedConnection();
-                Logger.write("Connect to database oralv8a with user " + connection.USPASS);
+                Logger.write("Connect to database oralv8a with user " + connection.USERNAME);
                 connection.startConnection(3);
                 FedStatement statement = new FedStatement(connection.createStatement());
 

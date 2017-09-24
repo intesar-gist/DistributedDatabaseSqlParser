@@ -37,7 +37,7 @@ public class ReadConsoleTest {
 
                 // Connect to database
                 FedConnection conn = new FedConnection();
-                Logger.write("Connect to database with user " + conn.USPASS);
+                Logger.write("Connect to database with user " + conn.USERNAME);
                 conn.startConnection(3);
                 conn.setAutoCommit(false);
                 FedStatement statement = new FedStatement(conn.createStatement());
