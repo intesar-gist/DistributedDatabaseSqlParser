@@ -130,7 +130,7 @@ public class FedStatement implements FedStatementInterface {
                 int lower_bound = 0;
                 String which_column = "";
                 if (rs.next()) {
-                    // Hardcore DISTR FKNG PORKY INSERT
+                    // DISTR INSERT
                     which_column = rs.getString(2);
                     lower_bound = rs.getInt(3);
                     int upper_bound = rs.getInt(4);
