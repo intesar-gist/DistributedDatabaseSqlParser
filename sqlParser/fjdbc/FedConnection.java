@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 /**
  * Set the connection and do commits and rollbacks
- *  Created by: Touhidur Rahman
+ *  Created by: Noor Ali Jafri
  */
 public class FedConnection implements FedConnectionInterface {
 
