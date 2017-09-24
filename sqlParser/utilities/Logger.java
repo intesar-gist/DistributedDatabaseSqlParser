@@ -12,10 +12,9 @@ import static java.nio.file.StandardOpenOption.APPEND;
 import static java.nio.file.StandardOpenOption.CREATE;
 
 /** Class to log the processed statements in a file
- *  Created by: X_Team_Member
  * */
-public class FedLog {
-    public static void logLine (String line) throws IOException {
+public class Logger {
+    public static void write(String line) throws IOException {
         Date date = new Date();
         int hh = date.getHours();
         int mm = date.getMinutes();

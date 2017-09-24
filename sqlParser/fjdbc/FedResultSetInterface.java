@@ -1,5 +1,8 @@
 package sqlParser.fjdbc;
 
+/**
+ *  Created by: Norman Lista
+ * */
 public interface FedResultSetInterface {
 	public boolean next() throws FedException;
 

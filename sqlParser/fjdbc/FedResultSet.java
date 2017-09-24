@@ -4,34 +4,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /** Class to get and iterate a resulset object
- *  Created by: X_Team_Member
+ *  Created by: Norman Lista
  * */
 public class FedResultSet implements FedResultSetInterface {
-    ResultSet resultSet3, resultSet1 = null, resultSet2 = null;
+    ResultSet rs3, rs1 = null, rs2 = null;
     int current = 3;
 
-    public FedResultSet (ResultSet resultSet3) {
-        this.resultSet3 = resultSet3;
+    public FedResultSet (ResultSet rs3) {
+        this.rs3 = rs3;
     }
-    public FedResultSet (ResultSet resultSet3, ResultSet resultSet1) {
-        this.resultSet3 = resultSet3;
-        this.resultSet1 = resultSet1;
+    public FedResultSet (ResultSet rs3, ResultSet rs1) {
+        this.rs3 = rs3;
+        this.rs1 = rs1;
     }
-    public FedResultSet (ResultSet resultSet3, ResultSet resultSet1, ResultSet resultSet2) {
-        this.resultSet3 = resultSet3;
-        this.resultSet1 = resultSet1;
-        this.resultSet2 = resultSet2;
+    public FedResultSet (ResultSet rs3, ResultSet rs1, ResultSet rs2) {
+        this.rs3 = rs3;
+        this.rs1 = rs1;
+        this.rs2 = rs2;
     }
 
     @Override
     public boolean next() throws FedException {
         try {
-            if (resultSet3.next()) return true;
-            else if (resultSet1!=null && resultSet1.next()) {
+            if (rs3.next()) return true;
+            else if (rs1 !=null && rs1.next()) {
                 current = 1;
                 return true;
             }
-            else if (resultSet2!=null && resultSet2.next()) {
+            else if (rs2 !=null && rs2.next()) {
                 current = 2;
                 return true;
             }
@@ -47,9 +47,9 @@ public class FedResultSet implements FedResultSetInterface {
     public String getString(int columnIndex) throws FedException {
         try {
             switch (current) {
-                case 3: return resultSet3.getString(columnIndex);
-                case 1: return resultSet1.getString(columnIndex);
-                case 2: return resultSet2.getString(columnIndex);
+                case 3: return rs3.getString(columnIndex);
+                case 1: return rs1.getString(columnIndex);
+                case 2: return rs2.getString(columnIndex);
             }
         } catch (SQLException e) {
             throw new FedException(e.getCause());
@@ -62,9 +62,9 @@ public class FedResultSet implements FedResultSetInterface {
     public int getInt(int columnIndex) throws FedException {
         try {
             switch (current) {
-                case 3: return resultSet3.getInt(columnIndex);
-                case 1: return resultSet1.getInt(columnIndex);
-                case 2: return resultSet2.getInt(columnIndex);
+                case 3: return rs3.getInt(columnIndex);
+                case 1: return rs1.getInt(columnIndex);
+                case 2: return rs2.getInt(columnIndex);
             }
         } catch (SQLException e) {
             throw new FedException(e.getCause());
@@ -94,9 +94,9 @@ public class FedResultSet implements FedResultSetInterface {
     @Override
     public void close() throws FedException {
         try {
-            resultSet3.close();
-            if (resultSet1 != null) resultSet1.close();
-            if (resultSet2 != null) resultSet2.close();
+            rs3.close();
+            if (rs1 != null) rs1.close();
+            if (rs2 != null) rs2.close();
         } catch (SQLException e) {
             throw new FedException(e.getCause());
         }

@@ -3,7 +3,7 @@ package sqlParser.utilities;
 import java.util.HashMap;
 
 /**
- * Created by Intesar on 8/16/2017.
+ * 
  */
 public class DDLQuery extends QueryType {
 

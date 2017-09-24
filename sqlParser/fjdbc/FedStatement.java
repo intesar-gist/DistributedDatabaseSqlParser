@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /** Class to create a SQL statement
- *  Created by: X_Team_Member
+ *  Created by: Intesar Haider
  * */
 public class FedStatement implements FedStatementInterface {
     Statement statement;
@@ -24,7 +24,7 @@ public class FedStatement implements FedStatementInterface {
                 if (SQL.contains("CREATE")) {
                     table = table.substring(0, table.indexOf("(")).trim();
                     if (SQL.contains("HORIZONTAL")) {
-                        // DISTR FKNG CREATE
+                        // DISTRIBUTIVE CREATE
                         String col = SQL.substring(SQL.indexOf("HORIZONTAL")+10).trim();
                         col = col.substring(1,col.length()-2).trim();
                         String which_column = col.substring(0,col.indexOf("(")).trim();
@@ -55,8 +55,8 @@ public class FedStatement implements FedStatementInterface {
                             FedConnection.startConnection(3);
                             statement.executeUpdate(distroyer);
                         }
-                        catch (SQLException es) {
-                            es.printStackTrace();
+                        catch (SQLException se) {
+                            se.printStackTrace();
                         }
                     }
 
@@ -64,7 +64,7 @@ public class FedStatement implements FedStatementInterface {
                     return statement.executeUpdate(sql);
                 }
                 else {
-                    // Hardcore DISTR FKNG DROP
+                    // DISTRIBUTIVE DROP
                     int res = statement.executeUpdate("DELETE FROM SPLIT_INFO WHERE affected_table = '" + table + "'");
                     if (res != 0) {
                         // DROP from URL1

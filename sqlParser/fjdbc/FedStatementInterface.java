@@ -1,4 +1,7 @@
 package sqlParser.fjdbc;
+/**
+ *  Created by: Intesar Haider
+ * */
 
 public interface FedStatementInterface {
 	public int executeUpdate(String sql) throws FedException;
