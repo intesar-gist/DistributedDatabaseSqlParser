@@ -170,6 +170,18 @@ public class FedStatement implements FedStatementInterface {
                 }
 
                 return 1;
+            } else if (SQL.contains("COMMIT") || SQL.contains("ROLLBACK")) {
+                statement.executeUpdate(sql);
+
+                FedConnection.startConnection(1);
+                Statement stmt = FedConnection.connection.createStatement();
+                stmt.executeUpdate(sql);
+
+                FedConnection.startConnection(2);
+                stmt = FedConnection.connection.createStatement();
+                stmt.executeUpdate(sql);
+
+                FedConnection.startConnection(3);
             }
         } catch (SQLException e) {
 //            e.printStackTrace();
