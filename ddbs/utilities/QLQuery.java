@@ -1,4 +1,4 @@
-package sqlParser.utilities;
+package ddbs.utilities;
 
 /**
  * 

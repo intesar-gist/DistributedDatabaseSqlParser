@@ -1,4 +1,4 @@
-package sqlParser.fjdbc;
+package ddbs.fjdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

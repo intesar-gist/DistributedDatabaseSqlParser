@@ -1,4 +1,4 @@
-package sqlParser.fjdbc;
+package ddbs.fjdbc;
 
 /**
  * Created By: Noor Ali Jafri

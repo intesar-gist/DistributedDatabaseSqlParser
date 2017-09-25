@@ -3,10 +3,10 @@ options
     STATIC = false ;
 }
 PARSER_BEGIN (SqlParser)
-   package sqlParser;
+   package ddbs;
    import java.util.ArrayList;
    import java.util.HashMap;
-   import sqlParser.utilities.*;
+   import ddbs.utilities.*;
    public class SqlParser {
          Boolean initParser() throws ParseException, TokenMgrError
    { return(init()) ; }

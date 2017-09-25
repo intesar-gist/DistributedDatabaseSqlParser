@@ -1,4 +1,4 @@
-package sqlParser.fjdbc;
+package ddbs.fjdbc;
 
 /**
  *  Created by: Norman Lista

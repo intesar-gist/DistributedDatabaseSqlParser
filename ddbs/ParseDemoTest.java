@@ -1,6 +1,6 @@
-package sqlParser;
+package ddbs;
 
-import sqlParser.sqlparser.SqlParser;
+import ddbs.sqlparser.SqlParser;
 
 import java.io.FileReader;
 
@@ -8,7 +8,7 @@ import java.io.FileReader;
 public class ParseDemoTest { 
 	  public static void main(String[] args) { 
 	    try{
-			SqlParser parser = new SqlParser(new FileReader("sqlParser/test_queries.sql"));
+			SqlParser parser = new SqlParser(new FileReader("ddbs/test_queries.sql"));
 
 			Boolean parseSuccess = parser.initParser();
 

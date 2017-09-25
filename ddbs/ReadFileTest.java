@@ -1,10 +1,10 @@
-package sqlParser;
+package ddbs;
 
-import sqlParser.fjdbc.FedConnection;
-import sqlParser.fjdbc.FedResultSet;
-import sqlParser.fjdbc.FedStatement;
-import sqlParser.sqlparser.SqlParser;
-import sqlParser.utilities.Logger;
+import ddbs.fjdbc.FedConnection;
+import ddbs.fjdbc.FedResultSet;
+import ddbs.fjdbc.FedStatement;
+import ddbs.sqlparser.SqlParser;
+import ddbs.utilities.Logger;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.util.List;
  * */
 public class ReadFileTest {
     public static void main(String[] args) {
-        String FILE = "./sqlParser/test_queries.sql";
+        String FILE = "./ddbs/test_queries.sql";
         try {
             Logger.write("Read queries file");
             SqlParser parser = new SqlParser(new FileReader(FILE));

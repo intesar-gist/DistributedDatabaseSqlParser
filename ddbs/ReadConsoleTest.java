@@ -1,10 +1,10 @@
-package sqlParser;
+package ddbs;
 
-import sqlParser.fjdbc.FedConnection;
-import sqlParser.fjdbc.FedResultSet;
-import sqlParser.fjdbc.FedStatement;
-import sqlParser.sqlparser.SqlParser;
-import sqlParser.utilities.Logger;
+import ddbs.fjdbc.FedConnection;
+import ddbs.fjdbc.FedResultSet;
+import ddbs.fjdbc.FedStatement;
+import ddbs.sqlparser.SqlParser;
+import ddbs.utilities.Logger;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
