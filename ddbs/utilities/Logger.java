@@ -21,7 +21,7 @@ public class Logger {
         int ss = date.getSeconds();
 
         byte data[] = ("<" + hh + ":" + mm + ":" + ss + "> " + line + "\n").getBytes();
-        Path p = Paths.get("./ddbs/fedprot.txt");
+        Path p = Paths.get("ddbs/fedprot.log");
 
         OutputStream out = new BufferedOutputStream(Files.newOutputStream(p, CREATE, APPEND));
         out.write(data, 0, data.length);
