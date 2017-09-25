@@ -14,7 +14,7 @@ import java.util.List;
 
 /** Write a simple program that reads a string of characters (containing the SQL statement to be tested)
  *  from the console, invokes your FJDBC-implementation and prints the results on the console.
- *  Created by: Noor Ali Jafri
+ *  Created by: Touhidur Rahman
  * */
 public class ReadConsoleTest {
     public static void main(String[] args) {

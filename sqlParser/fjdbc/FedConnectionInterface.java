@@ -1,7 +1,7 @@
 package sqlParser.fjdbc;
 
 /**
- * Created By: Touhidur Rahman
+ * Created By: Noor Ali Jafri
  */
 public interface FedConnectionInterface {
 	public void setAutoCommit(boolean autoCommit) throws FedException;

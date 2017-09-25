@@ -16,7 +16,7 @@ import java.util.List;
 
 /** Write a simple program similar to the previous assignment that creates and loads a large global distributed
  *  table with several thousand tuples.
- *  Created by: Noor Ali Jafri
+ *  Created by: Touhidur Rahman
  * */
 public class ReadFileTest {
     public static void main(String[] args) {
