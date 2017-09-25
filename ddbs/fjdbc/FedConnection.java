@@ -18,17 +18,21 @@ public class FedConnection implements FedConnectionInterface {
     static public String PASSWORD = "VDBSA09";
     public static Connection connection = null;
 
+    private static Connection connection_1 = DriverManager.getConnection(URL1, USERNAME, PASSWORD);
+    private static Connection connection_2 = DriverManager.getConnection(URL2, USERNAME, PASSWORD);
+    private static Connection connection_3 = DriverManager.getConnection(URL3, USERNAME, PASSWORD);
+
     public static void startConnection (int db) throws FedException {
         try {
             switch (db) {
                 case 1:
-                    connection = DriverManager.getConnection(URL1, USERNAME, PASSWORD);
+                    connection = connection_1;
                     break;
                 case 2:
-                    connection = DriverManager.getConnection(URL2, USERNAME, PASSWORD);
+                    connection = connection_2;
                     break;
                 case 3:
-                    connection = DriverManager.getConnection(URL3, USERNAME, PASSWORD);
+                    connection = connection_3;
                     break;
             }
         }
