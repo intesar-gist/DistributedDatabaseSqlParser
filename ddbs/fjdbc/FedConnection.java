@@ -22,33 +22,27 @@ public class FedConnection implements FedConnectionInterface {
     private static Connection connection_2 = null;
     private static Connection connection_3 = null;
 
-    public static void startConnection (int db) throws FedException {
+    public FedConnection() throws FedException{
         try {
-
-            if (connection_1 == null) {
-                connection_1 = DriverManager.getConnection(URL1, USERNAME, PASSWORD);
-            }
-            if (connection_2 == null) {
-                connection_2 = DriverManager.getConnection(URL2, USERNAME, PASSWORD);
-            }
-            if (connection_3 == null) {
-                connection_3 = DriverManager.getConnection(URL3, USERNAME, PASSWORD);
-            }
-
-            switch (db) {
-                case 1:
-                    connection = connection_1;
-                    break;
-                case 2:
-                    connection = connection_2;
-                    break;
-                case 3:
-                    connection = connection_3;
-                    break;
-            }
+            connection_1 = DriverManager.getConnection(URL1, USERNAME, PASSWORD);
+            connection_2 = DriverManager.getConnection(URL2, USERNAME, PASSWORD);
+            connection_3 = DriverManager.getConnection(URL3, USERNAME, PASSWORD);
+        } catch (SQLException e) {
+            throw new FedException(e);
         }
-        catch (SQLException e) {
-            throw new FedException(e.getCause());
+    }
+
+    public static void startConnection (int db) throws FedException {
+        switch (db) {
+            case 1:
+                connection = connection_1;
+                break;
+            case 2:
+                connection = connection_2;
+                break;
+            case 3:
+                connection = connection_3;
+                break;
         }
     }
 
