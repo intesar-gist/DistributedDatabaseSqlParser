@@ -3,14 +3,11 @@ package sqlParser;
 import sqlParser.fjdbc.FedConnection;
 import sqlParser.fjdbc.FedResultSet;
 import sqlParser.fjdbc.FedStatement;
+import sqlParser.sqlparser.SqlParser;
 import sqlParser.utilities.Logger;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 /** Write a simple program that reads a string of characters (containing the SQL statement to be tested)
  *  from the console, invokes your FJDBC-implementation and prints the results on the console.

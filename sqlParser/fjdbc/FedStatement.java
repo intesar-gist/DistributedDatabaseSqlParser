@@ -115,7 +115,7 @@ public class FedStatement implements FedStatementInterface {
                         stmt.executeUpdate(sql);
                     }
                     catch (Exception ex) {
-                        chill.getMessage();
+                        ex.getMessage();
                     }
                     // DELETE from URL2
                     try {

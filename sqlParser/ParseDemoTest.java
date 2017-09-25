@@ -1,10 +1,8 @@
 package sqlParser;
 
-import sqlParser.utilities.DDLQuery;
-import sqlParser.utilities.QueryType;
+import sqlParser.sqlparser.SqlParser;
 
 import java.io.FileReader;
-import java.util.ArrayList;
 
 /*for testing the parser class*/
 public class ParseDemoTest { 

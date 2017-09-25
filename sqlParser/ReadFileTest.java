@@ -3,9 +3,8 @@ package sqlParser;
 import sqlParser.fjdbc.FedConnection;
 import sqlParser.fjdbc.FedResultSet;
 import sqlParser.fjdbc.FedStatement;
-import sqlParser.utilities.DDLQuery;
+import sqlParser.sqlparser.SqlParser;
 import sqlParser.utilities.Logger;
-import sqlParser.utilities.QueryType;
 
 import java.io.FileReader;
 import java.io.IOException;
