@@ -8,6 +8,7 @@ import java.sql.Statement;
  *  Created by: Intesar Haider
  * */
 public class FedStatement implements FedStatementInterface {
+    public static final int NO_TABLE_EXISTS = 942;
     Statement statement;
 
     public FedStatement (Statement statement) {
@@ -85,8 +86,17 @@ public class FedStatement implements FedStatementInterface {
                         }
                         FedConnection.startConnection(3);
                     }
-                    // Drop from URL3
-                    return statement.executeUpdate(sql);
+
+                    try {
+                        // Drop from URL3
+                        return statement.executeUpdate(sql);
+                    } catch (SQLException e) {
+                        if(e.getErrorCode() == NO_TABLE_EXISTS) {
+                            System.out.println("Cannot drop table because it doesn't exist in database [" + sql + "].");
+                        }
+                        return 0;
+                    }
+
                 }
             }
 
@@ -162,7 +172,8 @@ public class FedStatement implements FedStatementInterface {
                 return 1;
             }
         } catch (SQLException e) {
-            throw new FedException(e.getCause());
+//            e.printStackTrace();
+            throw new FedException(e);
         }
 
         return 0;
