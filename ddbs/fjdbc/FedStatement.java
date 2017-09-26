@@ -78,7 +78,9 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                      *  DROP QUERIES (distributive)
                      * ****************************
                      */
-                    int res = statement.executeUpdate("DELETE FROM ddbs_catalogue WHERE table_name = '" + table + "'");
+                    //split and get only table name in-case query has CASCADE as well. Eg: drop table BUCHUNG cascade constraints;
+                    String[] exactTableName = table.split("\\s+");
+                    int res = statement.executeUpdate("DELETE FROM ddbs_catalogue WHERE table_name = '" + exactTableName[0] + "'");
                     if (res != 0) {
                         // DROP from PINATUBO_DB1
                         try {
