@@ -8,7 +8,6 @@ import java.sql.Statement;
  *  Created by: Intesar Haider
  * */
 public class FedStatement implements FedStatementInterface, FJDBCConstants {
-    public static final int NO_TABLE_EXISTS = 942;
     Statement statement;
 
     public FedStatement (Statement statement) {
@@ -19,13 +18,19 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
     public int executeUpdate(String sql) throws FedException {
         String SQL = sql.toUpperCase();
         try {
-            // CREATE & DROP
+            /***************************
+             * CREATE AND DROP QUERIES
+             * *************************
+             */
             if (SQL.contains("TABLE")) {
                 String table = SQL.substring(SQL.indexOf("TABLE")+5).trim();
                 if (SQL.contains("CREATE")) {
                     table = table.substring(0, table.indexOf("(")).trim();
                     if (SQL.contains("HORIZONTAL")) {
-                        // DISTRIBUTIVE CREATE
+                        /***********************
+                         * DISTRIBUTIVE QUERIES
+                         * *********************
+                         */
                         String col = SQL.substring(SQL.indexOf("HORIZONTAL")+10).trim();
                         col = col.substring(1,col.length()-2).trim();
                         String columnName = col.substring(0,col.indexOf("(")).trim();
@@ -42,18 +47,22 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                                             + lowerBound + ", " + upperBound + ")";
                         try {
                             sql = sql.substring(0, SQL.indexOf("HORIZONTAL")).trim();
-                            // Create on URL1
+                            // change connection to Pinatubo
                             FedConnection.startConnection(PINATUBO);
                             Statement stmt = FedConnection.connection.createStatement();
                             stmt.executeUpdate(sql);
 
                             if (upperBound != null) {
-                                // Create on URL2
+                                // change connection to Krakatau if upper bound is also given, means data should be
+                                // dispersed across all the three databases
                                 FedConnection.startConnection(KRAKATAU);
                                 stmt = FedConnection.connection.createStatement();
                                 stmt.executeUpdate(sql);
                             }
+
                             FedConnection.startConnection(MTSTHELENS);
+
+                            //update the catalogue in MTSTHELENS
                             statement.executeUpdate(catalogQuery);
                         }
                         catch (SQLException se) {
@@ -61,14 +70,17 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                         }
                     }
 
-                    // Create on URL3
+                    // run the create query to master DB i.e. MTSTHELENS
                     return statement.executeUpdate(sql);
-                }
-                else {
-                    // DISTRIBUTIVE DROP
+                }  else {
+
+                    /******************************
+                     *  DROP QUERIES (distributive)
+                     * ****************************
+                     */
                     int res = statement.executeUpdate("DELETE FROM SPLIT_INFO WHERE affected_table = '" + table + "'");
                     if (res != 0) {
-                        // DROP from URL1
+                        // DROP from PINATUBO
                         try {
                             FedConnection.startConnection(PINATUBO);
                             Statement stmt = FedConnection.connection.createStatement();
@@ -76,7 +88,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                         }
                         catch (Exception ex) {
                         }
-                        // DROP from URL2
+                        // DROP from KRAKATAU
                         try {
                             FedConnection.startConnection(KRAKATAU);
                             Statement stmt = FedConnection.connection.createStatement();
@@ -88,7 +100,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                     }
 
                     try {
-                        // Drop from URL3
+                        // Drop from MTSTHELENS i.e. the master DDBS Servers
                         return statement.executeUpdate(sql);
                     } catch (SQLException e) {
                         if(e.getErrorCode() == NO_TABLE_EXISTS) {
@@ -100,15 +112,18 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                 }
             }
 
-            // DELETE
+            /******************
+             *  DELETE QUERIES
+             * ****************
+             */
             else if (SQL.contains("DELETE")) {
                 String table = SQL.substring(SQL.indexOf("FROM")+4).trim();
                 if (SQL.contains("WHERE")) {
                     table = table.substring(0, table.indexOf("WHERE")).trim();
                 }
-                int res = statement.executeUpdate("SELECT * FROM SPLIT_INFO WHERE affected_table = '" + table + "'");
+                int res = statement.executeUpdate(catalogueSelectQueryBuilder(table));
                 if (res != 0) {
-                    // DELETE from URL1
+                    // DELETE from PINATUBO
                     try {
                         FedConnection.startConnection(PINATUBO);
                         Statement stmt = FedConnection.connection.createStatement();
@@ -117,7 +132,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                     catch (Exception ex) {
                         ex.getMessage();
                     }
-                    // DELETE from URL2
+                    // DELETE from KRAKATAU
                     try {
                         FedConnection.startConnection(KRAKATAU);
                         Statement stmt = FedConnection.connection.createStatement();
@@ -128,14 +143,17 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                     }
                     FedConnection.startConnection(MTSTHELENS);
                 }
-                // DELETE from URL3
+                // DELETE from MTSTHELENS i.e. MASTER DDB Server
                 return statement.executeUpdate(sql);
             }
 
-            // INSERT
+            /******************
+             *  INSERT QUERIES
+             * ****************
+             */
             else if (SQL.contains("INSERT")) {
                 String table = SQL.substring(SQL.indexOf("INTO")+4, SQL.indexOf("VALUES")).trim();
-                ResultSet rs = statement.executeQuery("SELECT * FROM SPLIT_INFO WHERE affected_table = '" + table + "'");
+                ResultSet rs = statement.executeQuery(catalogueSelectQueryBuilder(table));
                 boolean fixTableData = false;
                 int lowerBound = 0;
                 String columnName = "";
@@ -150,24 +168,25 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                     FedConnection.startConnection(PINATUBO);
                     Statement stmt = FedConnection.connection.createStatement();
                     stmt.executeUpdate(sql);
-                    stmt.executeUpdate("DELETE from " + table + " where " + columnName + "<" + lowerBound);
+                    stmt.executeUpdate(catalogueDelQueryBuilder(table, columnName, "<", lowerBound));
 
                     //if upper bound is also given, means third DB server should be utilized as well
                     if (upperBound > 0) {
-                        stmt.executeUpdate("DELETE from " + table + " where " + columnName + ">=" + upperBound);
+                        stmt.executeUpdate(catalogueDelQueryBuilder(table, columnName, ">=", upperBound));
                         // Insert into KRAKATAU
                         FedConnection.startConnection(KRAKATAU);
                         stmt = FedConnection.connection.createStatement();
                         stmt.executeUpdate(sql);
-                        stmt.executeUpdate("DELETE from " + table + " where " + columnName + "<" + upperBound);
+                        stmt.executeUpdate(catalogueDelQueryBuilder(table, columnName, "<", upperBound));
                     }
                     FedConnection.startConnection(MTSTHELENS);
                 }
 
-                // Insert into URL3
+                // Insert into MTSTHELENS i.e. MASTER DDB Server
                 statement.executeUpdate(sql);
+
                 if (fixTableData) {
-                    statement.executeUpdate("DELETE from " + table + " where " + columnName + ">=" + lowerBound);
+                    statement.executeUpdate(catalogueDelQueryBuilder(table, columnName, ">=", lowerBound));
                 }
 
                 return 1;
@@ -206,12 +225,12 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                 Statement stmt;
                 ResultSet res1, res2 = null;
                 if (rs.getInt(1) > 0) {
-                    // Select from URL2
+                    // Select from KRAKATAU
                     FedConnection.startConnection(KRAKATAU);
                     stmt = FedConnection.connection.createStatement();
                     res2 = stmt.executeQuery(sql);
                 }
-                // Select from URL1
+                // Select from PINATUBO
                 FedConnection.startConnection(PINATUBO);
                 stmt = FedConnection.connection.createStatement();
                 res1 = stmt.executeQuery(sql);
@@ -222,12 +241,20 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                 else
                     return new FedResultSet(statement.executeQuery(sql), res1);
             }
-            // single table
+            // select from MTSTHELEN, because of single table
             return new FedResultSet(statement.executeQuery(sql));
         } catch (SQLException e) {
             throw new FedException(e);
         }
 
+    }
+
+    private String catalogueDelQueryBuilder(String tableName, String columnName, String equalitySign, int lowerBound) {
+        return "DELETE from " + tableName + " where " + columnName + equalitySign + lowerBound;
+    }
+
+    private String catalogueSelectQueryBuilder(String tableName) {
+        return "SELECT * FROM SPLIT_INFO WHERE affected_table = '" + tableName + "'";
     }
 
     @Override
