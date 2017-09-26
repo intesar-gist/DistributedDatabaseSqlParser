@@ -19,7 +19,8 @@ import java.util.List;
  * */
 public class ReadFileTest {
     public static void main(String[] args) {
-        String FILE = "./ddbs/test_queries.sql";
+        String FILE = "./ddbs/Test/CREPARTABS.SQL";
+//        String FILE = "./ddbs/test_queries.sql";
         try {
             Logger.write("Read queries file");
             SqlParser parser = new SqlParser(new FileReader(FILE));
