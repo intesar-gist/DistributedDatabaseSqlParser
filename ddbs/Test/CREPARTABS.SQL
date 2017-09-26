@@ -50,8 +50,7 @@ constraint FLUG_AN_CHK
 constraint FLUG_VONNACH_CHK
 		check (VON != NACH),
 constraint FLUG_PS
-		primary key (FNR),
-constraint FLUG_FS_FLC
+		primary key (FNR)
 )
 HORIZONTAL (AB(1000,1500));
 
