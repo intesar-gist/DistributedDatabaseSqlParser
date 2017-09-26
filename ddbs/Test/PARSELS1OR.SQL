@@ -1,4 +1,4 @@
--- set echo on;
+set echo on;
 
 -- alter session set nls_language = english;
 -- alter session set nls_date_format = 'DD-MON-YYYY';
@@ -20,5 +20,4 @@ SELECT BUCHUNG.BNR, BUCHUNG.PNR, BUCHUNG.FLC, BUCHUNG.FLNR FROM BUCHUNG WHERE (B
 SELECT * FROM FLUGHAFEN WHERE (FLUGHAFEN.LAND = 'UAE') OR (FLUGHAFEN.FHC = 'ABC');
 
 
--- rollback;
-  
+rollback;
