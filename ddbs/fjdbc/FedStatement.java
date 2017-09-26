@@ -224,6 +224,11 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
 
                 Statement stmt;
                 ResultSet resultSet1, resultSet2 = null;
+                boolean ist_sucunt = false;
+                String attrs = SQL.substring(0, SQL.indexOf("FROM"));
+
+                if (attrs.contains("COUNT") || attrs.contains("SUM"))
+                    ist_sucunt = true;
                 if (resultSet.getInt(1) > 0) {
                     // Select from KRAKATAU_DB2
                     FedConnection.startConnection(KRAKATAU_DB2);
@@ -237,12 +242,12 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
 
                 FedConnection.startConnection(MTSTHELENS_DB3);
                 if (resultSet2 != null)
-                    return new FedResultSet(statement.executeQuery(sql), resultSet1, resultSet2);
+                    return new FedResultSet(ist_sucunt, statement.executeQuery(sql), resultSet1, resultSet2);
                 else
-                    return new FedResultSet(statement.executeQuery(sql), resultSet1);
+                    return new FedResultSet(ist_sucunt, statement.executeQuery(sql), resultSet1);
             }
             // select from MTSTHELEN, because of single table
-            return new FedResultSet(statement.executeQuery(sql));
+            return new FedResultSet(false, statement.executeQuery(sql));
         } catch (SQLException e) {
             throw new FedException(e);
         }
