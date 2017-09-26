@@ -9,6 +9,9 @@ import java.sql.Statement;
  * */
 public class FedStatement implements FedStatementInterface {
     public static final int NO_TABLE_EXISTS = 942;
+    public static final int PINATUBO = 1;
+    public static final int KRAKATAU = 2;
+    public static final int MTSTHELENS = 3;
     Statement statement;
 
     public FedStatement (Statement statement) {
@@ -38,23 +41,23 @@ public class FedStatement implements FedStatementInterface {
                         else {
                             lowerBound = Integer.parseInt(col);
                         }
-                        String metaQuery = "INSERT INTO SPLIT_INFO VALUES ('" + table + "', '" + columnName + "', "
+                        String catalogQuery = "INSERT INTO SPLIT_INFO VALUES ('" + table + "', '" + columnName + "', "
                                             + lowerBound + ", " + upperBound + ")";
                         try {
                             sql = sql.substring(0, SQL.indexOf("HORIZONTAL")).trim();
                             // Create on URL1
-                            FedConnection.startConnection(1);
+                            FedConnection.startConnection(PINATUBO);
                             Statement stmt = FedConnection.connection.createStatement();
                             stmt.executeUpdate(sql);
 
                             if (upperBound != null) {
                                 // Create on URL2
-                                FedConnection.startConnection(2);
+                                FedConnection.startConnection(KRAKATAU);
                                 stmt = FedConnection.connection.createStatement();
                                 stmt.executeUpdate(sql);
                             }
-                            FedConnection.startConnection(3);
-                            statement.executeUpdate(metaQuery);
+                            FedConnection.startConnection(MTSTHELENS);
+                            statement.executeUpdate(catalogQuery);
                         }
                         catch (SQLException se) {
                             se.printStackTrace();
@@ -70,7 +73,7 @@ public class FedStatement implements FedStatementInterface {
                     if (res != 0) {
                         // DROP from URL1
                         try {
-                            FedConnection.startConnection(1);
+                            FedConnection.startConnection(PINATUBO);
                             Statement stmt = FedConnection.connection.createStatement();
                             stmt.executeUpdate(sql);
                         }
@@ -78,13 +81,13 @@ public class FedStatement implements FedStatementInterface {
                         }
                         // DROP from URL2
                         try {
-                            FedConnection.startConnection(2);
+                            FedConnection.startConnection(KRAKATAU);
                             Statement stmt = FedConnection.connection.createStatement();
                             stmt.executeUpdate(sql);
                         }
                         catch (Exception ex) {
                         }
-                        FedConnection.startConnection(3);
+                        FedConnection.startConnection(MTSTHELENS);
                     }
 
                     try {
@@ -110,7 +113,7 @@ public class FedStatement implements FedStatementInterface {
                 if (res != 0) {
                     // DELETE from URL1
                     try {
-                        FedConnection.startConnection(1);
+                        FedConnection.startConnection(PINATUBO);
                         Statement stmt = FedConnection.connection.createStatement();
                         stmt.executeUpdate(sql);
                     }
@@ -119,14 +122,14 @@ public class FedStatement implements FedStatementInterface {
                     }
                     // DELETE from URL2
                     try {
-                        FedConnection.startConnection(2);
+                        FedConnection.startConnection(KRAKATAU);
                         Statement stmt = FedConnection.connection.createStatement();
                         stmt.executeUpdate(sql);
                     }
                     catch (Exception ex) {
                         ex.getMessage();
                     }
-                    FedConnection.startConnection(3);
+                    FedConnection.startConnection(MTSTHELENS);
                 }
                 // DELETE from URL3
                 return statement.executeUpdate(sql);
@@ -146,8 +149,8 @@ public class FedStatement implements FedStatementInterface {
                     int upperBound = rs.getInt(4);
                     normalize = true;
 
-                    // Insert into 1
-                    FedConnection.startConnection(1);
+                    // Insert into PINATUBO
+                    FedConnection.startConnection(PINATUBO);
                     Statement stmt = FedConnection.connection.createStatement();
                     stmt.executeUpdate(sql);
                     stmt.executeUpdate("DELETE from " + table + " where " + columnName + "<" + lowerBound);
@@ -155,12 +158,12 @@ public class FedStatement implements FedStatementInterface {
                     if (upperBound > 0) {
                         stmt.executeUpdate("DELETE from " + table + " where " + columnName + ">=" + upperBound);
                         // Insert into 2
-                        FedConnection.startConnection(2);
+                        FedConnection.startConnection(KRAKATAU);
                         stmt = FedConnection.connection.createStatement();
                         stmt.executeUpdate(sql);
                         stmt.executeUpdate("DELETE from " + table + " where " + columnName + "<" + upperBound);
                     }
-                    FedConnection.startConnection(3);
+                    FedConnection.startConnection(MTSTHELENS);
                 }
 
                 // Insert into URL3
@@ -173,15 +176,15 @@ public class FedStatement implements FedStatementInterface {
             } else if (SQL.contains("COMMIT") || SQL.contains("ROLLBACK")) {
                 statement.executeUpdate(sql);
 
-                FedConnection.startConnection(1);
+                FedConnection.startConnection(PINATUBO);
                 Statement stmt = FedConnection.connection.createStatement();
                 stmt.executeUpdate(sql);
 
-                FedConnection.startConnection(2);
+                FedConnection.startConnection(KRAKATAU);
                 stmt = FedConnection.connection.createStatement();
                 stmt.executeUpdate(sql);
 
-                FedConnection.startConnection(3);
+                FedConnection.startConnection(MTSTHELENS);
             }
         } catch (SQLException e) {
 //            e.printStackTrace();
@@ -206,16 +209,16 @@ public class FedStatement implements FedStatementInterface {
                 ResultSet res1, res2 = null;
                 if (rs.getInt(1) > 0) {
                     // Select from URL2
-                    FedConnection.startConnection(2);
+                    FedConnection.startConnection(KRAKATAU);
                     stmt = FedConnection.connection.createStatement();
                     res2 = stmt.executeQuery(sql);
                 }
                 // Select from URL1
-                FedConnection.startConnection(1);
+                FedConnection.startConnection(PINATUBO);
                 stmt = FedConnection.connection.createStatement();
                 res1 = stmt.executeQuery(sql);
 
-                FedConnection.startConnection(3);
+                FedConnection.startConnection(MTSTHELENS);
                 if (res2 != null)
                     return new FedResultSet(statement.executeQuery(sql), res1, res2);
                 else
