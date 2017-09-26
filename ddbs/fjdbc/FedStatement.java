@@ -28,7 +28,7 @@ public class FedStatement implements FedStatementInterface {
                         // DISTRIBUTIVE CREATE
                         String col = SQL.substring(SQL.indexOf("HORIZONTAL")+10).trim();
                         col = col.substring(1,col.length()-2).trim();
-                        String whichColumn = col.substring(0,col.indexOf("(")).trim();
+                        String columnName = col.substring(0,col.indexOf("(")).trim();
                         col = col.substring(col.indexOf("(")+1).trim();
                         Integer lowerBound, upperBound = null;
                         if (col.contains(",")) {
@@ -38,7 +38,7 @@ public class FedStatement implements FedStatementInterface {
                         else {
                             lowerBound = Integer.parseInt(col);
                         }
-                        String metaQuery = "INSERT INTO SPLIT_INFO VALUES ('" + table + "', '" + whichColumn + "', "
+                        String metaQuery = "INSERT INTO SPLIT_INFO VALUES ('" + table + "', '" + columnName + "', "
                                             + lowerBound + ", " + upperBound + ")";
                         try {
                             sql = sql.substring(0, SQL.indexOf("HORIZONTAL")).trim();
@@ -138,10 +138,10 @@ public class FedStatement implements FedStatementInterface {
                 ResultSet rs = statement.executeQuery("SELECT * FROM SPLIT_INFO WHERE affected_table = '" + table + "'");
                 boolean normalize = false;
                 int lowerBound = 0;
-                String whichColumn = "";
+                String columnName = "";
                 if (rs.next()) {
                     // DISTR INSERT
-                    whichColumn = rs.getString(2);
+                    columnName = rs.getString(2);
                     lowerBound = rs.getInt(3);
                     int upperBound = rs.getInt(4);
                     normalize = true;
@@ -150,15 +150,15 @@ public class FedStatement implements FedStatementInterface {
                     FedConnection.startConnection(1);
                     Statement stmt = FedConnection.connection.createStatement();
                     stmt.executeUpdate(sql);
-                    stmt.executeUpdate("DELETE from " + table + " where " + whichColumn + "<" + lowerBound);
+                    stmt.executeUpdate("DELETE from " + table + " where " + columnName + "<" + lowerBound);
 
                     if (upperBound > 0) {
-                        stmt.executeUpdate("DELETE from " + table + " where " + whichColumn + ">=" + upperBound);
+                        stmt.executeUpdate("DELETE from " + table + " where " + columnName + ">=" + upperBound);
                         // Insert into 2
                         FedConnection.startConnection(2);
                         stmt = FedConnection.connection.createStatement();
                         stmt.executeUpdate(sql);
-                        stmt.executeUpdate("DELETE from " + table + " where " + whichColumn + "<" + upperBound);
+                        stmt.executeUpdate("DELETE from " + table + " where " + columnName + "<" + upperBound);
                     }
                     FedConnection.startConnection(3);
                 }
@@ -166,7 +166,7 @@ public class FedStatement implements FedStatementInterface {
                 // Insert into URL3
                 statement.executeUpdate(sql);
                 if (normalize) {
-                    statement.executeUpdate("DELETE from " + table + " where " + whichColumn + ">=" + lowerBound);
+                    statement.executeUpdate("DELETE from " + table + " where " + columnName + ">=" + lowerBound);
                 }
 
                 return 1;
@@ -224,7 +224,7 @@ public class FedStatement implements FedStatementInterface {
             // single table
             return new FedResultSet(statement.executeQuery(sql));
         } catch (SQLException e) {
-            throw new FedException(e.getCause());
+            throw new FedException(e);
         }
 
     }
