@@ -1,9 +1,8 @@
--- set echo on;
+set echo on;
 
 -- alter session set nls_language = english;
 -- alter session set nls_date_format = 'DD-MON-YYYY';
 -- alter session set nls_date_language = english;
-
 
 INSERT INTO BUCHUNG VALUES (71, 1, 'LH', 32, 'FRA', 'LAX', '03-SEP-1997', 5800, 1200);              
 INSERT INTO BUCHUNG VALUES (72, 1, 'LH', 34, 'FRA', 'SFO', '09-NOV-1997', 5700, 2800);              
@@ -208,7 +207,5 @@ INSERT INTO BUCHUNG VALUES (185, 81, 'DB', 91, 'FRA', 'TRU', '16-MAR-2010', 5000
 INSERT INTO BUCHUNG VALUES (188, 81, 'LH', 51, 'CDG', 'FRA', '16-APR-2012', 5000, 500);             
 INSERT INTO BUCHUNG VALUES (187, 81, 'LH', 54, 'FRA', 'CDG', '17-FEB-2012', 5000, 500);             
 
-
-
--- commit;
+commit;
   
