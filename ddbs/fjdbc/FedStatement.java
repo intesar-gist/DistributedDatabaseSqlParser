@@ -222,8 +222,8 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
             if (table.contains("WHERE")) {
                 table = table.substring(0,table.indexOf("WHERE")).trim();
             }
-            ResultSet resultSet = statement.executeQuery("SELECT upper_bound FROM ddbs_catalogue WHERE table_name = '" + table + "'");
-            if (resultSet.next()) {
+            ResultSet catalogeResult = statement.executeQuery("SELECT upper_bound FROM ddbs_catalogue WHERE table_name = '" + table + "'");
+            if (catalogeResult.next()) {
 
                 Statement stmt;
                 ResultSet resultSet1, resultSet2 = null;
@@ -234,7 +234,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                     isAggregateOp = true;
                 }
 
-                if (resultSet.getInt(1) > 0) {
+                if (catalogeResult.getInt(1) > 0) {
                     // Select from KRAKATAU_DB2
                     FedConnection.startConnection(KRAKATAU_DB2);
                     stmt = FedConnection.connection.createStatement();
