@@ -89,7 +89,8 @@ public class FedTestEnvironment {
                             if (statement.toUpperCase().startsWith("SELECT")) {
                                 // SELECT
                                 try {
-                                    FedStatement fedStatement = fedConnection.getStatement();
+//                                    FedStatement fedStatement = fedConnection.getStatement();
+                                    FedStatement fedStatement = new FedStatement(fedConnection.createStatement());
                                     FedResultSet fedResultSet = fedStatement.executeQuery(statement);
 
                                     op++;
@@ -120,7 +121,8 @@ public class FedTestEnvironment {
                             } else {
                                 // UPDATE, INSERT, DELETE
                                 try {
-                                    FedStatement fedStatement = fedConnection.getStatement();
+//                                    FedStatement fedStatement = fedConnection.getStatement();
+                                    FedStatement fedStatement = new FedStatement(fedConnection.createStatement());
                                     int count = fedStatement.executeUpdate(statement);
 
                                     op++;
