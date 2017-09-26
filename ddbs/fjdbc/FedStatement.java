@@ -43,7 +43,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                         else {
                             lowerBound = Integer.parseInt(col);
                         }
-                        String catalogQuery = "INSERT INTO SPLIT_INFO VALUES ('" + table + "', '" + columnName + "', "
+                        String catalogQuery = "INSERT INTO ddbs_catalogue VALUES ('" + table + "', '" + columnName + "', "
                                             + lowerBound + ", " + upperBound + ")";
                         try {
                             sql = sql.substring(0, SQL.indexOf("HORIZONTAL")).trim();
@@ -78,7 +78,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                      *  DROP QUERIES (distributive)
                      * ****************************
                      */
-                    int res = statement.executeUpdate("DELETE FROM SPLIT_INFO WHERE affected_table = '" + table + "'");
+                    int res = statement.executeUpdate("DELETE FROM ddbs_catalogue WHERE table_name = '" + table + "'");
                     if (res != 0) {
                         // DROP from PINATUBO_DB1
                         try {
@@ -219,7 +219,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
             if (table.contains("WHERE")) {
                 table = table.substring(0,table.indexOf("WHERE")).trim();
             }
-            ResultSet resultSet = statement.executeQuery("SELECT upper_bound FROM SPLIT_INFO WHERE affected_table = '" + table + "'");
+            ResultSet resultSet = statement.executeQuery("SELECT upper_bound FROM ddbs_catalogue WHERE table_name = '" + table + "'");
             if (resultSet.next()) {
 
                 Statement stmt;
@@ -259,7 +259,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
     }
 
     private String catalogueSelectQueryBuilder(String tableName) {
-        return "SELECT * FROM SPLIT_INFO WHERE affected_table = '" + tableName + "'";
+        return "SELECT * FROM ddbs_catalogue WHERE table_name = '" + tableName + "'";
     }
 
     @Override

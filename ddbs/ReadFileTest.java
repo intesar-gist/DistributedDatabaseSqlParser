@@ -61,7 +61,24 @@ public class ReadFileTest {
                 // Execute distributed queries
                 FedResultSet fresa;
 
-                String distQL = "SELECT * FROM simple_d";
+
+                String distQL = "SELECT COUNT(*) FROM simple_d2 WHERE (simple_d2.col_a > 3)";
+                Logger.write("Received FJDBC: " + distQL);
+                fresa = statement.executeQuery(distQL);
+                System.out.println("\nResults------------------------");
+                while (fresa.next()) {
+                    System.out.println(fresa.getInt(1));
+                }
+
+                distQL = "SELECT SUM(col_a) FROM simple_d2 WHERE (simple_d2.col_a > 3)";
+                Logger.write("Received FJDBC: " + distQL);
+                fresa = statement.executeQuery(distQL);
+                System.out.println("\nResults------------------------");
+                while (fresa.next()) {
+                    System.out.println(fresa.getInt(1));
+                }
+
+                distQL = "SELECT * FROM simple_d";
                 Logger.write("Received FJDBC: " + distQL);
                 fresa = statement.executeQuery(distQL);
                 System.out.println("\nResults------------------------");

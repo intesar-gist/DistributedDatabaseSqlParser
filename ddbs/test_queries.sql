@@ -1,26 +1,26 @@
--- Achtung! Add semicolon at the end of comments too;
-
-SELECT COUNT(*) FROM BUCHUNG;
-
-drop table simple;
-create table simple (a integer, b VARCHAR(10));
-
-insert into simple values (1, 'uno');
-insert into simple values (2, 'dos');
-insert into simple values (3, 'tres');
-
-SELECT COUNT(*) FROM simple;
-
-DELETE from simple where a=1;
-DELETE from simple where a=100;
-
-SELECT COUNT(*) FROM simple;
-SELECT * FROM simple where (simple.a=3);
-
-DELETE from simple;
-
-insert into simple values (4, 'cuatro');
-insert into simple values (5, 'cinco');
+-- -- Achtung! Add semicolon at the end of comments too;
+--
+-- SELECT COUNT(*) FROM BUCHUNG;
+--
+-- drop table simple;
+-- create table simple (a integer, b VARCHAR(10));
+--
+-- insert into simple values (1, 'uno');
+-- insert into simple values (2, 'dos');
+-- insert into simple values (3, 'tres');
+--
+-- SELECT COUNT(*) FROM simple;
+--
+-- DELETE from simple where a=1;
+-- DELETE from simple where a=100;
+--
+-- SELECT COUNT(*) FROM simple;
+-- SELECT * FROM simple where (simple.a=3);
+--
+-- DELETE from simple;
+--
+-- insert into simple values (4, 'cuatro');
+-- insert into simple values (5, 'cinco');
 
 
 -- DISTRIBUTED TESTS;

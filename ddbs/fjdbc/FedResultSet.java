@@ -85,20 +85,29 @@ public class FedResultSet implements FedResultSetInterface {
 
     @Override
     public int getColumnCount() throws FedException {
-
-        return 0;
+        try {
+            return resultSet3.getMetaData().getColumnCount();
+        } catch (SQLException e) {
+            throw new FedException(e.getCause());
+        }
     }
 
     @Override
     public String getColumnName(int index) throws FedException {
-
-        return null;
+        try {
+            return resultSet3.getMetaData().getColumnName(index);
+        } catch (SQLException e) {
+            throw new FedException(e.getCause());
+        }
     }
 
     @Override
     public int getColumnType(int index) throws FedException {
-
-        return 0;
+        try {
+            return resultSet3.getMetaData().getColumnType(index);
+        } catch (SQLException e) {
+            throw new FedException(e.getCause());
+        }
     }
 
     @Override
