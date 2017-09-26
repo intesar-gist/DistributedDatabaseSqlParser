@@ -233,17 +233,18 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                 if (attrs.contains("COUNT") || attrs.contains("SUM")) {
                     isAggregateOp = true;
                 }
+                // Select from PINATUBO_DB1
+                FedConnection.startConnection(PINATUBO_DB1);
+                stmt = FedConnection.connection.createStatement();
+                resultSet1 = stmt.executeQuery(sql);
 
-                if (catalogeResult.getInt(1) > 0) {
+                //if upper bound is greater than zero, means table is dispersed across all three databases
+                if (catalogeResult.getInt(1) > 0) { //upper bound is greater than zero
                     // Select from KRAKATAU_DB2
                     FedConnection.startConnection(KRAKATAU_DB2);
                     stmt = FedConnection.connection.createStatement();
                     resultSet2 = stmt.executeQuery(sql);
                 }
-                // Select from PINATUBO_DB1
-                FedConnection.startConnection(PINATUBO_DB1);
-                stmt = FedConnection.connection.createStatement();
-                resultSet1 = stmt.executeQuery(sql);
 
                 FedConnection.startConnection(MTSTHELENS_DB3);
                 if (resultSet2 != null)

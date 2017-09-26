@@ -1,9 +1,8 @@
--- set echo on;
+set echo on;
 
 -- alter session set nls_language = english;
 -- alter session set nls_date_format = 'DD-MON-YYYY';
 -- alter session set nls_date_language = english;
-
 
 /* SELECT ONE TUPLE */
 SELECT PASSAGIER.PNR, PASSAGIER.NAME FROM PASSAGIER WHERE PASSAGIER.PNR = 16;
@@ -26,5 +25,5 @@ SELECT * FROM FLUGLINIE WHERE (FLUGLINIE.LAND = 'D  ') AND (FLUGLINIE.ALLIANZ = 
 /* SELECT NOTHING OR */
 SELECT * FROM FLUGLINIE WHERE (FLUGLINIE.LAND = 'X  ') OR (FLUGLINIE.LAND = 'Y  ');
 
--- rollback;
+rollback;
   
