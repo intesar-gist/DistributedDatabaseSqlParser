@@ -121,8 +121,8 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                 if (SQL.contains("WHERE")) {
                     table = table.substring(0, table.indexOf("WHERE")).trim();
                 }
-                int res = statement.executeUpdate(catalogueSelectQueryBuilder(table));
-                if (res != 0) {
+                int result = statement.executeUpdate(catalogueSelectQueryBuilder(table));
+                if (result != 0) {
                     // DELETE from PINATUBO
                     try {
                         FedConnection.startConnection(PINATUBO);
@@ -153,15 +153,15 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
              */
             else if (SQL.contains("INSERT")) {
                 String table = SQL.substring(SQL.indexOf("INTO")+4, SQL.indexOf("VALUES")).trim();
-                ResultSet rs = statement.executeQuery(catalogueSelectQueryBuilder(table));
+                ResultSet resultSet = statement.executeQuery(catalogueSelectQueryBuilder(table));
                 boolean fixTableData = false;
                 int lowerBound = 0;
                 String columnName = "";
-                if (rs.next()) {
+                if (resultSet.next()) {
                     //insert should be done in distributed way
-                    columnName = rs.getString(2); //get column name
-                    lowerBound = rs.getInt(3);
-                    int upperBound = rs.getInt(4);
+                    columnName = resultSet.getString(2); //get column name
+                    lowerBound = resultSet.getInt(3);
+                    int upperBound = resultSet.getInt(4);
                     fixTableData = true;
 
                     // Insert into PINATUBO
@@ -219,27 +219,27 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
             if (table.contains("WHERE")) {
                 table = table.substring(0,table.indexOf("WHERE")).trim();
             }
-            ResultSet rs = statement.executeQuery("SELECT upper_bound FROM SPLIT_INFO WHERE affected_table = '" + table + "'");
-            if (rs.next()) {
-                // DISTR SELECT
+            ResultSet resultSet = statement.executeQuery("SELECT upper_bound FROM SPLIT_INFO WHERE affected_table = '" + table + "'");
+            if (resultSet.next()) {
+
                 Statement stmt;
-                ResultSet res1, res2 = null;
-                if (rs.getInt(1) > 0) {
+                ResultSet resultSet1, resultSet2 = null;
+                if (resultSet.getInt(1) > 0) {
                     // Select from KRAKATAU
                     FedConnection.startConnection(KRAKATAU);
                     stmt = FedConnection.connection.createStatement();
-                    res2 = stmt.executeQuery(sql);
+                    resultSet2 = stmt.executeQuery(sql);
                 }
                 // Select from PINATUBO
                 FedConnection.startConnection(PINATUBO);
                 stmt = FedConnection.connection.createStatement();
-                res1 = stmt.executeQuery(sql);
+                resultSet1 = stmt.executeQuery(sql);
 
                 FedConnection.startConnection(MTSTHELENS);
-                if (res2 != null)
-                    return new FedResultSet(statement.executeQuery(sql), res1, res2);
+                if (resultSet2 != null)
+                    return new FedResultSet(statement.executeQuery(sql), resultSet1, resultSet2);
                 else
-                    return new FedResultSet(statement.executeQuery(sql), res1);
+                    return new FedResultSet(statement.executeQuery(sql), resultSet1);
             }
             // select from MTSTHELEN, because of single table
             return new FedResultSet(statement.executeQuery(sql));
