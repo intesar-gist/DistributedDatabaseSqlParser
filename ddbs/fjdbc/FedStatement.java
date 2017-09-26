@@ -26,6 +26,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                 String table = SQL.substring(SQL.indexOf("TABLE")+5).trim();
                 if (SQL.contains("CREATE")) {
                     table = table.substring(0, table.indexOf("(")).trim();
+                    System.out.println("Creating table : " + table);
                     if (SQL.contains("HORIZONTAL")) {
                         /***********************
                          * DISTRIBUTIVE QUERIES

@@ -33,7 +33,7 @@ public class App implements FJDBCConstants
             FedTestEnvironment fedTestEvironment = new FedTestEnvironment(fedConnection);
 
 
-            fedTestEvironment.run("./ddbs/Test/CREPARTABS.SQL", false);
+//            fedTestEvironment.run("./ddbs/Test/CREPARTABS.SQL", false);
 
 //            fedTestEvironment.run("./ddbs/Test/DRPTABS.SQL", false);
 //            fedTestEvironment.run("./ddbs/Test/INSERTAIRPORTS.SQL", false);
