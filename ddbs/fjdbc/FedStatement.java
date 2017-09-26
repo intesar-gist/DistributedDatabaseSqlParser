@@ -7,11 +7,8 @@ import java.sql.Statement;
 /** Class to create a SQL statement
  *  Created by: Intesar Haider
  * */
-public class FedStatement implements FedStatementInterface {
+public class FedStatement implements FedStatementInterface, FJDBCConstants {
     public static final int NO_TABLE_EXISTS = 942;
-    public static final int PINATUBO = 1;
-    public static final int KRAKATAU = 2;
-    public static final int MTSTHELENS = 3;
     Statement statement;
 
     public FedStatement (Statement statement) {
@@ -139,15 +136,15 @@ public class FedStatement implements FedStatementInterface {
             else if (SQL.contains("INSERT")) {
                 String table = SQL.substring(SQL.indexOf("INTO")+4, SQL.indexOf("VALUES")).trim();
                 ResultSet rs = statement.executeQuery("SELECT * FROM SPLIT_INFO WHERE affected_table = '" + table + "'");
-                boolean normalize = false;
+                boolean fixTableData = false;
                 int lowerBound = 0;
                 String columnName = "";
                 if (rs.next()) {
-                    // DISTR INSERT
-                    columnName = rs.getString(2);
+                    //insert should be done in distributed way
+                    columnName = rs.getString(2); //get column name
                     lowerBound = rs.getInt(3);
                     int upperBound = rs.getInt(4);
-                    normalize = true;
+                    fixTableData = true;
 
                     // Insert into PINATUBO
                     FedConnection.startConnection(PINATUBO);
@@ -155,9 +152,10 @@ public class FedStatement implements FedStatementInterface {
                     stmt.executeUpdate(sql);
                     stmt.executeUpdate("DELETE from " + table + " where " + columnName + "<" + lowerBound);
 
+                    //if upper bound is also given, means third DB server should be utilized as well
                     if (upperBound > 0) {
                         stmt.executeUpdate("DELETE from " + table + " where " + columnName + ">=" + upperBound);
-                        // Insert into 2
+                        // Insert into KRAKATAU
                         FedConnection.startConnection(KRAKATAU);
                         stmt = FedConnection.connection.createStatement();
                         stmt.executeUpdate(sql);
@@ -168,7 +166,7 @@ public class FedStatement implements FedStatementInterface {
 
                 // Insert into URL3
                 statement.executeUpdate(sql);
-                if (normalize) {
+                if (fixTableData) {
                     statement.executeUpdate("DELETE from " + table + " where " + columnName + ">=" + lowerBound);
                 }
 

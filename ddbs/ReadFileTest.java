@@ -49,7 +49,9 @@ public class ReadFileTest {
                     Logger.write("Received FJDBC: " + SQLs[i]);
                     if (SQLs[i].toUpperCase().contains("SELECT")) {
                         res = statement.executeQuery(SQLs[i]);
-                        //res.next();
+                        while (res.next()) {
+                            System.out.println(res.getInt(1) + "\t" + res.getString(2));
+                        }
                     }
                     else {
                         statement.executeUpdate(SQLs[i]);

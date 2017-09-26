@@ -8,7 +8,7 @@ PARSER_BEGIN (SqlParser)
    import java.util.HashMap;
    import ddbs.utilities.*;
    public class SqlParser {
-         Boolean initParser() throws ParseException, TokenMgrError
+         public Boolean initParser() throws ParseException, TokenMgrError
    { return(init()) ; }
    }
 PARSER_END (SqlParser)

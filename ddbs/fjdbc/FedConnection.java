@@ -1,5 +1,8 @@
 package ddbs.fjdbc;
 
+import ddbs.utilities.Logger;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,7 +12,7 @@ import java.sql.Statement;
  * Set the connection and do commits and rollbacks
  *  Created by: Noor Ali Jafri
  */
-public class FedConnection implements FedConnectionInterface {
+public class FedConnection implements FedConnectionInterface, FJDBCConstants {
 
     static String URL1 = "jdbc:oracle:thin:@pinatubo.informatik.hs-fulda.de:1521:oralv8a";
     static String URL2 = "jdbc:oracle:thin:@krakatau.informatik.hs-fulda.de:1521:oralv10a";
@@ -33,16 +36,23 @@ public class FedConnection implements FedConnectionInterface {
     }
 
     public static void startConnection (int db) throws FedException {
-        switch (db) {
-            case 1:
-                connection = connection_1;
-                break;
-            case 2:
-                connection = connection_2;
-                break;
-            case 3:
-                connection = connection_3;
-                break;
+        try {
+            switch (db) {
+                case PINATUBO:
+                    connection = connection_1;
+                    Logger.write("Connected to pinatubo.");
+                    break;
+                case KRAKATAU:
+                    connection = connection_2;
+                    Logger.write("Connected to krakatau.");
+                    break;
+                case MTSTHELENS:
+                    connection = connection_3;
+                    Logger.write("Connected to mtsthelens.");
+                    break;
+            }
+        } catch (IOException io) {
+            System.out.println("Error: unable to write in logging file while changing database connection");
         }
     }
 
