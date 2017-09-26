@@ -6,42 +6,43 @@ import java.sql.SQLException;
 /** Class to get and iterate a resulset object
  *  Created by: Norman Lista
  * */
-public class FedResultSet implements FedResultSetInterface {
-    ResultSet resultSet3, resultSet1 = null, resultSet2 = null;
-    int current = 3;
-    boolean ist_sucunt = false;
+public class FedResultSet implements FedResultSetInterface, FJDBCConstants {
+    ResultSet db3ResultSet, db1ResultSet = null, db2ResultSet = null;
+    int selectedDB = MTSTHELENS_DB3;
+    boolean isAggregateOp = false;
 
-    public FedResultSet (boolean ist_sucunt, ResultSet resultSet3) {
-        this.resultSet3 = resultSet3;
-        this.ist_sucunt = ist_sucunt;
+    public FedResultSet (boolean isAggregateOp, ResultSet db3ResultSet) {
+        this.db3ResultSet = db3ResultSet;
+        this.isAggregateOp = isAggregateOp;
     }
-    public FedResultSet (boolean ist_sucunt, ResultSet resultSet3, ResultSet resultSet1) {
-        this.resultSet3 = resultSet3;
-        this.resultSet1 = resultSet1;
-        this.ist_sucunt = ist_sucunt;
+    public FedResultSet (boolean isAggregateOp, ResultSet db3ResultSet, ResultSet db1ResultSet) {
+        this.db3ResultSet = db3ResultSet;
+        this.db1ResultSet = db1ResultSet;
+        this.isAggregateOp = isAggregateOp;
     }
-    public FedResultSet (boolean ist_sucunt, ResultSet resultSet3, ResultSet resultSet1, ResultSet resultSet2) {
-        this.resultSet3 = resultSet3;
-        this.resultSet1 = resultSet1;
-        this.resultSet2 = resultSet2;
-        this.ist_sucunt = ist_sucunt;
+    public FedResultSet (boolean isAggregateOp, ResultSet db3ResultSet, ResultSet db1ResultSet, ResultSet db2ResultSet) {
+        this.db3ResultSet = db3ResultSet;
+        this.db1ResultSet = db1ResultSet;
+        this.db2ResultSet = db2ResultSet;
+        this.isAggregateOp = isAggregateOp;
     }
 
     @Override
     public boolean next() throws FedException {
         try {
-            if (resultSet3.next()) return true;
-            else if (resultSet1!=null && resultSet1.next()) {
-                current = 1;
+            if (db3ResultSet.next()) {
                 return true;
-            }
-            else if (resultSet2!=null && resultSet2.next()) {
-                current = 2;
+            } else if (db1ResultSet !=null && db1ResultSet.next()) {
+                selectedDB = PINATUBO_DB1;
                 return true;
+            } else if (db2ResultSet !=null && db2ResultSet.next()) {
+                selectedDB = KRAKATAU_DB2;
+                return true;
+            } else {
+                selectedDB = MTSTHELENS_DB3;
             }
-            else {current = 3;}
         } catch (SQLException e) {
-            throw new FedException(e.getCause());
+            throw new FedException(e);
         }
 
         return false;
@@ -50,13 +51,13 @@ public class FedResultSet implements FedResultSetInterface {
     @Override
     public String getString(int columnIndex) throws FedException {
         try {
-            switch (current) {
-                case 3: return resultSet3.getString(columnIndex);
-                case 1: return resultSet1.getString(columnIndex);
-                case 2: return resultSet2.getString(columnIndex);
+            switch (selectedDB) {
+                case PINATUBO_DB1: return db1ResultSet.getString(columnIndex);
+                case KRAKATAU_DB2: return db2ResultSet.getString(columnIndex);
+                case MTSTHELENS_DB3: return db3ResultSet.getString(columnIndex);
             }
         } catch (SQLException e) {
-            throw new FedException(e.getCause());
+            throw new FedException(e);
         }
 
         return null;
@@ -65,16 +66,16 @@ public class FedResultSet implements FedResultSetInterface {
     @Override
     public int getInt(int columnIndex) throws FedException {
         try {
-            if (ist_sucunt) {
-                int total = resultSet3.getInt(columnIndex);
-                if (resultSet1 != null && resultSet1.next()) total += resultSet1.getInt(columnIndex);
-                if (resultSet2 != null && resultSet2.next()) total += resultSet2.getInt(columnIndex);
+            if (isAggregateOp) {
+                int total = db3ResultSet.getInt(columnIndex);
+                if (db1ResultSet != null && db1ResultSet.next()) total += db1ResultSet.getInt(columnIndex);
+                if (db2ResultSet != null && db2ResultSet.next()) total += db2ResultSet.getInt(columnIndex);
 
                 return total;
-            }  else switch (current) {
-                case 3: return resultSet3.getInt(columnIndex);
-                case 1: return resultSet1.getInt(columnIndex);
-                case 2: return resultSet2.getInt(columnIndex);
+            }  else switch (selectedDB) {
+                case MTSTHELENS_DB3: return db3ResultSet.getInt(columnIndex);
+                case PINATUBO_DB1: return db1ResultSet.getInt(columnIndex);
+                case KRAKATAU_DB2: return db2ResultSet.getInt(columnIndex);
             }
         } catch (SQLException e) {
             throw new FedException(e.getCause());
@@ -86,7 +87,7 @@ public class FedResultSet implements FedResultSetInterface {
     @Override
     public int getColumnCount() throws FedException {
         try {
-            return resultSet3.getMetaData().getColumnCount();
+            return db3ResultSet.getMetaData().getColumnCount();
         } catch (SQLException e) {
             throw new FedException(e.getCause());
         }
@@ -95,7 +96,7 @@ public class FedResultSet implements FedResultSetInterface {
     @Override
     public String getColumnName(int index) throws FedException {
         try {
-            return resultSet3.getMetaData().getColumnName(index);
+            return db3ResultSet.getMetaData().getColumnName(index);
         } catch (SQLException e) {
             throw new FedException(e.getCause());
         }
@@ -104,7 +105,7 @@ public class FedResultSet implements FedResultSetInterface {
     @Override
     public int getColumnType(int index) throws FedException {
         try {
-            return resultSet3.getMetaData().getColumnType(index);
+            return db3ResultSet.getMetaData().getColumnType(index);
         } catch (SQLException e) {
             throw new FedException(e.getCause());
         }
@@ -113,9 +114,9 @@ public class FedResultSet implements FedResultSetInterface {
     @Override
     public void close() throws FedException {
         try {
-            resultSet3.close();
-            if (resultSet1 != null) resultSet1.close();
-            if (resultSet2 != null) resultSet2.close();
+            db3ResultSet.close();
+            if (db1ResultSet != null) db1ResultSet.close();
+            if (db2ResultSet != null) db2ResultSet.close();
         } catch (SQLException e) {
             throw new FedException(e.getCause());
         }
