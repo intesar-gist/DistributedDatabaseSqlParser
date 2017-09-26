@@ -38,15 +38,15 @@ public class FedConnection implements FedConnectionInterface, FJDBCConstants {
     public static void startConnection (int db) throws FedException {
         try {
             switch (db) {
-                case PINATUBO:
+                case PINATUBO_DB1:
                     connection = connection_1;
                     Logger.write("Connected to pinatubo.");
                     break;
-                case KRAKATAU:
+                case KRAKATAU_DB2:
                     connection = connection_2;
                     Logger.write("Connected to krakatau.");
                     break;
-                case MTSTHELENS:
+                case MTSTHELENS_DB3:
                     connection = connection_3;
                     Logger.write("Connected to mtsthelens.");
                     break;
