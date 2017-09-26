@@ -51,7 +51,13 @@ public class FedResultSet implements FedResultSetInterface, FJDBCConstants {
     @Override
     public String getString(int columnIndex) throws FedException {
         try {
-            switch (selectedDB) {
+            if (isAggregateOp) {
+                Integer total = db3ResultSet.getInt(columnIndex);
+                if (db1ResultSet != null && db1ResultSet.next()) total += db1ResultSet.getInt(columnIndex);
+                if (db2ResultSet != null && db2ResultSet.next()) total += db2ResultSet.getInt(columnIndex);
+
+                return total.toString();
+            } else switch (selectedDB) {
                 case PINATUBO_DB1: return db1ResultSet.getString(columnIndex);
                 case KRAKATAU_DB2: return db2ResultSet.getString(columnIndex);
                 case MTSTHELENS_DB3: return db3ResultSet.getString(columnIndex);
