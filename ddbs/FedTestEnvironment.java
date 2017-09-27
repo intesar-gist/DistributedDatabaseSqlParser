@@ -38,11 +38,11 @@ public class FedTestEnvironment {
             SqlParser parser = new SqlParser(new FileReader(filename));
             if(parser.initParser()) {
                 System.out.println("**************************************************************************");
-                System.out.println("Parse Status: OKAY ");
+                System.out.println("Parse Status: " + filename + " is OKAY ");
             }
         } catch (Exception e) {
             System.out.println("**************************************************************************");
-            System.out.println("Parse Exception: " + e.getMessage());
+            System.out.println("Parse Exception in (" + filename+ "): " + e.getMessage());
             System.out.println("**************************************************************************");
             return;
         }
@@ -106,8 +106,7 @@ public class FedTestEnvironment {
                             if (statement.toUpperCase().startsWith("SELECT")) {
                                 // SELECT
                                 try {
-//                                    FedStatement fedStatement = fedConnection.getStatement();
-                                    FedStatement fedStatement = new FedStatement(fedConnection.createStatement());
+                                    FedStatement fedStatement = fedConnection.getStatement();
                                     FedResultSet fedResultSet = fedStatement.executeQuery(statement);
 
                                     op++;

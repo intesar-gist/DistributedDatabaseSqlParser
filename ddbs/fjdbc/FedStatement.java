@@ -52,6 +52,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                             FedConnection.startConnection(PINATUBO_DB1);
                             Statement stmt = FedConnection.connection.createStatement();
                             stmt.executeUpdate(sql);
+                            stmt.close();
 
                             if (upperBound != null) {
                                 // change connection to Krakatau if upper bound is also given, means data should be
@@ -59,6 +60,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                                 FedConnection.startConnection(KRAKATAU_DB2);
                                 stmt = FedConnection.connection.createStatement();
                                 stmt.executeUpdate(sql);
+                                stmt.close();
                             }
 
                             FedConnection.startConnection(MTSTHELENS_DB3);
@@ -88,6 +90,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                             FedConnection.startConnection(PINATUBO_DB1);
                             Statement stmt = FedConnection.connection.createStatement();
                             stmt.executeUpdate(sql);
+                            stmt.close();
                         }
                         catch (Exception ex) {
                         }
@@ -96,6 +99,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                             FedConnection.startConnection(KRAKATAU_DB2);
                             Statement stmt = FedConnection.connection.createStatement();
                             stmt.executeUpdate(sql);
+                            stmt.close();
                         }
                         catch (Exception ex) {
                         }
@@ -131,6 +135,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                         FedConnection.startConnection(PINATUBO_DB1);
                         Statement stmt = FedConnection.connection.createStatement();
                         stmt.executeUpdate(sql);
+                        stmt.close();
                     }
                     catch (Exception ex) {
                         ex.getMessage();
@@ -140,6 +145,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                         FedConnection.startConnection(KRAKATAU_DB2);
                         Statement stmt = FedConnection.connection.createStatement();
                         stmt.executeUpdate(sql);
+                        stmt.close();
                     }
                     catch (Exception ex) {
                         ex.getMessage();
@@ -183,6 +189,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                         stmt.executeUpdate(catalogueDelQueryBuilder(table, columnName, "<", upperBound));
                     }
                     FedConnection.startConnection(MTSTHELENS_DB3);
+                    stmt.close();
                 }
 
                 // Insert into MTSTHELENS_DB3 i.e. MASTER DDB Server
