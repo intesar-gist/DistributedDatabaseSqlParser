@@ -4,10 +4,7 @@ set echo on;
 -- alter session set nls_date_format = 'DD-MON-YYYY';
 -- alter session set nls_date_language = english;
 
--- ======================================================================= ;
---                  BOOKINGS;
--- ======================================================================= ;
-
+/* BOOKING */
 
 SELECT COUNT(*) FROM BUCHUNG;
 
