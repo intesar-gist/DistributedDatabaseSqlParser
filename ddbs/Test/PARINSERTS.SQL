@@ -4,10 +4,7 @@ set echo on;
 -- alter session set nls_date_format = 'DD-MON-YYYY';
 -- alter session set nls_date_language = english;
 
--- ======================================================================= 
---                  BOOKINGS
--- ======================================================================= 
-
+/* Booking */
 
 /* CHECK MEILEN > 0 */
 INSERT INTO BUCHUNG VALUES (200, 80, 'LH', 54, 'FRA', 'CDG', '19-SEP-2012', -200, 243);
@@ -34,10 +31,7 @@ INSERT INTO BUCHUNG VALUES (184, 81, 'DB', 90, 'TRU', 'FRA', '16-FEB-2010', 5000
 INSERT INTO BUCHUNG VALUES (184, 81, 'DB', 90, 'CDG', 'FRA', '16-FEB-2010', 5000, 800);             
 
 
--- ======================================================================= 
---                  FLIGHTS
--- ======================================================================= 
-
+/* FLIGHTS */
 
 /* CHECK VON NOT NULL */
 INSERT INTO FLUG VALUES (300, 'LH', 46, NULL, 'LHR', 2130, 2245);                                   
