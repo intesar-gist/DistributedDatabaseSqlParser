@@ -208,6 +208,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
             }
         } catch (SQLException e) {
 //            e.printStackTrace();
+            FedConnection.startConnection(MTSTHELENS_DB3);
             throw new FedException(e);
         }
 
@@ -255,6 +256,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
             // select from MTSTHELEN, because of single table
             return new FedResultSet(false, statement.executeQuery(sql));
         } catch (SQLException e) {
+            FedConnection.startConnection(MTSTHELENS_DB3);
             throw new FedException(e);
         }
 

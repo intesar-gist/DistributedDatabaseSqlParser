@@ -89,8 +89,8 @@ public class FedTestEnvironment {
                             if (statement.toUpperCase().startsWith("SELECT")) {
                                 // SELECT
                                 try {
-//                                    FedStatement fedStatement = fedConnection.getStatement();
-                                    FedStatement fedStatement = new FedStatement(fedConnection.createStatement());
+                                    FedStatement fedStatement = fedConnection.getStatement();
+//                                    FedStatement fedStatement = new FedStatement(fedConnection.createStatement());
                                     FedResultSet fedResultSet = fedStatement.executeQuery(statement);
 
                                     op++;
