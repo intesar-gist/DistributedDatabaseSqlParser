@@ -106,7 +106,7 @@ public class FedConnection implements FedConnectionInterface, FJDBCConstants {
     @Override
     public FedStatement getStatement() {
         try {
-            return (FedStatement) connection.createStatement();
+            return new FedStatement(connection.createStatement());
         } catch (SQLException e) {
             e.printStackTrace();
         }
