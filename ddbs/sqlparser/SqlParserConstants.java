@@ -145,21 +145,27 @@ public interface SqlParserConstants {
   /** RegularExpression Id. */
   int R_CASCADE = 72;
   /** RegularExpression Id. */
-  int Q_ATTRIBUTE = 73;
+  int R_ECHO = 73;
   /** RegularExpression Id. */
-  int Q_COUNT = 74;
+  int R_ECHO_ON = 74;
   /** RegularExpression Id. */
-  int Q_SUM = 75;
+  int R_ECHO_OFF = 75;
   /** RegularExpression Id. */
-  int S_IDENTIFIER = 76;
+  int Q_ATTRIBUTE = 76;
   /** RegularExpression Id. */
-  int LETTER = 77;
+  int Q_COUNT = 77;
   /** RegularExpression Id. */
-  int SPECIAL_CHARS = 78;
+  int Q_SUM = 78;
   /** RegularExpression Id. */
-  int QUOTED_STRING = 79;
+  int S_IDENTIFIER = 79;
   /** RegularExpression Id. */
-  int EMPTY_STRING = 80;
+  int LETTER = 80;
+  /** RegularExpression Id. */
+  int SPECIAL_CHARS = 81;
+  /** RegularExpression Id. */
+  int QUOTED_STRING = 82;
+  /** RegularExpression Id. */
+  int EMPTY_STRING = 83;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -239,6 +245,9 @@ public interface SqlParserConstants {
     "\"BETWEEN\"",
     "\"REFERENCES\"",
     "\"CASCADE\"",
+    "\"echo\"",
+    "\"on\"",
+    "\"off\"",
     "<Q_ATTRIBUTE>",
     "<Q_COUNT>",
     "<Q_SUM>",

@@ -3,7 +3,7 @@ options
     STATIC = false ;
 }
 PARSER_BEGIN (SqlParser)
-   package ddbs;
+  package ddbs.sqlparser;
    import java.util.ArrayList;
    import java.util.HashMap;
    import ddbs.utilities.*;
@@ -93,6 +93,9 @@ TOKEN [IGNORE_CASE]: {
     | <R_BETWEEN: "BETWEEN">
     | <R_REFERENCES: "REFERENCES">
     | <R_CASCADE: "CASCADE">
+    | <R_ECHO: "echo">
+    | <R_ECHO_ON: "on">
+    | <R_ECHO_OFF: "off">
     
 }
 
@@ -117,14 +120,10 @@ TOKEN: {
 Boolean init():
 {
     ArrayList<QueryType> queries = new ArrayList<QueryType>();
-    QueryType queryType;
 }
 {
 	(
-		(queryType = ProcessDDLQuery() | queryType = ProcessDMLQuery() | queryType = ProcessQLQuery())
-		{
-  	  		queries.add(queryType);
-		}
+		(ProcessDDLQuery() |  ProcessDMLQuery() |  ProcessQLQuery()) | (<R_SET> <R_ECHO> <R_ECHO_ON> <O_TERMINATOR>)
 	)* 
     //commit or rollback transaction.
     Transaction()
