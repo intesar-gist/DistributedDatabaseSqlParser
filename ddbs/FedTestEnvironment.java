@@ -1,9 +1,12 @@
 package ddbs;
+
 import ddbs.fjdbc.FedConnection;
 import ddbs.fjdbc.FedException;
 import ddbs.fjdbc.FedResultSet;
 import ddbs.fjdbc.FedStatement;
+import ddbs.sqlparser.SqlParser;
 
+import java.io.FileReader;
 import java.util.Scanner;
 
 /**
@@ -30,6 +33,20 @@ public class FedTestEnvironment {
     }
 
     public void run(String filename, boolean debug) {
+
+        try {
+            SqlParser parser = new SqlParser(new FileReader(filename));
+            if(parser.initParser()) {
+                System.out.println("**************************************************************************");
+                System.out.println("Parse Status: OKAY ");
+            }
+        } catch (Exception e) {
+            System.out.println("**************************************************************************");
+            System.out.println("Parse Exception: " + e.getMessage());
+            System.out.println("**************************************************************************");
+            return;
+        }
+
         System.out.println("**************************************************************************");
         System.out.println("Executing script file '" + filename + "'...");
         long start, end, delta, op = 0;
