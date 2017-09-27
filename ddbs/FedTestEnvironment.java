@@ -137,8 +137,7 @@ public class FedTestEnvironment {
                             } else {
                                 // UPDATE, INSERT, DELETE
                                 try {
-//                                    FedStatement fedStatement = fedConnection.getStatement();
-                                    FedStatement fedStatement = new FedStatement(fedConnection.createStatement());
+                                    FedStatement fedStatement = fedConnection.getStatement();
                                     int count = fedStatement.executeUpdate(statement);
 
                                     op++;

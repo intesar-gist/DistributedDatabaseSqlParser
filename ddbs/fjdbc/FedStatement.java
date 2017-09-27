@@ -128,13 +128,17 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                 if (SQL.contains("WHERE")) {
                     table = table.substring(0, table.indexOf("WHERE")).trim();
                 }
+
+                // DELETE from MTSTHELENS_DB3 i.e. MASTER DDB Server
+                int numDelete = statement.executeUpdate(sql);
+
                 int result = statement.executeUpdate(catalogueSelectQueryBuilder(table));
                 if (result != 0) {
                     // DELETE from PINATUBO_DB1
                     try {
                         FedConnection.startConnection(PINATUBO_DB1);
                         Statement stmt = FedConnection.connection.createStatement();
-                        stmt.executeUpdate(sql);
+                        numDelete += stmt.executeUpdate(sql);
                         stmt.close();
                     }
                     catch (Exception ex) {
@@ -144,7 +148,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                     try {
                         FedConnection.startConnection(KRAKATAU_DB2);
                         Statement stmt = FedConnection.connection.createStatement();
-                        stmt.executeUpdate(sql);
+                        numDelete += stmt.executeUpdate(sql);
                         stmt.close();
                     }
                     catch (Exception ex) {
@@ -152,8 +156,7 @@ public class FedStatement implements FedStatementInterface, FJDBCConstants {
                     }
                     FedConnection.startConnection(MTSTHELENS_DB3);
                 }
-                // DELETE from MTSTHELENS_DB3 i.e. MASTER DDB Server
-                return statement.executeUpdate(sql);
+                return numDelete;
             }
 
             /******************
